@@ -1,5 +1,18 @@
 
 
+## 1.0.1 (2024-07-18)
+
+
+### Bug Fixes
+
+* refactor ([93553e2](https://github.com/irsyadadl/justd.cli/commit/93553e27ed56a0cb13802c1c473da3926e359e51))
+* wip ([65290ef](https://github.com/irsyadadl/justd.cli/commit/65290ef0c501b21a2686ceeaf9fbf52768c55bd3))
+
+
+### Refactors
+
+* rename ([e88ba7c](https://github.com/irsyadadl/justd.cli/commit/e88ba7cefc48593fe270c1bc8754cd015432e52e))
+
 ## [0.14.5](https://github.com/irsyadadl/d.cli/compare/v0.14.4...v0.14.5) (2024-07-17)
 
 
