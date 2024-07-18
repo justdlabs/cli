@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+          scope: "@irsyadadl"
       - name: Install dependencies
         run: npm install
       - name: Build
