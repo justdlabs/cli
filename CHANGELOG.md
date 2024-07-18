@@ -1,5 +1,12 @@
 
 
+## [0.1.7](https://github.com/irsyadadl/justd-cli/compare/v0.1.6...v0.1.7) (2024-07-18)
+
+
+### Bug Fixes
+
+* tailwind stub next.js ([1b265ac](https://github.com/irsyadadl/justd-cli/commit/1b265ac30c256c89d995a4f6e0fd9e6ff558aa19))
+
 ## [0.1.6](https://github.com/irsyadadl/justd-cli/compare/v0.1.5...v0.1.6) (2024-07-18)
 
 
