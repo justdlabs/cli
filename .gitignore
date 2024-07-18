@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+.idea
+tailwind.config.js
+tailwind.config.ts
+
+src/app
+src/index.css
