@@ -1,5 +1,12 @@
 
 
+## [0.1.5](https://github.com/irsyadadl/justd-cli/compare/v0.1.4...v0.1.5) (2024-07-18)
+
+
+### Bug Fixes
+
+* fix json file ([ac66fd9](https://github.com/irsyadadl/justd-cli/commit/ac66fd9d20c9f5d882f453959e9a4dd780258086))
+
 ## [0.1.4](https://github.com/irsyadadl/justd-cli/compare/v0.1.3...v0.1.4) (2024-07-18)
 
 
