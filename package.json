@@ -5,11 +5,11 @@
   "description": "This is a command line tool for D.",
   "main": "dist/index.js",
   "bin": {
-    "justd.cli": "./dist/index.js"
+    "justd.cli": "dist/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/irsyadadl/justd.cli"
+    "url": "git+https://github.com/irsyadadl/justd.cli.git"
   },
   "homepage": "https://justd.co",
   "scripts": {
