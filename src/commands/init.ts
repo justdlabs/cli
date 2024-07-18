@@ -163,10 +163,15 @@ export async function init() {
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent)
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
 
-  // Save configuration to d.json with relative path
+  // Save configuration to justd.json with relative path
+  if (fs.existsSync('d.json')) {
+    fs.unlinkSync('d.json')
+  }
+
+  // Save configuration to 'justd.json'
   const config = { ui: uiFolder }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
-  spinner.succeed('Configuration saved to d.json')
+  spinner.succeed('Configuration saved to justd.json')
 
   // Wait for the installation to complete before proceeding
   spinner.succeed('Installation complete.')
