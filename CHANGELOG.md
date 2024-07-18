@@ -1,5 +1,12 @@
 
 
+## [0.1.3](https://github.com/irsyadadl/justd-cli/compare/v0.1.2...v0.1.3) (2024-07-18)
+
+
+### Bug Fixes
+
+* fix url of gh ([82a5717](https://github.com/irsyadadl/justd-cli/commit/82a5717e3befaee6e951e46f01f33b7af5663e08))
+
 ## [0.1.2](https://github.com/irsyadadl/justd.cli/compare/v0.1.1...v0.1.2) (2024-07-18)
 
 
