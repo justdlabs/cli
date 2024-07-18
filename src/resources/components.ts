@@ -55,6 +55,7 @@ const components: any[] = [
       { name: 'tabs' },
       { name: 'tag-group' },
       { name: 'table' },
+      { name: 'carousel' },
     ],
   },
   {
@@ -108,6 +109,7 @@ const components: any[] = [
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
   { name: 'menu', children: [{ name: 'dropdown' }] },
+  { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }] },
   { name: 'tabs' },
   { name: 'tag-group', children: [{ name: 'field' }, { name: 'badge' }] },
