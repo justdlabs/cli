@@ -1,7 +1,7 @@
 {
   "name": "justd",
   "type": "module",
-  "version": "0.14.5",
+  "version": "1.0.0",
   "description": "This is a command line tool for D.",
   "main": "dist/index.js",
   "bin": {
@@ -27,7 +27,7 @@
   },
   "keywords": [
     "cli",
-    "D.",
+    "Just D.",
     "design-system"
   ],
   "author": "Irsyad A. Panjaitan",
