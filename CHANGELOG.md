@@ -1,5 +1,12 @@
 
 
+## [0.1.8](https://github.com/irsyadadl/justd-cli/compare/v0.1.7...v0.1.8) (2024-07-18)
+
+
+### Refactors
+
+* add separator to cli ([89f9350](https://github.com/irsyadadl/justd-cli/commit/89f935016aa5ae3174de6b92985f09e3ec49db9c))
+
 ## [0.1.7](https://github.com/irsyadadl/justd-cli/compare/v0.1.6...v0.1.7) (2024-07-18)
 
 
