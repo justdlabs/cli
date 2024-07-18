@@ -165,7 +165,7 @@ export async function init() {
 
   // Save configuration to d.json with relative path
   const config = { ui: uiFolder }
-  fs.writeFileSync('d.json', JSON.stringify(config, null, 2))
+  fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
   spinner.succeed('Configuration saved to d.json')
 
   // Wait for the installation to complete before proceeding

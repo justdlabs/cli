@@ -8,7 +8,7 @@ export function getWriteComponentPath(componentName: string) {
 }
 
 export function getUIFolderPath() {
-  const configFile = 'd.json'
+  const configFile = 'justd.json'
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
     return config.ui
