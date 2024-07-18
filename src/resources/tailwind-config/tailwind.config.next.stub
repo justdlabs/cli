@@ -14,10 +14,6 @@ const config = withTV({
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        mono: ['var(--font-mono)', ...fontFamily.sans],
-      },
       colors: {
         border: 'hsl(var(--border))',
         link: 'hsl(var(--link))',
