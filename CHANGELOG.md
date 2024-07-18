@@ -1,5 +1,12 @@
 
 
+## [0.1.9](https://github.com/irsyadadl/justd-cli/compare/v0.1.8...v0.1.9) (2024-07-18)
+
+
+### Refactors
+
+* add carousel ([1aa6345](https://github.com/irsyadadl/justd-cli/commit/1aa6345160b593cb0da9775c61c05cb13a0c7196))
+
 ## [0.1.8](https://github.com/irsyadadl/justd-cli/compare/v0.1.7...v0.1.8) (2024-07-18)
 
 
