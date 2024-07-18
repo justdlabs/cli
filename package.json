@@ -1,15 +1,15 @@
 {
-  "name": "justd",
+  "name": "justd.cli",
   "type": "module",
   "version": "1.0.0",
   "description": "This is a command line tool for D.",
   "main": "dist/index.js",
   "bin": {
-    "justd": "./dist/index.js"
+    "justd.cli": "./dist/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/irsyadadl/d.cli"
+    "url": "https://github.com/irsyadadl/justd.cli"
   },
   "homepage": "https://justd.co",
   "scripts": {
