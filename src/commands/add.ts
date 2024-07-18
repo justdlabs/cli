@@ -18,7 +18,7 @@ async function createComponent(componentName: string) {
 
   const spinner = ora(`Creating ${componentName}...`).start()
 
-  const url = `https://raw.githubusercontent.com/irsyadadl/d.irsyad.co/master/components/ui/${componentName}.tsx`
+  const url = `https://raw.githubusercontent.com/irsyadadl/justd/master/components/ui/${componentName}.tsx`
   try {
     await writeFile(`${componentName} created`, url, writePath)
     spinner.succeed(`${componentName} created`)
@@ -58,10 +58,10 @@ async function processComponent(
 
 export async function add(options: any) {
   const { component, skip } = options
-  const configFilePath = path.join(process.cwd(), 'd.json')
+  const configFilePath = path.join(process.cwd(), 'justd.json')
   if (!fs.existsSync(configFilePath)) {
     console.error(
-      `${chalk.red('d.json not found')}. ${chalk.gray(`Please run ${chalk.blue('npx @irsyadadl/d@latest init')} to initialize the project.`)}`,
+      `${chalk.red('justd.json not found')}. ${chalk.gray(`Please run ${chalk.blue('npx justd-cli@latest init')} to initialize the project.`)}`,
     )
     return
   }

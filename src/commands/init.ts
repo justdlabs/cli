@@ -157,7 +157,7 @@ export async function init() {
       resolve()
     })
   })
-  const fileUrl = 'https://raw.githubusercontent.com/irsyadadl/d.irsyad.co/master/components/ui/primitive.tsx'
+  const fileUrl = 'https://raw.githubusercontent.com/irsyadadl/justd/master/components/ui/primitive.tsx'
   const response = await fetch(fileUrl)
   const fileContent = await response.text()
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent)
