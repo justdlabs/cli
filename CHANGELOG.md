@@ -1,5 +1,12 @@
 
 
+## [1.0.7](https://github.com/irsyadadl/justd.cli/compare/v1.0.6...v1.0.7) (2024-07-18)
+
+
+### Bug Fixes
+
+* gh action ([35eada4](https://github.com/irsyadadl/justd.cli/commit/35eada4c17f62ed6208d42e90e6a3a5a1ffffba6))
+
 ## [1.0.6](https://github.com/irsyadadl/justd.cli/compare/v1.0.5...v1.0.6) (2024-07-18)
 
 
