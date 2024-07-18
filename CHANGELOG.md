@@ -1,5 +1,12 @@
 
 
+## [0.1.1](https://github.com/irsyadadl/justd.cli/compare/v1.0.7...v0.1.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* initial publish ([05c073e](https://github.com/irsyadadl/justd.cli/commit/05c073eb9435d11a7d8722527e465d272b5bbbd5))
+
 ## [1.0.7](https://github.com/irsyadadl/justd.cli/compare/v1.0.6...v1.0.7) (2024-07-18)
 
 
