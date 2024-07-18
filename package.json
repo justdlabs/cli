@@ -1,11 +1,11 @@
 {
-  "name": "justd.cli",
+  "name": "justd-cli",
   "type": "module",
-  "version": "1.0.7",
+  "version": "0.1.0",
   "description": "This is a command line tool for D.",
   "main": "dist/index.js",
   "bin": {
-    "justd.cli": "dist/index.js"
+    "justd-cli": "dist/index.js"
   },
   "repository": {
     "type": "git",
