@@ -57,6 +57,7 @@ const components: any[] = [
       { name: 'tag-group' },
       { name: 'table' },
       { name: 'carousel' },
+      { name: 'choicebox' },
     ],
   },
   {
@@ -116,6 +117,7 @@ const components: any[] = [
   { name: 'tag-group', children: [{ name: 'field' }, { name: 'badge' }] },
   { name: 'table', children: [{ name: 'checkbox' }] },
   { name: 'grid-list', children: [{ name: 'checkbox' }] },
+  { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Date and Time
@@ -143,7 +145,6 @@ const components: any[] = [
   { name: 'switch' },
   { name: 'number-field', children: [{ name: 'field' }] },
   { name: 'search-field', children: [{ name: 'field' }, { name: 'button' }] },
-  { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Navigation
