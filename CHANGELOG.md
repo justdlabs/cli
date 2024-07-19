@@ -1,5 +1,17 @@
 
 
+## [0.1.10](https://github.com/irsyadadl/justd-cli/compare/v0.1.9...v0.1.10) (2024-07-19)
+
+
+### Bug Fixes
+
+* fix husky ([77e1e71](https://github.com/irsyadadl/justd-cli/commit/77e1e7197b56c95910c949e7a4482aeb7dd4570a))
+
+
+### Refactors
+
+* add new component choicebox ([6d56945](https://github.com/irsyadadl/justd-cli/commit/6d56945747a5a9c9d99026d6a5e586acf2b6682a))
+
 ## [0.1.9](https://github.com/irsyadadl/justd-cli/compare/v0.1.8...v0.1.9) (2024-07-18)
 
 
