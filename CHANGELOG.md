@@ -1,5 +1,12 @@
 
 
+## [0.1.11](https://github.com/irsyadadl/justd-cli/compare/v0.1.10...v0.1.11) (2024-07-19)
+
+
+### Refactors
+
+* choicebox should be on collections ([5a553ca](https://github.com/irsyadadl/justd-cli/commit/5a553ca7750b198b09207c95880cb385ed0d965a))
+
 ## [0.1.10](https://github.com/irsyadadl/justd-cli/compare/v0.1.9...v0.1.10) (2024-07-19)
 
 
