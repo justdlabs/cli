@@ -14,7 +14,7 @@
   "homepage": "https://justd.co",
   "scripts": {
     "dev": "tsup --watch",
-    "prepare": "husky",
+    "prepare": "npx husky",
     "rp": "npm uninstall @irsyadadl/paranoid clsx cmdk embla-carousel-react framer-motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
     "clean": "rimraf justd.json && rimraf src/styles && rimraf src/index.css &&  rimraf src/app && rimraf styles/app.css && rimraf src/app/globals.css && rimraf app/globals.css && rimraf src/components && rimraf styles && rimraf resources && rimraf src/components && rimraf components && npm run rp",
     "build": "tsup && npm run format",
