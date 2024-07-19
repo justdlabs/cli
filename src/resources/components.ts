@@ -44,6 +44,7 @@ const components: any[] = [
       { name: 'number-field' },
       { name: 'search-field' },
       { name: 'input-otp' },
+      { name: 'choicebox' },
     ],
   },
   {
@@ -142,6 +143,7 @@ const components: any[] = [
   { name: 'switch' },
   { name: 'number-field', children: [{ name: 'field' }] },
   { name: 'search-field', children: [{ name: 'field' }, { name: 'button' }] },
+  { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Navigation
