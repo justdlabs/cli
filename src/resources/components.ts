@@ -219,9 +219,10 @@ const components: any[] = [
 
   {
     name: 'color-picker',
-    children: [{ name: 'color' }, { name: 'select' }, { name: 'dynamic-overlay' }],
+    children: [{ name: 'color' }, { name: 'color-field' }, { name: 'select' }, { name: 'dynamic-overlay' }],
   },
-  { name: 'color', children: [{ name: 'field' }] },
+  { name: 'color', children: [{ name: 'field' }, { name: 'slider' }] },
+  { name: 'color-field', children: [{ name: 'color-picker' }] },
 ]
 
 export { components, namespaces }
