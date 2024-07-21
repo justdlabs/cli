@@ -1,5 +1,12 @@
 
 
+## [0.1.12](https://github.com/irsyadadl/justd-cli/compare/v0.1.11...v0.1.12) (2024-07-21)
+
+
+### Refactors
+
+* add color field ([243f8b2](https://github.com/irsyadadl/justd-cli/commit/243f8b2738f478df95e3f7a39010a803c2b0d1c4))
+
 ## [0.1.11](https://github.com/irsyadadl/justd-cli/compare/v0.1.10...v0.1.11) (2024-07-19)
 
 

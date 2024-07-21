@@ -1,7 +1,7 @@
 {
   "name": "justd-cli",
   "type": "module",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "This is a command line tool for D.",
   "main": "dist/index.js",
   "bin": {
