@@ -85,7 +85,7 @@ const components: any[] = [
   },
   {
     name: 'statuses',
-    children: [{ name: 'badge' }, { name: 'progress-bar' }, { name: 'meter' }, { name: 'note' }, { name: 'toaster' }],
+    children: [{ name: 'badge' }, { name: 'progress-bar' }, { name: 'meter' }, { name: 'note' }, { name: 'toast' }],
   },
   { name: 'surfaces', children: [{ name: 'card' }, { name: 'grid' }, { name: 'separator' }] },
   { name: 'media', children: [{ name: 'avatar' }] },
@@ -211,7 +211,7 @@ const components: any[] = [
   { name: 'progress-bar', children: [{ name: 'field' }] },
   { name: 'meter', children: [{ name: 'field' }] },
   { name: 'note' },
-  { name: 'toaster', children: [{ name: 'button' }] },
+  { name: 'toast', children: [{ name: 'button' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Colors
