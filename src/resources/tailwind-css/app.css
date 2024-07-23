@@ -86,11 +86,6 @@
     }
 }
 
-.react-aria-Button,
-.react-aria-Dialog {
-    outline: none;
-}
-
 .react-aria-DropIndicator[data-drop-target] {
     outline: 1px solid hsl(var(--primary));
 }
