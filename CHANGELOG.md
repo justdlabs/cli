@@ -1,5 +1,12 @@
 
 
+## [0.1.15](https://github.com/irsyadadl/justd-cli/compare/v0.1.14...v0.1.15) (2024-07-23)
+
+
+### Bug Fixes
+
+* remove default outline ([4e61ea2](https://github.com/irsyadadl/justd-cli/commit/4e61ea2ea03aaec4651ae71905812d68d524702e))
+
 ## [0.1.14](https://github.com/irsyadadl/justd-cli/compare/v0.1.13...v0.1.14) (2024-07-23)
 
 
