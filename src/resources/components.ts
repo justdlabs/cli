@@ -185,6 +185,7 @@ const components: any[] = [
     name: 'drawer',
     children: [{ name: 'modal' }],
   },
+  { name: 'tooltip' },
   {
     name: 'popover',
     children: [{ name: 'modal' }],
