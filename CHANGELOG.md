@@ -1,5 +1,12 @@
 
 
+## [0.1.14](https://github.com/irsyadadl/justd-cli/compare/v0.1.13...v0.1.14) (2024-07-23)
+
+
+### Bug Fixes
+
+* define tooltip ([64ff537](https://github.com/irsyadadl/justd-cli/commit/64ff53796dbaf3fc18829c8cd0762e49e182b7df))
+
 ## [0.1.13](https://github.com/irsyadadl/justd-cli/compare/v0.1.12...v0.1.13) (2024-07-21)
 
 
