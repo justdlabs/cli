@@ -157,7 +157,7 @@ const components: any[] = [
   { name: 'link' },
   {
     name: 'pagination',
-    children: [{ name: 'button' }, { name: 'separator' }, { name: 'field' }],
+    children: [{ name: 'button' }],
   },
   {
     name: 'breadcrumbs',
