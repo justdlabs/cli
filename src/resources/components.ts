@@ -243,7 +243,7 @@ const components: any[] = [
 
   { name: 'slider', children: [{ name: 'field' }] },
   { name: 'switch' },
-  { name: 'toolbar' },
+  { name: 'toolbar', children: [{ name: 'toggle' }] },
 ]
 
 export { components, namespaces }
