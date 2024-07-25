@@ -1,5 +1,12 @@
 
 
+## [0.1.17](https://github.com/irsyadadl/justd-cli/compare/v0.1.16...v0.1.17) (2024-07-25)
+
+
+### Bug Fixes
+
+* fix toolbar ([b3a203c](https://github.com/irsyadadl/justd-cli/commit/b3a203c4560443d1b233aba6308620fbf674eedf))
+
 ## [0.1.16](https://github.com/irsyadadl/justd-cli/compare/v0.1.15...v0.1.16) (2024-07-25)
 
 
