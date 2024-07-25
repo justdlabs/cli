@@ -39,8 +39,6 @@ const components: any[] = [
       { name: 'radio' },
       { name: 'checkbox' },
       { name: 'textarea' },
-      { name: 'slider' },
-      { name: 'switch' },
       { name: 'number-field' },
       { name: 'search-field' },
       { name: 'input-otp' },
@@ -56,7 +54,6 @@ const components: any[] = [
       { name: 'tabs' },
       { name: 'tag-group' },
       { name: 'table' },
-      { name: 'carousel' },
       { name: 'choicebox' },
     ],
   },
@@ -88,13 +85,23 @@ const components: any[] = [
     children: [{ name: 'badge' }, { name: 'progress-bar' }, { name: 'meter' }, { name: 'note' }, { name: 'toast' }],
   },
   { name: 'surfaces', children: [{ name: 'card' }, { name: 'grid' }, { name: 'separator' }] },
-  { name: 'media', children: [{ name: 'avatar' }] },
+  { name: 'media', children: [{ name: 'avatar' }, { name: 'carousel' }] },
   {
     name: 'colors',
     children: [{ name: 'color-picker' }],
   },
   { name: 'buttons', children: [{ name: 'file-trigger' }, { name: 'toggle' }] },
-  { name: 'drag-and-drop', children: [{ name: 'drop-zone' }, { name: 'avatar' }] },
+  { name: 'drag-and-drop', children: [{ name: 'drop-zone' }] },
+  {
+    name: 'controls',
+    children: [
+      { name: 'toolbar' },
+      { name: 'slider' },
+      { name: 'switch' },
+      // { name: 'command' },
+      // { name: 'context-menu' },
+    ],
+  },
 
   // ------------------------------------------------------------------------------------- //
   // ✓ Children
@@ -141,8 +148,6 @@ const components: any[] = [
   { name: 'radio', children: [{ name: 'field' }] },
   { name: 'checkbox', children: [{ name: 'field' }] },
   { name: 'textarea', children: [{ name: 'field' }] },
-  { name: 'slider', children: [{ name: 'field' }] },
-  { name: 'switch' },
   { name: 'number-field', children: [{ name: 'field' }] },
   { name: 'search-field', children: [{ name: 'field' }, { name: 'button' }] },
 
@@ -167,12 +172,19 @@ const components: any[] = [
   { name: 'separator' },
 
   // ------------------------------------------------------------------------------------- //
-  // ⌘ The children of Media
+  // ⌘ The children of Drag And Drop
   // ------------------------------------------------------------------------------------- //
-
-  { name: 'avatar' },
   { name: 'drop-zone' },
 
+  // ------------------------------------------------------------------------------------- //
+  // ⌘ The children of Media
+  // ------------------------------------------------------------------------------------- //
+  { name: 'avatar' },
+  { name: 'carousel' },
+
+  // ------------------------------------------------------------------------------------- //
+  // ⌘ The children of Overlays
+  // ------------------------------------------------------------------------------------- //
   {
     name: 'modal',
     children: [{ name: 'button' }, { name: 'dialog' }],
@@ -224,6 +236,14 @@ const components: any[] = [
   },
   { name: 'color', children: [{ name: 'field' }, { name: 'slider' }] },
   { name: 'color-field', children: [{ name: 'color-picker' }] },
+
+  // ------------------------------------------------------------------------------------- //
+  // ⌘ The children of Controls
+  // ------------------------------------------------------------------------------------- //
+
+  { name: 'slider', children: [{ name: 'field' }] },
+  { name: 'switch' },
+  { name: 'toolbar' },
 ]
 
 export { components, namespaces }
