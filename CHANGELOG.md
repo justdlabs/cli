@@ -1,5 +1,12 @@
 
 
+## [0.1.19](https://github.com/irsyadadl/justd-cli/compare/v0.1.18...v0.1.19) (2024-07-25)
+
+
+### Bug Fixes
+
+* fix pagination component ([c1e2ca7](https://github.com/irsyadadl/justd-cli/commit/c1e2ca7fd5ef4fe3888aeaeeb9e32d4399cbf733))
+
 ## [0.1.18](https://github.com/irsyadadl/justd-cli/compare/v0.1.17...v0.1.18) (2024-07-25)
 
 
