@@ -1,5 +1,13 @@
 
 
+## [0.1.16](https://github.com/irsyadadl/justd-cli/compare/v0.1.15...v0.1.16) (2024-07-25)
+
+
+### Bug Fixes
+
+* fix group ([c332f51](https://github.com/irsyadadl/justd-cli/commit/c332f5116605d75202637d55d1e5aeefc8aae500))
+* fix toggle button ([af25025](https://github.com/irsyadadl/justd-cli/commit/af25025e1657bf5856ce57c753e43d236ecddf7c))
+
 ## [0.1.15](https://github.com/irsyadadl/justd-cli/compare/v0.1.14...v0.1.15) (2024-07-23)
 
 
