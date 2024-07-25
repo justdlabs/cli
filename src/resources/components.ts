@@ -93,7 +93,7 @@ const components: any[] = [
     name: 'colors',
     children: [{ name: 'color-picker' }],
   },
-  { name: 'buttons', children: [{ name: 'file-trigger' }, { name: 'toggle-button' }] },
+  { name: 'buttons', children: [{ name: 'file-trigger' }, { name: 'toggle' }] },
   { name: 'drag-and-drop', children: [{ name: 'drop-zone' }, { name: 'avatar' }] },
 
   // ------------------------------------------------------------------------------------- //
@@ -105,7 +105,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   { name: 'button' },
   { name: 'file-trigger', children: [{ name: 'button' }] },
-  { name: 'toggle-button', children: [{ name: 'button' }] },
+  { name: 'toggle' },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
