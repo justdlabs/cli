@@ -1,5 +1,12 @@
 
 
+## [0.1.21](https://github.com/irsyadadl/justd-cli/compare/v0.1.20...v0.1.21) (2024-07-26)
+
+
+### Bug Fixes
+
+* fix toast deps ([1dcc3c6](https://github.com/irsyadadl/justd-cli/commit/1dcc3c6c5f10022ba29e14cad6ffd980da589d9b))
+
 ## [0.1.20](https://github.com/irsyadadl/justd-cli/compare/v0.1.19...v0.1.20) (2024-07-25)
 
 
