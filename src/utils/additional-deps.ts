@@ -3,7 +3,7 @@ import ora from 'ora'
 
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
-    toaster: 'sonner',
+    toast: 'sonner',
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
     command: 'cmdk',
