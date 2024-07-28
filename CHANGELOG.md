@@ -1,5 +1,12 @@
 
 
+## [0.1.23](https://github.com/irsyadadl/justd-cli/compare/v0.1.22...v0.1.23) (2024-07-28)
+
+
+### Bug Fixes
+
+* add date field to date picker ([3cba4b4](https://github.com/irsyadadl/justd-cli/commit/3cba4b429b440dda9ee37739b421685a3fc3856a))
+
 ## [0.1.22](https://github.com/irsyadadl/justd-cli/compare/v0.1.21...v0.1.22) (2024-07-28)
 
 
