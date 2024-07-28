@@ -1,5 +1,12 @@
 
 
+## [0.1.22](https://github.com/irsyadadl/justd-cli/compare/v0.1.21...v0.1.22) (2024-07-28)
+
+
+### Refactors
+
+* remove framer motion as the first init ([2040dea](https://github.com/irsyadadl/justd-cli/commit/2040deaf44061c96708573767c46532da944129c))
+
 ## [0.1.21](https://github.com/irsyadadl/justd-cli/compare/v0.1.20...v0.1.21) (2024-07-26)
 
 
