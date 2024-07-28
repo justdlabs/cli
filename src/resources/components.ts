@@ -134,7 +134,13 @@ const components: any[] = [
   { name: 'date-field' },
   {
     name: 'date-picker',
-    children: [{ name: 'popover' }, { name: 'field' }, { name: 'calendar' }, { name: 'dynamic-overlay' }],
+    children: [
+      { name: 'popover' },
+      { name: 'field' },
+      { name: 'calendar' },
+      { name: 'date-field' },
+      { name: 'dynamic-overlay' },
+    ],
   },
   { name: 'time-field', children: [{ name: 'field' }, { name: 'date-field' }] },
 
