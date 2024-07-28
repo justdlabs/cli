@@ -139,7 +139,6 @@ export async function init() {
     'clsx',
     '@irsyadadl/paranoid',
     'tailwindcss-animate',
-    'framer-motion',
   ]
     .map((component) => component)
     .join(' ')
