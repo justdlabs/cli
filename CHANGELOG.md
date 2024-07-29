@@ -1,5 +1,12 @@
 
 
+## [0.1.24](https://github.com/irsyadadl/justd-cli/compare/v0.1.23...v0.1.24) (2024-07-29)
+
+
+### Refactors
+
+* add loader component ([b6f4f1a](https://github.com/irsyadadl/justd-cli/commit/b6f4f1a7fa65fd5be2628c27ff950839714413c9))
+
 ## [0.1.23](https://github.com/irsyadadl/justd-cli/compare/v0.1.22...v0.1.23) (2024-07-28)
 
 
