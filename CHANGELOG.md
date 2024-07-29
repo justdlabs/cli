@@ -1,5 +1,12 @@
 
 
+## [0.1.25](https://github.com/irsyadadl/justd-cli/compare/v0.1.24...v0.1.25) (2024-07-29)
+
+
+### Bug Fixes
+
+* add vh to avatar ([ce1702c](https://github.com/irsyadadl/justd-cli/commit/ce1702ca7f0b8af41e9461cf34d60a2f33c7208a))
+
 ## [0.1.24](https://github.com/irsyadadl/justd-cli/compare/v0.1.23...v0.1.24) (2024-07-29)
 
 
