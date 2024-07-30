@@ -1,5 +1,12 @@
 
 
+## [0.1.26](https://github.com/irsyadadl/justd-cli/compare/v0.1.25...v0.1.26) (2024-07-30)
+
+
+### Bug Fixes
+
+* change pageSize to 17 ([efc9110](https://github.com/irsyadadl/justd-cli/commit/efc91103f2ebd71dda80b0a8f045d68bce502c17))
+
 ## [0.1.25](https://github.com/irsyadadl/justd-cli/compare/v0.1.24...v0.1.25) (2024-07-29)
 
 
