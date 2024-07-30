@@ -77,7 +77,7 @@ export async function add(options: any) {
       required: true,
       message: 'Select components to add:',
       choices: choices,
-      pageSize: 10,
+      pageSize: 17,
       loop: false,
     })
   }
