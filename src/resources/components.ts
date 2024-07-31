@@ -22,6 +22,8 @@ const components: any[] = [
   { name: 'dialog' },
   { name: 'dynamic-overlay' },
   { name: 'field' },
+  { name: 'keyboard' },
+  { name: 'container' },
 
   // ------------------------------------------------------------------------------------- //
   //  ✓ Utitlities
@@ -105,7 +107,7 @@ const components: any[] = [
       { name: 'toolbar' },
       { name: 'slider' },
       { name: 'switch' },
-      // { name: 'command' },
+      { name: 'command' },
       // { name: 'context-menu' },
     ],
   },
@@ -124,7 +126,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
-  { name: 'menu', children: [{ name: 'dropdown' }] },
+  { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }] },
   { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }] },
   { name: 'tabs' },
@@ -254,7 +256,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Controls
   // ------------------------------------------------------------------------------------- //
-
+  { name: 'command', children: [{ name: 'keyboard' }, { name: 'separator' }] },
   { name: 'slider', children: [{ name: 'field' }] },
   { name: 'switch' },
   { name: 'toolbar', children: [{ name: 'toggle' }, { name: 'separator' }] },
