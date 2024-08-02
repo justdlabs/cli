@@ -1,5 +1,12 @@
 
 
+## [0.1.28](https://github.com/irsyadadl/justd-cli/compare/v0.1.27...v0.1.28) (2024-08-02)
+
+
+### Refactors
+
+* add accordion and command-menu ([ba8b072](https://github.com/irsyadadl/justd-cli/commit/ba8b072c89e322eb88fdbb12c07fbf9880c086f7))
+
 ## [0.1.27](https://github.com/irsyadadl/justd-cli/compare/v0.1.26...v0.1.27) (2024-07-31)
 
 
