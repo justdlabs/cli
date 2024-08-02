@@ -50,6 +50,7 @@ const components: any[] = [
   {
     name: 'collections',
     children: [
+      { name: 'accordion' },
       { name: 'menu' },
       { name: 'grid-list' },
       { name: 'list-box' },
@@ -107,7 +108,7 @@ const components: any[] = [
       { name: 'toolbar' },
       { name: 'slider' },
       { name: 'switch' },
-      { name: 'command' },
+      { name: 'command-menu' },
       // { name: 'context-menu' },
     ],
   },
@@ -126,6 +127,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
+  { name: 'accordion' },
   { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }] },
   { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }] },
@@ -256,7 +258,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Controls
   // ------------------------------------------------------------------------------------- //
-  { name: 'command', children: [{ name: 'keyboard' }, { name: 'separator' }] },
+  { name: 'command-menu', children: [{ name: 'keyboard' }, { name: 'separator' }] },
   { name: 'slider', children: [{ name: 'field' }] },
   { name: 'switch' },
   { name: 'toolbar', children: [{ name: 'toggle' }, { name: 'separator' }] },

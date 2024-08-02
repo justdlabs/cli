@@ -3,6 +3,7 @@ import ora from 'ora'
 
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
+    accordion: 'framer-motion',
     toast: 'sonner',
     meter: 'framer-motion',
     drawer: 'framer-motion',
@@ -10,7 +11,7 @@ export const additionalDeps = async (componentName: string, packageManager: stri
     'progress-bar': 'framer-motion',
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
-    command: 'cmdk',
+    'command-menu': 'cmdk',
     'multi-select': 'cmdk',
   }
 
