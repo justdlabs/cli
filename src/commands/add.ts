@@ -67,8 +67,8 @@ export async function add(options: any) {
   }
 
   const exclude = ['dialog', 'primitive', 'field', 'dynamic-overlay', 'dropdown'] // Add all the names you want to exclude here
-  let selectedComponents = component ? [component] : []
-  if (!component) {
+  let selectedComponents = component ? component.split(' ') : []
+  if (selectedComponents.length === 0) {
     const choices = components
       .filter((comp) => !exclude.includes(comp.name))
       .sort((a, b) => a.name.localeCompare(b.name))

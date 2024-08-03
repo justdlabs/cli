@@ -12,7 +12,7 @@ export const additionalDeps = async (componentName: string, packageManager: stri
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
     'command-menu': 'cmdk',
-    'multi-select': 'cmdk',
+    // 'multi-select': 'cmdk',
   }
 
   const dependency = dependencies[componentName]
