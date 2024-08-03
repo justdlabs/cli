@@ -1,5 +1,12 @@
 
 
+## [0.1.33](https://github.com/irsyadadl/justd-cli/compare/v0.1.32...v0.1.33) (2024-08-03)
+
+
+### Refactors
+
+* add field to dropdown ([a219f95](https://github.com/irsyadadl/justd-cli/commit/a219f957a4ceaf8ec7a54455cc3c424c96e2cf61))
+
 ## [0.1.32](https://github.com/irsyadadl/justd-cli/compare/v0.1.31...v0.1.32) (2024-08-03)
 
 
