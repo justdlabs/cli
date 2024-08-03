@@ -1,5 +1,12 @@
 
 
+## [0.1.34](https://github.com/irsyadadl/justd-cli/compare/v0.1.33...v0.1.34) (2024-08-03)
+
+
+### Bug Fixes
+
+* dropdown should have field ([214d5aa](https://github.com/irsyadadl/justd-cli/commit/214d5aa5d168ec3cca82936c90d01b73b3daddd2))
+
 ## [0.1.33](https://github.com/irsyadadl/justd-cli/compare/v0.1.32...v0.1.33) (2024-08-03)
 
 
