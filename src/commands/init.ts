@@ -168,7 +168,10 @@ export async function init() {
   }
 
   // Save configuration to 'justd.json'
-  const config = { ui: uiFolder }
+  const config = {
+    $schema: 'https://justd.co',
+    ui: uiFolder,
+  }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
   spinner.succeed('Configuration saved to justd.json')
 
