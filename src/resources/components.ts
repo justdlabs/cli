@@ -130,7 +130,7 @@ const components: any[] = [
   { name: 'accordion' },
   { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }] },
   { name: 'carousel', children: [{ name: 'button' }] },
-  { name: 'list-box', children: [{ name: 'dropdown' }] },
+  { name: 'list-box', children: [{ name: 'dropdown' }, { name: 'field' }] },
   { name: 'tabs' },
   { name: 'tag-group', children: [{ name: 'field' }, { name: 'badge' }] },
   { name: 'table', children: [{ name: 'checkbox' }] },
