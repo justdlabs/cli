@@ -1,5 +1,12 @@
 
 
+## [0.1.29](https://github.com/irsyadadl/justd-cli/compare/v0.1.28...v0.1.29) (2024-08-03)
+
+
+### Refactors
+
+* cli can now add multiple components ([62f9d84](https://github.com/irsyadadl/justd-cli/commit/62f9d843f473d7865b74044d30b0277938704974))
+
 ## [0.1.28](https://github.com/irsyadadl/justd-cli/compare/v0.1.27...v0.1.28) (2024-08-02)
 
 
