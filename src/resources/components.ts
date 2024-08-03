@@ -62,7 +62,7 @@ const components: any[] = [
   },
   {
     name: 'date-and-time',
-    children: [{ name: 'date-field' }, { name: 'date-picker' }, { name: 'popover' }],
+    children: [{ name: 'date-field' }, { name: 'date-picker' }, { name: 'date-range-picker' }, { name: 'popover' }],
   },
   {
     name: 'navigation',
@@ -143,6 +143,7 @@ const components: any[] = [
 
   { name: 'calendar', children: [{ name: 'button' }] },
   { name: 'date-field' },
+  { name: 'date-range-picker', children: [{ name: 'date-picker' }] },
   {
     name: 'date-picker',
     children: [
