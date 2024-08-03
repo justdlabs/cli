@@ -24,7 +24,7 @@
     "preview": "npm run clean && npm run build && npm link",
     "pr": "rimraf tailwind.config.js && rimraf tailwind.config.ts && npm run clean && npm run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
-    "release": "release-it"
+    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
   },
   "keywords": [
     "cli",
