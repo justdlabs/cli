@@ -18,7 +18,7 @@ const components: any[] = [
   //  ✓ Primitives
   // ------------------------------------------------------------------------------------- //
   { name: 'primitive' },
-  { name: 'dropdown' },
+  { name: 'dropdown', children: [{ name: 'field' }] },
   { name: 'dialog' },
   { name: 'dynamic-overlay' },
   { name: 'field' },
