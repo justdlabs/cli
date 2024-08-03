@@ -1,5 +1,12 @@
 
 
+## [0.1.32](https://github.com/irsyadadl/justd-cli/compare/v0.1.31...v0.1.32) (2024-08-03)
+
+
+### Bug Fixes
+
+* release gh ([f795033](https://github.com/irsyadadl/justd-cli/commit/f7950334fa8968f757ad4c58533960901fa91698))
+
 ## [0.1.31](https://github.com/irsyadadl/justd-cli/compare/v0.1.30...v0.1.31) (2024-08-03)
 
 
