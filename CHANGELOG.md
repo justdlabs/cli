@@ -1,5 +1,12 @@
 
 
+## [0.1.30](https://github.com/irsyadadl/justd-cli/compare/v0.1.29...v0.1.30) (2024-08-03)
+
+
+### Refactors
+
+* add scheme to json file ([b05b453](https://github.com/irsyadadl/justd-cli/commit/b05b453e3b208437a110fd58c3d4a3f68e37a7e0))
+
 ## [0.1.29](https://github.com/irsyadadl/justd-cli/compare/v0.1.28...v0.1.29) (2024-08-03)
 
 
