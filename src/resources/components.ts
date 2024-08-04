@@ -19,8 +19,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   { name: 'primitive' },
   { name: 'dropdown' },
-  { name: 'dialog' },
-  { name: 'dynamic-overlay' },
+  { name: 'dialog', children: [{ name: 'button' }] },
   { name: 'field' },
   { name: 'keyboard' },
   { name: 'container' },
@@ -77,7 +76,7 @@ const components: any[] = [
   },
   {
     name: 'overlays',
-    children: [{ name: 'sheet' }, { name: 'drawer' }, { name: 'popover' }, { name: 'tooltip' }],
+    children: [{ name: 'sheet' }, { name: 'modal' }, { name: 'drawer' }, { name: 'popover' }, { name: 'tooltip' }],
   },
   {
     name: 'pickers',
@@ -147,13 +146,7 @@ const components: any[] = [
   { name: 'date-range-picker', children: [{ name: 'date-picker' }] },
   {
     name: 'date-picker',
-    children: [
-      { name: 'popover' },
-      { name: 'field' },
-      { name: 'calendar' },
-      { name: 'date-field' },
-      { name: 'dynamic-overlay' },
-    ],
+    children: [{ name: 'popover' }, { name: 'field' }, { name: 'calendar' }, { name: 'date-field' }],
   },
   { name: 'time-field', children: [{ name: 'field' }, { name: 'date-field' }] },
 
@@ -206,20 +199,20 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: 'modal',
-    children: [{ name: 'button' }, { name: 'dialog' }],
+    children: [{ name: 'dialog' }],
   },
   {
     name: 'sheet',
-    children: [{ name: 'dialog' }, { name: 'modal' }],
+    children: [{ name: 'dialog' }],
   },
   {
     name: 'drawer',
-    children: [{ name: 'modal' }],
+    children: [{ name: 'dialog' }],
   },
   { name: 'tooltip' },
   {
     name: 'popover',
-    children: [{ name: 'modal' }],
+    children: [{ name: 'dialog' }],
   },
 
   // ------------------------------------------------------------------------------------- //
@@ -252,7 +245,7 @@ const components: any[] = [
 
   {
     name: 'color-picker',
-    children: [{ name: 'color' }, { name: 'color-field' }, { name: 'select' }, { name: 'dynamic-overlay' }],
+    children: [{ name: 'color' }, { name: 'color-field' }, { name: 'select' }],
   },
   { name: 'color', children: [{ name: 'field' }, { name: 'slider' }] },
   { name: 'color-field', children: [{ name: 'color-picker' }] },
