@@ -1,5 +1,12 @@
 
 
+## [0.1.37](https://github.com/irsyadadl/justd-cli/compare/v0.1.36...v0.1.37) (2024-08-04)
+
+
+### Bug Fixes
+
+* add skeleton component ([22f567e](https://github.com/irsyadadl/justd-cli/commit/22f567e91127d4ae7ecef19c019b373d9beec666))
+
 ## [0.1.36](https://github.com/irsyadadl/justd-cli/compare/v0.1.35...v0.1.36) (2024-08-04)
 
 ## [0.1.35](https://github.com/irsyadadl/justd-cli/compare/v0.1.34...v0.1.35) (2024-08-03)
