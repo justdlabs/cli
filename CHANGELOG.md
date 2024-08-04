@@ -1,5 +1,7 @@
 
 
+## [0.1.36](https://github.com/irsyadadl/justd-cli/compare/v0.1.35...v0.1.36) (2024-08-04)
+
 ## [0.1.35](https://github.com/irsyadadl/justd-cli/compare/v0.1.34...v0.1.35) (2024-08-03)
 
 
