@@ -86,6 +86,7 @@ const components: any[] = [
   {
     name: 'statuses',
     children: [
+      { name: 'skeleton' },
       { name: 'badge' },
       { name: 'loader' },
       { name: 'progress-bar' },
@@ -237,7 +238,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Statuses
   // ------------------------------------------------------------------------------------- //
-
+  { name: 'skeleton' },
   { name: 'badge' },
   { name: 'loader' },
   { name: 'progress-bar', children: [{ name: 'field' }] },
