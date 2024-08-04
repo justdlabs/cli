@@ -3,8 +3,8 @@ import ora from 'ora'
 
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
-    accordion: 'framer-motion',
     toast: 'sonner',
+    accordion: 'framer-motion',
     meter: 'framer-motion',
     drawer: 'framer-motion',
     tabs: 'framer-motion',
