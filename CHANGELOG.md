@@ -1,5 +1,12 @@
 
 
+## [0.1.38](https://github.com/irsyadadl/justd-cli/compare/v0.1.37...v0.1.38) (2024-08-04)
+
+
+### Bug Fixes
+
+* refactor components ([bf61837](https://github.com/irsyadadl/justd-cli/commit/bf6183725c3e584569aa9bdeca0f1db638d9c96f))
+
 ## [0.1.37](https://github.com/irsyadadl/justd-cli/compare/v0.1.36...v0.1.37) (2024-08-04)
 
 
