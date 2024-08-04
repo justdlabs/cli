@@ -1,5 +1,12 @@
 
 
+## [0.1.39](https://github.com/irsyadadl/justd-cli/compare/v0.1.38...v0.1.39) (2024-08-04)
+
+
+### Refactors
+
+* dialog will include heading ([cb9cee1](https://github.com/irsyadadl/justd-cli/commit/cb9cee12f20f6853101df944d8ba7cf28c5366aa))
+
 ## [0.1.38](https://github.com/irsyadadl/justd-cli/compare/v0.1.37...v0.1.38) (2024-08-04)
 
 
