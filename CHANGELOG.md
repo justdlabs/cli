@@ -1,5 +1,12 @@
 
 
+## [0.1.41](https://github.com/irsyadadl/justd-cli/compare/v0.1.40...v0.1.41) (2024-08-05)
+
+
+### Bug Fixes
+
+* add show-more component ([479f2fa](https://github.com/irsyadadl/justd-cli/commit/479f2fa60a8a83c21f17bf4b4ba2c76994b4dde7))
+
 ## [0.1.40](https://github.com/irsyadadl/justd-cli/compare/v0.1.39...v0.1.40) (2024-08-05)
 
 
