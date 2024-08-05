@@ -95,7 +95,7 @@ const components: any[] = [
       { name: 'toast' },
     ],
   },
-  { name: 'surfaces', children: [{ name: 'card' }, { name: 'grid' }, { name: 'separator' }] },
+  { name: 'surfaces', children: [{ name: 'card' }, { name: 'grid' }, { name: 'separator' }, { name: 'show-more' }] },
   { name: 'media', children: [{ name: 'avatar' }, { name: 'carousel' }] },
   {
     name: 'colors',
@@ -183,6 +183,7 @@ const components: any[] = [
   { name: 'card' },
   { name: 'grid' },
   { name: 'separator' },
+  { name: 'show-more', children: [{ name: 'button' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Drag And Drop
