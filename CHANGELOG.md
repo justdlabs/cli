@@ -1,5 +1,12 @@
 
 
+## [0.1.42](https://github.com/irsyadadl/justd-cli/compare/v0.1.41...v0.1.42) (2024-08-06)
+
+
+### Bug Fixes
+
+* fix controls ([e1b3fc9](https://github.com/irsyadadl/justd-cli/commit/e1b3fc9f18f2968a130f1fd1fefcd04672bd2c7f))
+
 ## [0.1.41](https://github.com/irsyadadl/justd-cli/compare/v0.1.40...v0.1.41) (2024-08-05)
 
 
