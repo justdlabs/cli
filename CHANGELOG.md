@@ -1,5 +1,12 @@
 
 
+## [0.1.43](https://github.com/irsyadadl/justd-cli/compare/v0.1.42...v0.1.43) (2024-08-06)
+
+
+### Bug Fixes
+
+* add popover as children of menu ([4df598e](https://github.com/irsyadadl/justd-cli/commit/4df598e5f0d56d4cfc8a97e86c8b6d64a50e37f6))
+
 ## [0.1.42](https://github.com/irsyadadl/justd-cli/compare/v0.1.41...v0.1.42) (2024-08-06)
 
 
