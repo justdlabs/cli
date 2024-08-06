@@ -1,5 +1,6 @@
 const namespaces = [
   'buttons',
+  'controls',
   'collections',
   'date-and-time',
   'drag-and-drop',
