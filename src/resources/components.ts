@@ -130,7 +130,7 @@ const components: any[] = [
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
   { name: 'accordion' },
-  { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }] },
+  { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }, { name: 'popover' }] },
   { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }, { name: 'field' }] },
   { name: 'tabs' },
