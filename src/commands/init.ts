@@ -137,7 +137,7 @@ export async function init() {
     'tailwind-variants',
     'tailwind-merge',
     'clsx',
-    '@irsyadadl/paranoid',
+    'justd-icons',
     'tailwindcss-animate',
   ]
     .map((component) => component)
