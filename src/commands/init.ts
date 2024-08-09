@@ -190,7 +190,7 @@ export async function init() {
 
   // Save configuration to 'justd.json'
   const config = {
-    $schema: 'https://justd.co',
+    $schema: 'https://getjustd.com',
     ui: uiFolder,
   }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
