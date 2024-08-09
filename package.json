@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/irsyadadl/justd-cli.git"
   },
-  "homepage": "https://justd.co",
+  "homepage": "https://getjustd.com",
   "scripts": {
     "dev": "tsup --watch",
     "prepare": "npx husky",
@@ -57,7 +57,6 @@
     "@inquirer/prompts": "^5.1.2",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
-    "justd-icons": "^1.4.29",
     "ora": "^8.0.1"
   },
   "release-it": {
