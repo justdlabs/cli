@@ -14,6 +14,7 @@ const __dirname = path.dirname(__filename)
 
 // Adjust the path to reference the correct resource directory relative to the compiled output
 const resourceDir = path.resolve(__dirname, '../src/resources')
+const stubs = path.resolve(__dirname, '../src/resources/stubs')
 
 export async function init() {
   const cssPath = {
@@ -44,18 +45,21 @@ export async function init() {
       { name: 'Other', value: 'Other' },
     ],
   })
-  let componentsFolder, uiFolder, cssLocation, configSourcePath
+  let componentsFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers
 
   if (projectType === 'Laravel') {
     componentsFolder = 'resources/js/components'
     uiFolder = path.join(componentsFolder, 'ui')
     cssLocation = cssPath.laravel
-    configSourcePath = path.join(resourceDir, 'tailwind-config/tailwind.config.laravel.stub')
+    configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
+    themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
+    providers = path.join(stubs, 'laravel/providers.stub')
   } else if (projectType === 'Vite') {
     componentsFolder = 'src/components'
     uiFolder = path.join(componentsFolder, 'ui')
     cssLocation = cssPath.vite
-    configSourcePath = path.join(resourceDir, 'tailwind-config/tailwind.config.vite.stub')
+    configSourcePath = path.join(stubs, 'vite/tailwind.config.vite.stub')
+    themeProvider = path.join(stubs, 'vite/theme-provider.stub')
   } else if (projectType === 'Next.js') {
     const projectTypeSrc = await select({
       message: 'Does this project have a src directory?',
@@ -69,7 +73,9 @@ export async function init() {
     componentsFolder = path.join(hasSrc, 'components')
     uiFolder = path.join(componentsFolder, 'ui')
     cssLocation = projectTypeSrc ? cssPath.nextHasSrc : cssPath.nextNoSrc
-    configSourcePath = path.join(resourceDir, 'tailwind-config/tailwind.config.next.stub')
+    configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
+    themeProvider = path.join(stubs, 'next/theme-provider.stub')
+    providers = path.join(stubs, 'next/providers.stub')
   } else {
     componentsFolder = await input({
       message: 'Enter the path to your components folder:',
@@ -80,10 +86,12 @@ export async function init() {
       message: 'Where would you like to place the CSS file?',
       default: cssPath.other,
     })
-    configSourcePath = path.join(resourceDir, 'tailwind-config/tailwind.config.next.stub')
+    configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
+    themeProvider = path.join(stubs, 'next/theme-provider.stub')
+    providers = path.join(stubs, 'next/providers.stub')
   }
 
-  const spinner = ora(`Initializing D...`).start()
+  const spinner = ora(`Initializing Justd...`).start()
 
   // Ensure the components and UI folders exist
   if (!fs.existsSync(uiFolder)) {
@@ -159,8 +167,21 @@ export async function init() {
   const fileUrl = 'https://raw.githubusercontent.com/irsyadadl/justd/master/components/ui/primitive.tsx'
   const response = await fetch(fileUrl)
   const fileContent = await response.text()
-  fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent)
+  fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
+
+  // Copy theme provider and providers files
+  if (themeProvider) {
+    const themeProviderContent = fs.readFileSync(themeProvider, 'utf8')
+    fs.writeFileSync(path.join(componentsFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
+
+    if (providers) {
+      const providersContent = fs.readFileSync(providers, 'utf8')
+      fs.writeFileSync(path.join(componentsFolder, 'providers.tsx'), providersContent, { flag: 'w' })
+    }
+
+    spinner.succeed(`Theme provider and providers files copied to ${componentsFolder}`)
+  }
 
   // Save configuration to justd.json with relative path
   if (fs.existsSync('d.json')) {
@@ -177,5 +198,16 @@ export async function init() {
 
   // Wait for the installation to complete before proceeding
   spinner.succeed('Installation complete.')
+
+  const continuedToAddComponent = spawn('npx justd-cli@latest add', {
+    stdio: 'inherit',
+    shell: true,
+  })
+  await new Promise<void>((resolve) => {
+    continuedToAddComponent.on('close', () => {
+      resolve()
+    })
+  })
+
   spinner.stop()
 }

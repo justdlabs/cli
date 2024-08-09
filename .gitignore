@@ -5,6 +5,7 @@ dist/
 .env
 tailwind.config.js
 tailwind.config.ts
+app
 
 src/app
 src/index.css
