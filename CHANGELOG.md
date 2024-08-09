@@ -1,5 +1,12 @@
 
 
+## [0.2.0](https://github.com/irsyadadl/justd-cli/compare/v0.1.46...v0.2.0) (2024-08-09)
+
+
+### Features
+
+* add theme-provider and providers setup ([f1bb40d](https://github.com/irsyadadl/justd-cli/commit/f1bb40d4099a527a76bf160cf404025726134e1f))
+
 ## [0.1.46](https://github.com/irsyadadl/justd-cli/compare/v0.1.45...v0.1.46) (2024-08-09)
 
 
