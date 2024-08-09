@@ -20,11 +20,12 @@ const config = withTV({
     },
     extend: {
       fontFamily: {
-        sans: ['figtree', ...fontFamily.sans],
+        sans: ['Figtree', ...fontFamily.sans],
       },
       colors: {
+        light: 'hsl(var(--light))',
+        dark: 'hsl(var(--dark))',
         border: 'hsl(var(--border))',
-        link: 'hsl(var(--link))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         toggle: 'hsl(var(--toggle))',
@@ -76,30 +77,12 @@ const config = withTV({
         overlay: {
           DEFAULT: 'hsl(var(--overlay))',
           fg: 'hsl(var(--overlay-fg))'
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          header: 'hsl(var(--card-header))'
         }
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },

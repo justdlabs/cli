@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import { fontFamily } from 'tailwindcss/defaultTheme'
 import { withTV } from 'tailwind-variants/transformer'
 
 const config = withTV({
@@ -15,8 +14,9 @@ const config = withTV({
     },
     extend: {
       colors: {
+        light: 'hsl(var(--light))',
+        dark: 'hsl(var(--dark))',
         border: 'hsl(var(--border))',
-        link: 'hsl(var(--link))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         toggle: 'hsl(var(--toggle))',
@@ -68,10 +68,6 @@ const config = withTV({
         overlay: {
           DEFAULT: 'hsl(var(--overlay))',
           fg: 'hsl(var(--overlay-fg))'
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          header: 'hsl(var(--card-header))'
         }
       },
       borderRadius: {
