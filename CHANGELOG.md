@@ -1,5 +1,12 @@
 
 
+## [0.2.2](https://github.com/irsyadadl/justd-cli/compare/v0.2.1...v0.2.2) (2024-08-09)
+
+
+### Bug Fixes
+
+* refactor ([233c89a](https://github.com/irsyadadl/justd-cli/commit/233c89aa1cb5c78c247b69896548a1dced4e5ce1))
+
 ## [0.2.1](https://github.com/irsyadadl/justd-cli/compare/v0.2.0...v0.2.1) (2024-08-09)
 
 
