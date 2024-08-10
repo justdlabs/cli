@@ -1,5 +1,12 @@
 
 
+## [0.2.3](https://github.com/irsyadadl/justd-cli/compare/v0.2.2...v0.2.3) (2024-08-10)
+
+
+### Bug Fixes
+
+* fix add deps ([02df89d](https://github.com/irsyadadl/justd-cli/commit/02df89d86f390a3276b40ebfe03a42d6f3006450))
+
 ## [0.2.2](https://github.com/irsyadadl/justd-cli/compare/v0.2.1...v0.2.2) (2024-08-09)
 
 
