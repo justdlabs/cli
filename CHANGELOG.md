@@ -1,5 +1,12 @@
 
 
+## [0.2.4](https://github.com/irsyadadl/justd-cli/compare/v0.2.3...v0.2.4) (2024-08-10)
+
+
+### Refactors
+
+* add new component ([0ddff05](https://github.com/irsyadadl/justd-cli/commit/0ddff05a4fcb27641e6709a76d6bcf52b99520fc))
+
 ## [0.2.3](https://github.com/irsyadadl/justd-cli/compare/v0.2.2...v0.2.3) (2024-08-10)
 
 
