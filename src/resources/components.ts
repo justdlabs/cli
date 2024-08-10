@@ -39,6 +39,7 @@ const components: any[] = [
     children: [
       { name: 'form' },
       { name: 'text-field' },
+      { name: 'tag-field' },
       { name: 'radio' },
       { name: 'checkbox' },
       { name: 'textarea' },
@@ -157,6 +158,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
 
   { name: 'form' },
+  { name: 'tag-field', children: [{ name: 'tag-group' }, { name: 'field' }] },
   { name: 'text-field', children: [{ name: 'field' }] },
   { name: 'input-otp' },
   { name: 'radio', children: [{ name: 'field' }] },
