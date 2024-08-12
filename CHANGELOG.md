@@ -1,5 +1,12 @@
 
 
+## [0.2.5](https://github.com/irsyadadl/justd-cli/compare/v0.2.4...v0.2.5) (2024-08-12)
+
+
+### Refactors
+
+* add context-menu ([8f47898](https://github.com/irsyadadl/justd-cli/commit/8f478988a4b229bb2b6e78dee666084cfb4a32af))
+
 ## [0.2.4](https://github.com/irsyadadl/justd-cli/compare/v0.2.3...v0.2.4) (2024-08-10)
 
 
