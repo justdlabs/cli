@@ -112,7 +112,7 @@ const components: any[] = [
       { name: 'slider' },
       { name: 'switch' },
       { name: 'command-menu' },
-      // { name: 'context-menu' },
+      { name: 'context-menu' },
     ],
   },
 
@@ -259,6 +259,7 @@ const components: any[] = [
   // ⌘ The children of Controls
   // ------------------------------------------------------------------------------------- //
   { name: 'command-menu', children: [{ name: 'keyboard' }, { name: 'separator' }] },
+  { name: 'context-menu', children: [{ name: 'menu' }] },
   { name: 'slider', children: [{ name: 'field' }] },
   { name: 'switch' },
   { name: 'toolbar', children: [{ name: 'toggle' }, { name: 'separator' }] },
