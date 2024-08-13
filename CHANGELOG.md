@@ -1,5 +1,12 @@
 
 
+## [0.2.6](https://github.com/irsyadadl/justd-cli/compare/v0.2.5...v0.2.6) (2024-08-13)
+
+
+### Bug Fixes
+
+* add missing loader to toast ([e02cc6a](https://github.com/irsyadadl/justd-cli/commit/e02cc6ae9f803f4ddb7e907ad2e3a514de36d211))
+
 ## [0.2.5](https://github.com/irsyadadl/justd-cli/compare/v0.2.4...v0.2.5) (2024-08-12)
 
 
