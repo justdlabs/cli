@@ -71,7 +71,6 @@ export const diff = async () => {
             title: componentName,
             value: componentName,
           })),
-          { title: 'None', value: 'none' },
         ],
         // @ts-ignore
         initial: changedComponents,
