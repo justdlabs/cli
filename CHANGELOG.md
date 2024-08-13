@@ -1,5 +1,12 @@
 
 
+## [0.4.3](https://github.com/irsyadadl/justd-cli/compare/v0.4.2...v0.4.3) (2024-08-13)
+
+
+### Bug Fixes
+
+* add args to diff ([c31ee53](https://github.com/irsyadadl/justd-cli/commit/c31ee5361fbee0da5f66084c99dd179ef0008b7d))
+
 ## [0.4.2](https://github.com/irsyadadl/justd-cli/compare/v0.4.1...v0.4.2) (2024-08-13)
 
 
