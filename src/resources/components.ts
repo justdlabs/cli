@@ -83,7 +83,7 @@ const components: any[] = [
   },
   {
     name: 'pickers',
-    children: [{ name: 'combo-box' }, { name: 'select' }],
+    children: [{ name: 'combo-box' }, { name: 'select' }, { name: 'multiple-select' }],
   },
   {
     name: 'statuses',
@@ -231,6 +231,16 @@ const components: any[] = [
   {
     name: 'select',
     children: [{ name: 'field' }, { name: 'list-box' }, { name: 'popover' }],
+  },
+  {
+    name: 'multiple-select',
+    children: [
+      { name: 'field' },
+      { name: 'list-box' },
+      { name: 'popover' },
+      { name: 'tag-group' },
+      { name: 'visually-hidden' },
+    ],
   },
 
   // ------------------------------------------------------------------------------------- //
