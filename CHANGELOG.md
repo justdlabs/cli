@@ -1,5 +1,12 @@
 
 
+## [0.4.4](https://github.com/irsyadadl/justd-cli/compare/v0.4.3...v0.4.4) (2024-08-13)
+
+
+### Bug Fixes
+
+* add multiple-select ([f6cedb7](https://github.com/irsyadadl/justd-cli/commit/f6cedb7853960d615dcfb17a749a95c95d684051))
+
 ## [0.4.3](https://github.com/irsyadadl/justd-cli/compare/v0.4.2...v0.4.3) (2024-08-13)
 
 
