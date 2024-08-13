@@ -28,8 +28,13 @@ export const diff = async () => {
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
     const componentsDir = config.ui
 
-    // Get the list of component names from the local directory
-    const componentNames = fs.readdirSync(componentsDir).map((file) => path.basename(file, '.tsx'))
+    const excludeComponents = ['index']
+
+    const componentNames = fs
+      .readdirSync(componentsDir)
+      .filter((file) => file.endsWith('.tsx'))
+      .map((file) => path.basename(file, '.tsx'))
+      .filter((name) => !excludeComponents.includes(name))
 
     const changedComponents: string[] = []
 
