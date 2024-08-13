@@ -242,7 +242,7 @@ const components: any[] = [
   { name: 'progress-bar', children: [{ name: 'field' }] },
   { name: 'meter', children: [{ name: 'field' }] },
   { name: 'note' },
-  { name: 'toast', children: [{ name: 'button' }] },
+  { name: 'toast', children: [{ name: 'button' }, { name: 'loader' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Colors
