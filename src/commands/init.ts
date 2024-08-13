@@ -7,6 +7,7 @@ import fetch from 'node-fetch'
 import chalk from 'chalk'
 import { getPackageManager } from '@/src/utils/get-package-manager'
 import ora from 'ora'
+import { getRepoUrlForComponent } from '@/src/utils/repo'
 
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
@@ -164,7 +165,7 @@ export async function init() {
       resolve()
     })
   })
-  const fileUrl = 'https://raw.githubusercontent.com/irsyadadl/justd/master/components/ui/primitive.tsx'
+  const fileUrl = getRepoUrlForComponent('primitive')
   const response = await fetch(fileUrl)
   const fileContent = await response.text()
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })

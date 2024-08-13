@@ -7,6 +7,7 @@ import chalk from 'chalk'
 import { getPackageManager } from '../utils/get-package-manager'
 import { additionalDeps } from '../utils/additional-deps'
 import ora from 'ora'
+import { getRepoUrlForComponent } from '@/src/utils/repo'
 
 async function createComponent(componentName: string) {
   const writePath = getWriteComponentPath(componentName)
@@ -18,7 +19,7 @@ async function createComponent(componentName: string) {
 
   const spinner = ora(`Creating ${componentName}...`).start()
 
-  const url = `https://raw.githubusercontent.com/irsyadadl/justd/master/components/ui/${componentName}.tsx`
+  const url = getRepoUrlForComponent(componentName)
   try {
     await writeFile(`${componentName} created`, url, writePath)
     spinner.succeed(`${componentName} created`)
@@ -34,11 +35,17 @@ async function processComponent(
   action: string,
   processed: Set<string>,
   allComponents: any[],
+  override: boolean,
 ) {
   const componentPath = getWriteComponentPath(componentName)
-  if (processed.has(componentName) || fs.existsSync(componentPath)) {
-    console.warn(`${chalk.blue('ℹ')} ${componentName} is already in the mix or already exists.`)
-    return // Skip processing and its children if already processed or exists
+  if (fs.existsSync(componentPath)) {
+    if (override) {
+      console.log(`${chalk.yellow('Replacing')} ${componentName}...`)
+      fs.rmSync(componentPath, { recursive: true, force: true })
+    } else {
+      console.warn(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
+      return
+    }
   }
 
   processed.add(componentName)
@@ -51,13 +58,13 @@ async function processComponent(
   const component = allComponents.find((c) => c.name === componentName)
   if (component && component.children) {
     for (const child of component.children) {
-      await processComponent(child.name, packageManager, action, processed, allComponents)
+      await processComponent(child.name, packageManager, action, processed, allComponents, override)
     }
   }
 }
 
 export async function add(options: any) {
-  const { component, skip } = options
+  const { component, skip, override } = options
   const configFilePath = path.join(process.cwd(), 'justd.json')
   if (!fs.existsSync(configFilePath)) {
     console.error(
@@ -66,7 +73,7 @@ export async function add(options: any) {
     return
   }
 
-  const exclude = ['dialog', 'primitive', 'field', 'dynamic-overlay', 'dropdown'] // Add all the names you want to exclude here
+  const exclude = ['primitive']
   let selectedComponents = component ? component.split(' ') : []
   if (selectedComponents.length === 0) {
     const choices = components
@@ -99,11 +106,11 @@ export async function add(options: any) {
     if (namespaces.includes(componentName) && targetComponent.children) {
       // Only process the children of the component
       for (const child of targetComponent.children) {
-        await processComponent(child.name, packageManager, action, processed, components)
+        await processComponent(child.name, packageManager, action, processed, components, override)
       }
     } else {
       // Process the component and all its children
-      await processComponent(componentName, packageManager, action, processed, components)
+      await processComponent(componentName, packageManager, action, processed, components, override)
     }
   }
   console.log(chalk.green(`✔ All the goodies in ${options.component} are now locked and loaded.`))
