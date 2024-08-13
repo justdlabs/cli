@@ -22,7 +22,7 @@ const compareComponents = (localContent: string, remoteContent: string) => {
   return diff.filter((part) => part.added || part.removed)
 }
 
-export const diff = async () => {
+export const diff = async (...args: string[]) => {
   try {
     const configPath = path.resolve(process.cwd(), 'justd.json')
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
@@ -30,11 +30,15 @@ export const diff = async () => {
 
     const excludeComponents = ['index']
 
-    const componentNames = fs
+    let componentNames = fs
       .readdirSync(componentsDir)
       .filter((file) => file.endsWith('.tsx'))
       .map((file) => path.basename(file, '.tsx'))
       .filter((name) => !excludeComponents.includes(name))
+
+    if (args.length > 0) {
+      componentNames = componentNames.filter((name) => args.includes(name))
+    }
 
     const changedComponents: string[] = []
 

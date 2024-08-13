@@ -16,10 +16,10 @@ program
   })
 
 program
-  .command('diff')
+  .command('diff [components...]')
   .description('Show differences between local and remote components')
-  .action(async () => {
-    await diff()
+  .action(async (components) => {
+    await diff(...components)
   })
 
 program.parse(process.argv)
