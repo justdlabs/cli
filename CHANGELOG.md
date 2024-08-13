@@ -1,5 +1,12 @@
 
 
+## [0.4.2](https://github.com/irsyadadl/justd-cli/compare/v0.4.1...v0.4.2) (2024-08-13)
+
+
+### Bug Fixes
+
+* remove none as option ([141e8fb](https://github.com/irsyadadl/justd-cli/commit/141e8fb72072577a763289920a4f9471c908a2e1))
+
 ## [0.4.1](https://github.com/irsyadadl/justd-cli/compare/v0.4.0...v0.4.1) (2024-08-13)
 
 
