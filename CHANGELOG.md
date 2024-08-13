@@ -1,5 +1,12 @@
 
 
+## [0.4.1](https://github.com/irsyadadl/justd-cli/compare/v0.4.0...v0.4.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* fix scanning index.ts ([28be66e](https://github.com/irsyadadl/justd-cli/commit/28be66ebaeffbd57f37a3d2a4b3325635f9678b2))
+
 ## [0.4.0](https://github.com/irsyadadl/justd-cli/compare/v0.2.6...v0.4.0) (2024-08-13)
 
 
