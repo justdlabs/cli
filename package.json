@@ -59,7 +59,6 @@
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "diff": "^5.2.0",
-    "justd-icons": "^1.4.30",
     "ora": "^8.0.1"
   },
   "release-it": {
