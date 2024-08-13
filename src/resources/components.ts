@@ -145,6 +145,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
 
   { name: 'calendar', children: [{ name: 'button' }] },
+  { name: 'range-calendar', children: [{ name: 'calendar' }] },
   { name: 'date-field' },
   { name: 'date-range-picker', children: [{ name: 'date-picker' }] },
   {
