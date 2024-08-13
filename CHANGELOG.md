@@ -1,5 +1,23 @@
 
 
+## [0.4.0](https://github.com/irsyadadl/justd-cli/compare/v0.2.6...v0.4.0) (2024-08-13)
+
+
+### Features
+
+* add diff command ([5da5810](https://github.com/irsyadadl/justd-cli/commit/5da58101562652a7d0b1e84c13d562e66ef901a6))
+
+
+### Bug Fixes
+
+* add automated ([3112af4](https://github.com/irsyadadl/justd-cli/commit/3112af4ef8b514b52afb9bce87bf039d8edd1ad4))
+* fix gh act ([4d415a8](https://github.com/irsyadadl/justd-cli/commit/4d415a8908815ea55d3233ada1675ca72fb448d6))
+
+
+### Refactors
+
+* remove j ([5e64458](https://github.com/irsyadadl/justd-cli/commit/5e644587101b55269e197c0b05219ec37dfc6a1a))
+
 ## [0.3.0](https://github.com/irsyadadl/justd-cli/compare/v0.2.6...v0.3.0) (2024-08-13)
 
 
