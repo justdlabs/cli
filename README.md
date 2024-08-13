@@ -11,5 +11,11 @@ After that, you can run the following command to start adding new components.
 npx just-cli@latest add <component-name>
 ```
 
+```bash
+npx just-cli@latest diff
+```
+
+It will show you the difference between the current and the new component. And it will also ask you to confirm the changes.
+
 ## License
 [MIT](https://github.com/irsyadadl/justd-cli/blob/main/LICENSE)
