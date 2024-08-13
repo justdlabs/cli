@@ -1,5 +1,12 @@
 
 
+## [0.4.5](https://github.com/irsyadadl/justd-cli/compare/v0.4.4...v0.4.5) (2024-08-13)
+
+
+### Refactors
+
+* make range-calendar stand alone ([417b5d1](https://github.com/irsyadadl/justd-cli/commit/417b5d12a049866be72359671b1cbac9c06f4ead))
+
 ## [0.4.4](https://github.com/irsyadadl/justd-cli/compare/v0.4.3...v0.4.4) (2024-08-13)
 
 
