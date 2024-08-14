@@ -1,5 +1,12 @@
 
 
+## [0.4.6](https://github.com/irsyadadl/justd-cli/compare/v0.4.5...v0.4.6) (2024-08-14)
+
+
+### Refactors
+
+* add version and help command ([7c839a0](https://github.com/irsyadadl/justd-cli/commit/7c839a0d289c715f013989af9ab47557e6348112))
+
 ## [0.4.5](https://github.com/irsyadadl/justd-cli/compare/v0.4.4...v0.4.5) (2024-08-13)
 
 
