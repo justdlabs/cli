@@ -1,8 +1,6 @@
 import { Command } from 'commander'
-import fs from 'fs'
-import path from 'path'
+import packageJson from '../../package.json'
 
-const packageJson = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8'))
 const version = packageJson.version
 
 export function help(program: Command) {

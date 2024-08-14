@@ -5,11 +5,15 @@ import { add } from './commands/add'
 import { init } from './commands/init'
 import { diff } from './commands/diff'
 import { help } from '@/src/commands/help'
-import fs from 'fs'
-import path from 'path'
+import packageJson from '../package.json'
 
-const packageJson = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8'))
 const version = packageJson.version
+
+const args = process.argv.slice(2)
+if (args.includes('--version') || args.includes('-v')) {
+  console.log(packageJson.version)
+  process.exit(0)
+}
 
 program.version(version, '-v, --version', 'Output the version number').description('CLI Tool Description')
 

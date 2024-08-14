@@ -2,10 +2,11 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"module": "esnext",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
 		"moduleResolution": "node",
 		"lib": ["esnext", "dom"],
 		"strict": true,
-		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"outDir": "./dist",
