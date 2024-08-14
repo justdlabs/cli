@@ -4,6 +4,7 @@ import fetch from 'node-fetch'
 import { diffLines } from 'diff'
 import { checkbox } from '@inquirer/prompts'
 import { getRepoUrlForComponent } from '@/src/utils/repo'
+import chalk from 'chalk'
 
 const getLocalComponentPath = (configPath: string, componentName: string) => {
   const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
@@ -52,21 +53,21 @@ export const diff = async (...args: string[]) => {
         console.log(`Differences found in ${componentName}:`)
         diffs.forEach((part) => {
           const symbol = part.added ? '+' : '-'
+          const colorFn = part.added ? chalk.green : chalk.red
           process.stdout.write(
             part.value
               .split('\n')
-              .map((line) => `${symbol} ${line}`)
+              .map((line) => colorFn(`${symbol} ${line}`))
               .join('\n'),
           )
         })
         console.log('\n')
         changedComponents.push(componentName)
       } else {
-        console.log(`${componentName} is up to date.`)
+        console.log(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
       }
     }
 
-    // Add an option for "None" to the list of changed components
     if (changedComponents.length > 0) {
       const selectedComponents = await checkbox({
         message: 'Select components to update',
@@ -90,13 +91,13 @@ export const diff = async (...args: string[]) => {
           const remoteContent = await fetchRemoteComponent(componentName)
           const localComponentPath = getLocalComponentPath(configPath, componentName)
           fs.writeFileSync(localComponentPath, remoteContent)
-          console.log(`Updated ${componentName}`)
+          console.log(`${chalk.green(`✔ ${componentName} is updated.`)}`)
         } catch (error: any) {
           console.error(`Error updating ${componentName}: ${error.message}`)
         }
       }
     } else {
-      console.log('All components are up to date.')
+      console.log(chalk.green('✔ All components are up to date.'))
     }
   } catch (error: any) {
     console.error('Error checking differences:', error.message)
