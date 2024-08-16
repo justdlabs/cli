@@ -46,30 +46,25 @@ export const diff = async (...args: string[]) => {
     for (const componentName of componentNames) {
       const localComponentPath = getLocalComponentPath(configPath, componentName)
       const localContent = fs.readFileSync(localComponentPath, 'utf-8')
+      const remoteContent = await fetchRemoteComponent(componentName)
 
-      try {
-        const remoteContent = await fetchRemoteComponent(componentName)
-        const diffs = compareComponents(localContent, remoteContent)
-
-        if (diffs.length > 0) {
-          console.log(`Differences found in ${componentName}:`)
-          diffs.forEach((part) => {
-            const symbol = part.added ? '+' : '-'
-            const colorFn = part.added ? chalk.green : chalk.red
-            process.stdout.write(
-              part.value
-                .split('\n')
-                .map((line) => colorFn(`${symbol} ${line}`))
-                .join('\n'),
-            )
-          })
-          console.log('\n')
-          changedComponents.push(componentName)
-        } else {
-          console.log(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
-        }
-      } catch (error: any) {
-        // Skip the component if it's not found
+      const diffs = compareComponents(localContent, remoteContent)
+      if (diffs.length > 0) {
+        console.log(`Differences found in ${componentName}:`)
+        diffs.forEach((part) => {
+          const symbol = part.added ? '+' : '-'
+          const colorFn = part.added ? chalk.green : chalk.red
+          process.stdout.write(
+            part.value
+              .split('\n')
+              .map((line) => colorFn(`${symbol} ${line}`))
+              .join('\n'),
+          )
+        })
+        console.log('\n')
+        changedComponents.push(componentName)
+      } else {
+        console.log(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
       }
     }
 
@@ -82,7 +77,7 @@ export const diff = async (...args: string[]) => {
             value: componentName,
           })),
         ],
-        // @ts-ignore - initial is not a valid option for checkbox
+        // @ts-ignore
         initial: changedComponents,
       })
 
