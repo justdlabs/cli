@@ -1,5 +1,13 @@
 
 
+## [0.4.11](https://github.com/irsyadadl/justd-cli/compare/v0.4.10...v0.4.11) (2024-08-16)
+
+
+### Bug Fixes
+
+* fix checking component that is not exists on the remote ([67b5adc](https://github.com/irsyadadl/justd-cli/commit/67b5adcbe5135cc5ef501f49b85ab50848541c2b))
+* j ([ad2b6d1](https://github.com/irsyadadl/justd-cli/commit/ad2b6d1760f89bc6db252852b7d5492a1b4bcfc6))
+
 ## [0.4.10](https://github.com/irsyadadl/justd-cli/compare/v0.4.9...v0.4.10) (2024-08-16)
 
 
