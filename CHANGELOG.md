@@ -1,5 +1,12 @@
 
 
+## [0.4.12](https://github.com/irsyadadl/justd-cli/compare/v0.4.11...v0.4.12) (2024-08-16)
+
+
+### Bug Fixes
+
+* fix ring color ([2158cdb](https://github.com/irsyadadl/justd-cli/commit/2158cdb49c31b0f7671d6d6594dd1ba6f88ca886))
+
 ## [0.4.11](https://github.com/irsyadadl/justd-cli/compare/v0.4.10...v0.4.11) (2024-08-16)
 
 
