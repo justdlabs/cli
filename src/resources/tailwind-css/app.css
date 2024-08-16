@@ -12,7 +12,7 @@
       --overlay: 0 0% 100%;
       --overlay-fg: 240 10% 3.9%;
 
-      --primary: 216 98% 52%;
+      --primary: 216.74 100% 50%;
       --primary-fg: 0 0% 100%;
 
       --secondary: 240 4.8% 95.9%;
@@ -50,18 +50,20 @@
       --overlay: 240 6% 6%;
       --overlay-fg: 0 0% 98%;
 
+      --primary: 216 98% 52%;
+      --primary-fg: 0 0% 100%;
+
       --secondary: 240 3.7% 15.9%;
       --secondary-fg: 0 0% 98%;
 
       --info: 84.91 100% 66.47%;
       --info-fg: 120 100% 13.14%;
 
-      --tertiary: 240 10% 6%;
+      --tertiary: 240 10% 5.5%;
       --tertiary-fg: 240 5% 96%;
-
+      --ring: var(--primary);
       --muted: 240 3.7% 15.9%;
       --muted-fg: 240 5% 64.9%;
-      --ring: var(--primary);
       --toggle: 240 5% 26%;
       --border: 240 7% 15%;
       --input: 240 3.7% 15.9%;
