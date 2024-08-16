@@ -1,5 +1,12 @@
 
 
+## [0.4.13](https://github.com/irsyadadl/justd-cli/compare/v0.4.12...v0.4.13) (2024-08-16)
+
+
+### Refactors
+
+* make primary color also on the dark ([9ac1055](https://github.com/irsyadadl/justd-cli/commit/9ac10554f8a4c8f34ec2387dc17bee0ba58dd119))
+
 ## [0.4.12](https://github.com/irsyadadl/justd-cli/compare/v0.4.11...v0.4.12) (2024-08-16)
 
 
