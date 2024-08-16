@@ -1,5 +1,12 @@
 
 
+## [0.4.8](https://github.com/irsyadadl/justd-cli/compare/v0.4.7...v0.4.8) (2024-08-16)
+
+
+### Bug Fixes
+
+* range-calendar ([e49e93b](https://github.com/irsyadadl/justd-cli/commit/e49e93bc8e097572496aa406a3f55ffa2d9bb843))
+
 ## [0.4.7](https://github.com/irsyadadl/justd-cli/compare/v0.4.6...v0.4.7) (2024-08-14)
 
 
