@@ -1,5 +1,12 @@
 
 
+## [0.4.10](https://github.com/irsyadadl/justd-cli/compare/v0.4.9...v0.4.10) (2024-08-16)
+
+
+### Bug Fixes
+
+* again fix url ([6b51b7f](https://github.com/irsyadadl/justd-cli/commit/6b51b7f6d8e5b4311f735c7aae657507d2dd1be7))
+
 ## [0.4.9](https://github.com/irsyadadl/justd-cli/compare/v0.4.8...v0.4.9) (2024-08-16)
 
 
