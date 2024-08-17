@@ -1,5 +1,12 @@
 
 
+## [0.4.17](https://github.com/irsyadadl/justd-cli/compare/v0.4.16...v0.4.17) (2024-08-17)
+
+
+### Bug Fixes
+
+* fix radius ([6172186](https://github.com/irsyadadl/justd-cli/commit/6172186e94b46faedcbe2834bb02e7f3b8e7590a))
+
 ## [0.4.16](https://github.com/irsyadadl/justd-cli/compare/v0.4.15...v0.4.16) (2024-08-17)
 
 
