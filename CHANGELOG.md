@@ -1,5 +1,12 @@
 
 
+## [0.4.16](https://github.com/irsyadadl/justd-cli/compare/v0.4.15...v0.4.16) (2024-08-17)
+
+
+### Bug Fixes
+
+* fix borderRadius at tailwind.config ([f58638a](https://github.com/irsyadadl/justd-cli/commit/f58638ab8a579b3313a3331c05c6e05ba4bbaef8))
+
 ## [0.4.15](https://github.com/irsyadadl/justd-cli/compare/v0.4.14...v0.4.15) (2024-08-17)
 
 
