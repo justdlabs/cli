@@ -8,7 +8,7 @@ import chalk from 'chalk'
 import { getPackageManager } from '@/src/utils/get-package-manager'
 import ora from 'ora'
 import { getRepoUrlForComponent } from '@/src/utils/repo'
-
+import open from 'open'
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -209,6 +209,27 @@ export async function init() {
       resolve()
     })
   })
+
+  const visitRepo = await select({
+    message: 'Hey look! You made it this far! 🌟 How about a quick star on our GitHub repo?',
+    choices: [
+      { name: 'Alright, take me there!', value: true },
+      { name: 'Maybe next time', value: false },
+    ],
+    default: true,
+  })
+
+  if (visitRepo) {
+    open('https://github.com/justdlabs/justd').then(() => {
+      console.log(chalk.blueBright('-------------------------------------------'))
+      console.log(' Thanks for your support! Happy coding! 🔥')
+      console.log(chalk.blueBright('-------------------------------------------'))
+    })
+  } else {
+    console.log(chalk.blueBright('------------------------------'))
+    console.log(' Happy coding! 🔥')
+    console.log(chalk.blueBright('------------------------------'))
+  }
 
   spinner.stop()
 }
