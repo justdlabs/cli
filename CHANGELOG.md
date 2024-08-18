@@ -1,5 +1,14 @@
 
 
+## [0.4.19](https://github.com/irsyadadl/justd-cli/compare/v0.4.18...v0.4.19) (2024-08-18)
+
+
+### Bug Fixes
+
+* ffa ([0ce2358](https://github.com/irsyadadl/justd-cli/commit/0ce2358ec18e25c1475a42bc950708383c08eb06))
+* fix gh ([0fa3286](https://github.com/irsyadadl/justd-cli/commit/0fa3286df757c665c70c51130364da277c97626b))
+* ft ([c200486](https://github.com/irsyadadl/justd-cli/commit/c200486f810140319b029d1a77709b97fcbd3c99))
+
 ## [0.4.18](https://github.com/irsyadadl/justd-cli/compare/v0.4.17...v0.4.18) (2024-08-18)
 
 ## [0.4.17](https://github.com/irsyadadl/justd-cli/compare/v0.4.16...v0.4.17) (2024-08-17)
