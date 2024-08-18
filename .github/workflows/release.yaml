@@ -12,7 +12,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           registry-url: https://registry.npmjs.org/
-          scope: "@justdlabs"
+          scope: "@irsyadadl"
       - name: Install dependencies
         run: npm install
       - name: Build
