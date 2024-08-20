@@ -1,5 +1,12 @@
 
 
+## [0.4.20](https://github.com/irsyadadl/justd-cli/compare/v0.4.19...v0.4.20) (2024-08-20)
+
+
+### Bug Fixes
+
+* remove fm from meter and progressbar ([a0ef426](https://github.com/irsyadadl/justd-cli/commit/a0ef4269981f08e084938d7a23cd4f7594fd1e51))
+
 ## [0.4.19](https://github.com/irsyadadl/justd-cli/compare/v0.4.18...v0.4.19) (2024-08-18)
 
 
