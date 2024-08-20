@@ -5,10 +5,8 @@ export const additionalDeps = async (componentName: string, packageManager: stri
   const dependencies: Record<string, string> = {
     toast: 'sonner',
     accordion: 'framer-motion',
-    meter: 'framer-motion',
     drawer: 'framer-motion',
     tabs: 'framer-motion',
-    'progress-bar': 'framer-motion',
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
     'command-menu': 'cmdk',
