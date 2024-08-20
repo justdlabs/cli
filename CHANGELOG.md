@@ -1,5 +1,12 @@
 
 
+## [0.4.23](https://github.com/irsyadadl/justd-cli/compare/v0.4.22...v0.4.23) (2024-08-20)
+
+
+### Bug Fixes
+
+* fix accordion ([2b723d3](https://github.com/irsyadadl/justd-cli/commit/2b723d3882236fbecf3a8ffb1d265b9926d6231b))
+
 ## [0.4.22](https://github.com/irsyadadl/justd-cli/compare/v0.4.21...v0.4.22) (2024-08-20)
 
 
