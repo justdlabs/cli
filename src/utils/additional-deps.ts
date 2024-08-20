@@ -4,7 +4,6 @@ import ora from 'ora'
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
     toast: 'sonner',
-    accordion: 'framer-motion',
     drawer: 'framer-motion',
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
