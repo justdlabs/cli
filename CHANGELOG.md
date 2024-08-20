@@ -1,5 +1,12 @@
 
 
+## [0.4.22](https://github.com/irsyadadl/justd-cli/compare/v0.4.21...v0.4.22) (2024-08-20)
+
+
+### Bug Fixes
+
+* remove fm from accordion ([4b416a4](https://github.com/irsyadadl/justd-cli/commit/4b416a49f20e5559df7bde8bb7b15e77f855085c))
+
 ## [0.4.21](https://github.com/irsyadadl/justd-cli/compare/v0.4.20...v0.4.21) (2024-08-20)
 
 
