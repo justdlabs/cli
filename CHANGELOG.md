@@ -1,5 +1,12 @@
 
 
+## [0.4.21](https://github.com/irsyadadl/justd-cli/compare/v0.4.20...v0.4.21) (2024-08-20)
+
+
+### Bug Fixes
+
+* remove fm from tabs ([e8597e2](https://github.com/irsyadadl/justd-cli/commit/e8597e211be388343da74b8bdbf8aed8434044ce))
+
 ## [0.4.20](https://github.com/irsyadadl/justd-cli/compare/v0.4.19...v0.4.20) (2024-08-20)
 
 
