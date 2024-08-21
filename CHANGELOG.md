@@ -1,5 +1,13 @@
 
 
+## [0.4.24](https://github.com/irsyadadl/justd-cli/compare/v0.4.23...v0.4.24) (2024-08-21)
+
+
+### Bug Fixes
+
+* bring back fm to ensure components nicely animate ([05d986d](https://github.com/irsyadadl/justd-cli/commit/05d986d466b692d4f4188c0c61cc2a1389703f2c))
+* bring back framer motion ([2950d42](https://github.com/irsyadadl/justd-cli/commit/2950d424552c80ae1be0bee64ce05a26956f931c))
+
 ## [0.4.23](https://github.com/irsyadadl/justd-cli/compare/v0.4.22...v0.4.23) (2024-08-20)
 
 
