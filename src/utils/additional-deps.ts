@@ -8,6 +8,7 @@ export const additionalDeps = async (componentName: string, packageManager: stri
     accordion: 'framer-motion',
     tabs: 'framer-motion',
     'progress-bar': 'framer-motion',
+    meter: 'framer-motion',
     'input-otp': 'input-otp',
     carousel: 'embla-carousel-react',
     'command-menu': 'cmdk',
