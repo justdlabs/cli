@@ -1,5 +1,12 @@
 
 
+## [0.4.25](https://github.com/irsyadadl/justd-cli/compare/v0.4.24...v0.4.25) (2024-08-21)
+
+
+### Bug Fixes
+
+* fix color ([0271bec](https://github.com/irsyadadl/justd-cli/commit/0271bec4eacb522473d63f2dbaaf09fed4298cac))
+
 ## [0.4.24](https://github.com/irsyadadl/justd-cli/compare/v0.4.23...v0.4.24) (2024-08-21)
 
 
