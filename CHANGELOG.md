@@ -1,5 +1,12 @@
 
 
+## [0.4.27](https://github.com/irsyadadl/justd-cli/compare/v0.4.26...v0.4.27) (2024-08-22)
+
+
+### Refactors
+
+* add accent subtle ([f512b20](https://github.com/irsyadadl/justd-cli/commit/f512b209ccf59cddb41dbf8a95e62377ddb92ac5))
+
 ## [0.4.26](https://github.com/irsyadadl/justd-cli/compare/v0.4.25...v0.4.26) (2024-08-22)
 
 ## [0.4.25](https://github.com/irsyadadl/justd-cli/compare/v0.4.24...v0.4.25) (2024-08-21)
