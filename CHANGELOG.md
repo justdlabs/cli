@@ -1,5 +1,12 @@
 
 
+## [0.4.28](https://github.com/irsyadadl/justd-cli/compare/v0.4.27...v0.4.28) (2024-08-22)
+
+
+### Refactors
+
+* subtle color ([c0e4ea3](https://github.com/irsyadadl/justd-cli/commit/c0e4ea35f1cd680b89c0d388249fe50e184557ff))
+
 ## [0.4.27](https://github.com/irsyadadl/justd-cli/compare/v0.4.26...v0.4.27) (2024-08-22)
 
 
