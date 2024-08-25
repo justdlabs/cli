@@ -1,5 +1,12 @@
 
 
+## [0.4.29](https://github.com/irsyadadl/justd-cli/compare/v0.4.28...v0.4.29) (2024-08-25)
+
+
+### Refactors
+
+* change color default to oklch ([47a89ee](https://github.com/irsyadadl/justd-cli/commit/47a89eefa8ef225067960fa76e15f0985c015a63))
+
 ## [0.4.28](https://github.com/irsyadadl/justd-cli/compare/v0.4.27...v0.4.28) (2024-08-22)
 
 
