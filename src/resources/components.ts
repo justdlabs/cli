@@ -115,6 +115,10 @@ const components: any[] = [
       { name: 'context-menu' },
     ],
   },
+  {
+    name: 'layouts',
+    children: [{ name: 'aside' }, { name: 'container' }],
+  },
 
   // ------------------------------------------------------------------------------------- //
   // ✓ Children
@@ -224,7 +228,6 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Pickers
   // ------------------------------------------------------------------------------------- //
-
   {
     name: 'combo-box',
     children: [{ name: 'field' }, { name: 'list-box' }, { name: 'popover' }],
@@ -274,6 +277,12 @@ const components: any[] = [
   { name: 'slider', children: [{ name: 'field' }] },
   { name: 'switch' },
   { name: 'toolbar', children: [{ name: 'toggle' }, { name: 'separator' }] },
+
+  // ------------------------------------------------------------------------------------- //
+  // ⌘ The children of Layouts
+  // ------------------------------------------------------------------------------------- //
+  { name: 'aside' },
+  { name: 'container' },
 ]
 
 export { components, namespaces }
