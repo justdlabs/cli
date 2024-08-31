@@ -1,5 +1,12 @@
 
 
+## [0.4.30](https://github.com/irsyadadl/justd-cli/compare/v0.4.29...v0.4.30) (2024-08-31)
+
+
+### Refactors
+
+* add new component aside and container ([162241b](https://github.com/irsyadadl/justd-cli/commit/162241b787cad50cd6b6f275225c6867fbe2eb20))
+
 ## [0.4.29](https://github.com/irsyadadl/justd-cli/compare/v0.4.28...v0.4.29) (2024-08-25)
 
 
