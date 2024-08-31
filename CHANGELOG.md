@@ -1,5 +1,12 @@
 
 
+## [0.4.31](https://github.com/irsyadadl/justd-cli/compare/v0.4.30...v0.4.31) (2024-08-31)
+
+
+### Bug Fixes
+
+* include button and sheet at aside ([fac3306](https://github.com/irsyadadl/justd-cli/commit/fac3306c7f000c28af624c14e4613d89336dc417))
+
 ## [0.4.30](https://github.com/irsyadadl/justd-cli/compare/v0.4.29...v0.4.30) (2024-08-31)
 
 
