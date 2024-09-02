@@ -2,14 +2,14 @@
   "name": "justd-cli",
   "type": "module",
   "version": "0.4.31",
-  "description": "This is a command line tool for D.",
+  "description": "This is a command line interface for Justd.",
   "main": "dist/index.js",
   "bin": {
     "justd-cli": "dist/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/irsyadadl/justd-cli.git"
+    "url": "git+https://github.com/justdlabs/cli.git"
   },
   "homepage": "https://getjustd.com",
   "scripts": {
