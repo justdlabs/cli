@@ -24,7 +24,6 @@ const components: any[] = [
   { name: 'dialog', children: [{ name: 'button' }, { name: 'heading' }] },
   { name: 'field' },
   { name: 'keyboard' },
-  { name: 'container' },
 
   // ------------------------------------------------------------------------------------- //
   //  ✓ Utitlities
@@ -154,7 +153,13 @@ const components: any[] = [
   { name: 'date-range-picker', children: [{ name: 'date-picker' }, { name: 'range-calendar' }] },
   {
     name: 'date-picker',
-    children: [{ name: 'popover' }, { name: 'field' }, { name: 'calendar' }, { name: 'date-field' }],
+    children: [
+      { name: 'popover' },
+      { name: 'field' },
+      { name: 'calendar' },
+      { name: 'date-field' },
+      { name: 'range-calendar' },
+    ],
   },
   { name: 'time-field', children: [{ name: 'field' }, { name: 'date-field' }] },
 
