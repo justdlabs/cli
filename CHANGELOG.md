@@ -1,5 +1,13 @@
 
 
+## [0.4.33](https://github.com/justdlabs/cli/compare/v0.4.32...v0.4.33) (2024-09-02)
+
+
+### Bug Fixes
+
+* date-picker ([5152d96](https://github.com/justdlabs/cli/commit/5152d96b1f9946fe99db5ca8030e928ab7c110b6))
+* fix range picker ([f6e1447](https://github.com/justdlabs/cli/commit/f6e14471e50dc4484a7dcb8735f59e5a03e7e77a))
+
 ## [0.4.32](https://github.com/justdlabs/cli/compare/v0.4.31...v0.4.32) (2024-09-02)
 
 
