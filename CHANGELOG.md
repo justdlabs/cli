@@ -1,5 +1,13 @@
 
 
+## [0.4.32](https://github.com/justdlabs/cli/compare/v0.4.31...v0.4.32) (2024-09-02)
+
+
+### Bug Fixes
+
+* ff ([36a8236](https://github.com/justdlabs/cli/commit/36a823686ea8e317c933d5c2f21b95824c416ccb))
+* ff ([d17bd55](https://github.com/justdlabs/cli/commit/d17bd55c4a2cbfb7526e2b44a338b2a3e48df65a))
+
 ## [0.4.31](https://github.com/irsyadadl/justd-cli/compare/v0.4.30...v0.4.31) (2024-08-31)
 
 
