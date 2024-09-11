@@ -1,5 +1,12 @@
 
 
+## [0.4.34](https://github.com/justdlabs/cli/compare/v0.4.33...v0.4.34) (2024-09-11)
+
+
+### Refactors
+
+* add touch target component ([ec2795a](https://github.com/justdlabs/cli/commit/ec2795aeda2d9f4fe9274c0123f3db2ea2cdd890))
+
 ## [0.4.33](https://github.com/justdlabs/cli/compare/v0.4.32...v0.4.33) (2024-09-02)
 
 
