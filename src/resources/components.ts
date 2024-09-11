@@ -18,6 +18,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   //  ✓ Primitives
   // ------------------------------------------------------------------------------------- //
+  { name: 'touch-target' },
   { name: 'heading' },
   { name: 'primitive' },
   { name: 'dropdown' },
@@ -126,20 +127,23 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Buttons
   // ------------------------------------------------------------------------------------- //
-  { name: 'button' },
+  { name: 'button', children: [{ name: 'touch-target' }] },
   { name: 'file-trigger', children: [{ name: 'button' }] },
-  { name: 'toggle' },
+  { name: 'toggle', children: [{ name: 'touch-target' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
   { name: 'accordion' },
-  { name: 'menu', children: [{ name: 'dropdown' }, { name: 'keyboard' }, { name: 'popover' }] },
+  {
+    name: 'menu',
+    children: [{ name: 'dropdown' }, { name: 'touch-target' }, { name: 'keyboard' }, { name: 'popover' }],
+  },
   { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }, { name: 'field' }] },
   { name: 'tabs' },
   { name: 'tag-group', children: [{ name: 'field' }, { name: 'badge' }] },
-  { name: 'table', children: [{ name: 'checkbox' }] },
+  { name: 'table', children: [{ name: 'checkbox' }, { name: 'touch-target' }] },
   { name: 'grid-list', children: [{ name: 'checkbox' }] },
   { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
 
@@ -180,7 +184,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Navigation
   // ------------------------------------------------------------------------------------- //
-  { name: 'link' },
+  { name: 'link', children: [{ name: 'touch-target' }] },
   {
     name: 'pagination',
     children: [{ name: 'button' }],
@@ -196,7 +200,7 @@ const components: any[] = [
   { name: 'card' },
   { name: 'grid' },
   { name: 'separator' },
-  { name: 'show-more', children: [{ name: 'button' }] },
+  { name: 'show-more', children: [{ name: 'button' }, { name: 'touch-target' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Drag And Drop
@@ -286,7 +290,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Layouts
   // ------------------------------------------------------------------------------------- //
-  { name: 'aside', children: [{ name: 'button' }, { name: 'sheet' }] },
+  { name: 'aside', children: [{ name: 'button' }, { name: 'sheet' }, { name: 'touch-target' }] },
   { name: 'container' },
 ]
 
