@@ -1,5 +1,12 @@
 
 
+## [0.4.36](https://github.com/justdlabs/cli/compare/v0.4.35...v0.4.36) (2024-09-21)
+
+
+### Refactors
+
+* remove unused style ([aa36825](https://github.com/justdlabs/cli/commit/aa36825485811387b688af450112b2dbab5385a1))
+
 ## [0.4.35](https://github.com/justdlabs/cli/compare/v0.4.34...v0.4.35) (2024-09-21)
 
 
