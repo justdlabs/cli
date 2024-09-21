@@ -97,7 +97,16 @@ const components: any[] = [
       { name: 'toast' },
     ],
   },
-  { name: 'surfaces', children: [{ name: 'card' }, { name: 'grid' }, { name: 'separator' }, { name: 'show-more' }] },
+  {
+    name: 'surfaces',
+    children: [
+      { name: 'card' },
+      { name: 'description-list' },
+      { name: 'grid' },
+      { name: 'separator' },
+      { name: 'show-more' },
+    ],
+  },
   { name: 'media', children: [{ name: 'avatar' }, { name: 'carousel' }] },
   {
     name: 'colors',
@@ -198,6 +207,7 @@ const components: any[] = [
   // ⌘ The children of Surfaces
   // ------------------------------------------------------------------------------------- //
   { name: 'card' },
+  { name: 'description-list' },
   { name: 'grid' },
   { name: 'separator' },
   { name: 'show-more', children: [{ name: 'button' }, { name: 'touch-target' }] },
