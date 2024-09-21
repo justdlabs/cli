@@ -1,5 +1,12 @@
 
 
+## [0.4.35](https://github.com/justdlabs/cli/compare/v0.4.34...v0.4.35) (2024-09-21)
+
+
+### Refactors
+
+* add new component description-list ([003336f](https://github.com/justdlabs/cli/commit/003336f485a31b7be10ab798535e1dc0c8d1f530))
+
 ## [0.4.34](https://github.com/justdlabs/cli/compare/v0.4.33...v0.4.34) (2024-09-11)
 
 
