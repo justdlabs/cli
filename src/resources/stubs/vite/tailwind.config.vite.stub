@@ -3,7 +3,7 @@ import { withTV } from 'tailwind-variants/transformer'
 
 const config = withTV({
   darkMode: ['class'],
-  content: ['./components/**/*.{ts,tsx}', './src/**/*.{ts,tsx,js,jsx,md,js,jsx,mdx}'],
+  content: ['./components/**/*.{ts,tsx,js,jsx}', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     container: {
       center: true,

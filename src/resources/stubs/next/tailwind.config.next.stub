@@ -3,7 +3,7 @@ import { withTV } from 'tailwind-variants/transformer'
 
 const config = withTV({
   darkMode: ['class'],
-  content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx,js,jsx,md,mdx}', './src/**/*.{ts,tsx,js,jsx,md,js,jsx,mdx}'],
+  content: ['./components/**/*.{ts,tsx,js,jsx}', './app/**/*.{ts,tsx,js,jsx}', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     container: {
       center: true,
@@ -83,16 +83,6 @@ const config = withTV({
         lg: "calc(var(--radius))",
         md: "calc(var(--radius) - 2.5px)",
         sm: "calc(var(--radius) - 5px)"
-      },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
