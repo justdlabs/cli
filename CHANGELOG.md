@@ -1,5 +1,12 @@
 
 
+## [0.4.37](https://github.com/justdlabs/cli/compare/v0.4.36...v0.4.37) (2024-09-21)
+
+
+### Bug Fixes
+
+* remove animation ([39597b4](https://github.com/justdlabs/cli/commit/39597b483660a93b405f6bce0fae88b36dd0b22a))
+
 ## [0.4.36](https://github.com/justdlabs/cli/compare/v0.4.35...v0.4.36) (2024-09-21)
 
 
