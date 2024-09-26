@@ -1,5 +1,14 @@
 
 
+## [0.5.2](https://github.com/justdlabs/cli/compare/v0.5.0...v0.5.2) (2024-09-26)
+
+
+### Bug Fixes
+
+* fix husky ([20d8ac5](https://github.com/justdlabs/cli/commit/20d8ac56b133e5366bf1bead69db849998966455))
+* fix utils ([9d6bf8e](https://github.com/justdlabs/cli/commit/9d6bf8ec3026f5016389a1746d1effc63f802080))
+* utils dev ([c539314](https://github.com/justdlabs/cli/commit/c5393148beed226ba121baaa53013783eeee787b))
+
 ## [0.5.1](https://github.com/justdlabs/cli/compare/v0.5.0...v0.5.1) (2024-09-26)
 
 
