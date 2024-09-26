@@ -1,5 +1,13 @@
 
 
+## [0.5.4](https://github.com/justdlabs/cli/compare/v0.5.3...v0.5.4) (2024-09-26)
+
+
+### Bug Fixes
+
+* fix ([aafed00](https://github.com/justdlabs/cli/commit/aafed00dd0222f88e7fb2df547e81b0ad5c2d1cd))
+* remove unused files ([a2ac2ed](https://github.com/justdlabs/cli/commit/a2ac2edd76581126e5f4ba8d0c3c22cd0ffb0ca6))
+
 ## [0.5.3](https://github.com/justdlabs/cli/compare/v0.5.2...v0.5.3) (2024-09-26)
 
 
