@@ -88,15 +88,18 @@ export async function init() {
       message: 'Enter the path to your components folder:',
       default: 'components',
     })
+    const projectTypeSrc = existsSync('src')
+    const hasSrc = projectTypeSrc ? 'src' : ''
+    rootFolder = path.join(hasSrc, 'components')
     uiFolder = path.join(rootFolder, 'ui')
-    utilsFolder = path.join(rootFolder, 'utils')
+    utilsFolder = path.join(hasSrc, 'utils')
     cssLocation = await input({
       message: 'Where would you like to place the CSS file?',
       default: cssPath.other,
     })
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
-    providers = path.join(stubs, 'next/providers.stub')
+    providers = path.join(stubs, 'next/providerns.stub')
   }
 
   const spinner = ora(`Initializing Justd...`).start()
