@@ -1,5 +1,12 @@
 
 
+## [0.5.3](https://github.com/justdlabs/cli/compare/v0.5.2...v0.5.3) (2024-09-26)
+
+
+### Bug Fixes
+
+* fix utils ([921376b](https://github.com/justdlabs/cli/commit/921376b8eb04d82c36942361a8a23c2cd14c4597))
+
 ## [0.5.2](https://github.com/justdlabs/cli/compare/v0.5.0...v0.5.2) (2024-09-26)
 
 
