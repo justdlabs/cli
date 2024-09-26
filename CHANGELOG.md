@@ -1,5 +1,12 @@
 
 
+## [0.5.0](https://github.com/justdlabs/cli/compare/v0.4.37...v0.5.0) (2024-09-26)
+
+
+### Features
+
+* cli now can understand your project type without asking ([d7d3bfc](https://github.com/justdlabs/cli/commit/d7d3bfc834054af6fd3d15f72432adaca4ee554a))
+
 ## [0.4.37](https://github.com/justdlabs/cli/compare/v0.4.36...v0.4.37) (2024-09-21)
 
 
