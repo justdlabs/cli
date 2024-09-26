@@ -6,6 +6,7 @@ dist/
 tailwind.config.js
 tailwind.config.ts
 app
+utils
 .github_token
 
 src/app
