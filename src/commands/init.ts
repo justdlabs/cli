@@ -9,6 +9,7 @@ import { getPackageManager } from '@/src/utils/get-package-manager'
 import ora from 'ora'
 import { getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
+import { existsSync } from 'node:fs'
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,6 +22,7 @@ export async function init() {
   const cssPath = {
     laravel: 'resources/css/app.css',
     vite: 'src/index.css',
+    remix: 'app/tailwind.css',
     nextHasSrc: 'src/app/globals.css',
     nextNoSrc: 'app/globals.css',
     other: 'styles/app.css',
@@ -37,52 +39,57 @@ export async function init() {
     return
   }
 
-  const projectType = await select({
-    message: 'Select the project type:',
-    choices: [
-      { name: 'Next.js', value: 'Next.js' },
-      { name: 'Laravel', value: 'Laravel' },
-      { name: 'Vite', value: 'Vite' },
-      { name: 'Other', value: 'Other' },
-    ],
-  })
-  let componentsFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers
+  // Check if Next.js config files exist
+  const hasNextConfig =
+    fs.existsSync('next.config.ts') || fs.existsSync('next.config.js') || fs.existsSync('next.config.mjs')
+  const hasRemixConfig = (() => {
+    const packageJsonPath = path.join(process.cwd(), 'package.json')
 
-  if (projectType === 'Laravel') {
-    componentsFolder = 'resources/js/components'
-    uiFolder = path.join(componentsFolder, 'ui')
-    cssLocation = cssPath.laravel
-    configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
-    themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
-    providers = path.join(stubs, 'laravel/providers.stub')
-  } else if (projectType === 'Vite') {
-    componentsFolder = 'src/components'
-    uiFolder = path.join(componentsFolder, 'ui')
-    cssLocation = cssPath.vite
-    configSourcePath = path.join(stubs, 'vite/tailwind.config.vite.stub')
-    themeProvider = path.join(stubs, 'vite/theme-provider.stub')
-  } else if (projectType === 'Next.js') {
-    const projectTypeSrc = await select({
-      message: 'Does this project have a src directory?',
-      choices: [
-        { name: 'Yes', value: true },
-        { name: 'No', value: false },
-      ],
-      default: true,
-    })
+    if (existsSync(packageJsonPath)) {
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+      const { dependencies = {}, devDependencies = {} } = packageJson
+
+      return '@remix-run/react' in dependencies || '@remix-run/react' in devDependencies
+    }
+
+    return false
+  })()
+
+  let rootFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers, utilsFolder
+
+  if (hasNextConfig) {
+    const projectTypeSrc = existsSync('src') && !existsSync('app')
     const hasSrc = projectTypeSrc ? 'src' : ''
-    componentsFolder = path.join(hasSrc, 'components')
-    uiFolder = path.join(componentsFolder, 'ui')
+    rootFolder = path.join(hasSrc, 'components')
+    uiFolder = path.join(rootFolder, 'ui')
+    utilsFolder = path.join(hasSrc, 'utils')
     cssLocation = projectTypeSrc ? cssPath.nextHasSrc : cssPath.nextNoSrc
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
+  } else if (fs.existsSync('artisan')) {
+    rootFolder = 'resources/js'
+    uiFolder = path.join(`${rootFolder}/components`, 'ui')
+    utilsFolder = path.join(`${rootFolder}/utils`)
+    cssLocation = cssPath.laravel
+    configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
+    themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
+    providers = path.join(stubs, 'laravel/providers.stub')
+  } else if (hasRemixConfig) {
+    rootFolder = 'app'
+    uiFolder = path.join(rootFolder, 'ui')
+    utilsFolder = path.join(rootFolder, 'utils')
+    cssLocation = cssPath.remix
+    configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
+    themeProvider = path.join(stubs, 'next/theme-provider.stub')
+    providers = path.join(stubs, 'next/providers.stub')
   } else {
-    componentsFolder = await input({
+    rootFolder = await input({
       message: 'Enter the path to your components folder:',
       default: 'components',
     })
-    uiFolder = path.join(componentsFolder, 'ui')
+    uiFolder = path.join(rootFolder, 'ui')
+    utilsFolder = path.join(rootFolder, 'utils')
     cssLocation = await input({
       message: 'Where would you like to place the CSS file?',
       default: cssPath.other,
@@ -97,9 +104,11 @@ export async function init() {
   // Ensure the components and UI folders exist
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
+    fs.mkdirSync(utilsFolder, { recursive: true })
     spinner.succeed(`Created UI folder at ${uiFolder}`)
   } else {
     spinner.succeed(`UI folder already exists at ${uiFolder}`)
+    spinner.succeed(`Utils folder already exists at ${utilsFolder}`)
   }
 
   // Handle CSS file placement (always overwrite)
@@ -165,23 +174,30 @@ export async function init() {
       resolve()
     })
   })
+
   const fileUrl = getRepoUrlForComponent('primitive')
   const response = await fetch(fileUrl)
   const fileContent = await response.text()
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
 
+  const classesUrl = 'https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts'
+  const responseClasses = await fetch(classesUrl)
+  const fileContentClasses = await responseClasses.text()
+  fs.writeFileSync(path.join(utilsFolder, 'classes.ts'), fileContentClasses, { flag: 'w' })
+  spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
+
   // Copy theme provider and providers files
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, 'utf8')
-    fs.writeFileSync(path.join(componentsFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
+    fs.writeFileSync(path.join(rootFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
 
     if (providers) {
       const providersContent = fs.readFileSync(providers, 'utf8')
-      fs.writeFileSync(path.join(componentsFolder, 'providers.tsx'), providersContent, { flag: 'w' })
+      fs.writeFileSync(path.join(rootFolder, 'providers.tsx'), providersContent, { flag: 'w' })
     }
 
-    spinner.succeed(`Theme provider and providers files copied to ${componentsFolder}`)
+    spinner.succeed(`Theme provider and providers files copied to ${rootFolder}`)
   }
 
   // Save configuration to justd.json with relative path
@@ -204,6 +220,7 @@ export async function init() {
     stdio: 'inherit',
     shell: true,
   })
+
   await new Promise<void>((resolve) => {
     continuedToAddComponent.on('close', () => {
       resolve()
