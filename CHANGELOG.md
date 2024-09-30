@@ -1,5 +1,12 @@
 
 
+## [0.5.5](https://github.com/justdlabs/cli/compare/v0.5.4...v0.5.5) (2024-09-30)
+
+
+### Bug Fixes
+
+* fix theme provider ([98abb69](https://github.com/justdlabs/cli/commit/98abb69c567bf9e2d91ecc133def0e51512586fd))
+
 ## [0.5.4](https://github.com/justdlabs/cli/compare/v0.5.3...v0.5.4) (2024-09-26)
 
 
