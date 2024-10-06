@@ -5,7 +5,7 @@ export const additionalDeps = async (componentName: string, packageManager: stri
   const dependencies: Record<string, string> = {
     toast: 'sonner',
     drawer: 'framer-motion',
-    accordion: 'framer-motion',
+    disclosure: 'justd-icons',
     tabs: 'framer-motion',
     'progress-bar': 'framer-motion',
     meter: 'framer-motion',

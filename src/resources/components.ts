@@ -73,6 +73,8 @@ const components: any[] = [
       { name: 'breadcrumbs' },
       { name: 'pagination' },
       { name: 'button' },
+      { name: 'disclosure' },
+      { name: 'button' },
       { name: 'separator' },
       { name: 'field' },
     ],
@@ -194,6 +196,7 @@ const components: any[] = [
   // ⌘ The children of Navigation
   // ------------------------------------------------------------------------------------- //
   { name: 'link', children: [{ name: 'touch-target' }] },
+  { name: 'disclosure', children: [{ name: 'touch-target' }] },
   {
     name: 'pagination',
     children: [{ name: 'button' }],
@@ -283,10 +286,37 @@ const components: any[] = [
 
   {
     name: 'color-picker',
-    children: [{ name: 'color' }, { name: 'color-field' }, { name: 'select' }],
+    children: [
+      { name: 'color-area' },
+      { name: 'color-field' },
+      { name: 'color-slider' },
+      { name: 'color-swatch' },
+      { name: 'field' },
+    ],
   },
-  { name: 'color', children: [{ name: 'field' }, { name: 'slider' }] },
-  { name: 'color-field', children: [{ name: 'color-picker' }] },
+  {
+    name: 'color-field',
+    children: [{ name: 'color-picker' }, { name: 'color-swatch' }, { name: 'field' }],
+  },
+  {
+    name: 'color-area',
+    children: [{ name: 'color-thumb' }],
+  },
+  {
+    name: 'color-slider',
+    children: [{ name: 'color-thumb' }, { name: 'field' }],
+  },
+  {
+    name: 'color-swatch-picker',
+    children: [{ name: 'color-swatch' }],
+  },
+  {
+    name: 'color-wheel',
+    children: [{ name: 'color-thumb' }],
+  },
+  {
+    name: 'color-swatch',
+  },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Controls
