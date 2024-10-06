@@ -314,9 +314,8 @@ const components: any[] = [
     name: 'color-wheel',
     children: [{ name: 'color-thumb' }],
   },
-  {
-    name: 'color-swatch',
-  },
+  { name: 'color-swatch' },
+  { name: 'color-thumb' },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Controls
