@@ -99,7 +99,7 @@ export async function init() {
     })
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
-    providers = path.join(stubs, 'next/providerns.stub')
+    providers = path.join(stubs, 'next/providers.stub')
   }
 
   const spinner = ora(`Initializing Justd...`).start()
