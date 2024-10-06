@@ -1,5 +1,12 @@
 
 
+## [0.6.1](https://github.com/justdlabs/cli/compare/v0.6.0...v0.6.1) (2024-10-06)
+
+
+### Bug Fixes
+
+* add color thumb ([044dcd3](https://github.com/justdlabs/cli/commit/044dcd3582ab0f1c394126e0f3e81d2ebea48731))
+
 ## [0.6.0](https://github.com/justdlabs/cli/compare/v0.5.7...v0.6.0) (2024-10-06)
 
 
