@@ -1,5 +1,12 @@
 
 
+## [0.6.2](https://github.com/justdlabs/cli/compare/v0.6.1...v0.6.2) (2024-10-06)
+
+
+### Bug Fixes
+
+* add color-swatch-picker to colors ([e085c59](https://github.com/justdlabs/cli/commit/e085c59d3697f9c497b045a6190aba919e17f5b8))
+
 ## [0.6.1](https://github.com/justdlabs/cli/compare/v0.6.0...v0.6.1) (2024-10-06)
 
 
