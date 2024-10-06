@@ -1,5 +1,12 @@
 
 
+## [0.6.0](https://github.com/justdlabs/cli/compare/v0.5.7...v0.6.0) (2024-10-06)
+
+
+### Features
+
+* add new component ([a8809f6](https://github.com/justdlabs/cli/commit/a8809f62d0cfd3b98688b6d4b637c7e86b902175))
+
 ## [0.5.7](https://github.com/justdlabs/cli/compare/v0.5.6...v0.5.7) (2024-10-06)
 
 
