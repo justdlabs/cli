@@ -1,5 +1,12 @@
 
 
+## [0.5.6](https://github.com/justdlabs/cli/compare/v0.5.5...v0.5.6) (2024-10-06)
+
+
+### Bug Fixes
+
+* init command for other option ([e2c120d](https://github.com/justdlabs/cli/commit/e2c120df72d30a1bb30eeab4b3de8e60c65ffc74))
+
 ## [0.5.5](https://github.com/justdlabs/cli/compare/v0.5.4...v0.5.5) (2024-09-30)
 
 
