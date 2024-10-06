@@ -112,7 +112,7 @@ const components: any[] = [
   { name: 'media', children: [{ name: 'avatar' }, { name: 'carousel' }] },
   {
     name: 'colors',
-    children: [{ name: 'color-picker' }],
+    children: [{ name: 'color-picker' }, { name: 'color-swatch-picker' }],
   },
   { name: 'buttons', children: [{ name: 'file-trigger' }, { name: 'toggle' }] },
   { name: 'drag-and-drop', children: [{ name: 'drop-zone' }] },
