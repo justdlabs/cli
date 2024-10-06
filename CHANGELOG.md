@@ -1,5 +1,12 @@
 
 
+## [0.5.7](https://github.com/justdlabs/cli/compare/v0.5.6...v0.5.7) (2024-10-06)
+
+
+### Chores
+
+* **deps-dev:** bump rollup from 4.21.2 to 4.24.0 ([e31d2f4](https://github.com/justdlabs/cli/commit/e31d2f46dc1801274ec79ba0e2e3de36ffbe5267))
+
 ## [0.5.6](https://github.com/justdlabs/cli/compare/v0.5.5...v0.5.6) (2024-10-06)
 
 
