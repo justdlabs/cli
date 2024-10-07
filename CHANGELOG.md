@@ -1,5 +1,12 @@
 
 
+## [0.9.0](https://github.com/justdlabs/cli/compare/v0.8.1...v0.9.0) (2024-10-07)
+
+
+### Features
+
+* allow user to select a theme ([bb991d8](https://github.com/justdlabs/cli/commit/bb991d85bcee7aaea0997ba774ce9e106c153e49))
+
 ## [0.8.1](https://github.com/justdlabs/cli/compare/v0.8.0...v0.8.1) (2024-10-07)
 
 
