@@ -1,10 +1,18 @@
-import { readFileSync, writeFileSync } from 'fs'
+import fs, { readFileSync, writeFileSync } from 'fs'
 import { confirm } from '@inquirer/prompts'
 import { capitalize, selectTheme } from '@/src/commands/select-theme'
 import { getCSSPath } from '@/src/utils'
+import chalk from 'chalk'
 
 export async function setTheme(overrideConfirmation: boolean) {
   const userConfigPath = './justd.json'
+  if (!fs.existsSync(userConfigPath)) {
+    console.error(
+      `${chalk.red('justd.json not found')}. ${chalk.gray(`Please run ${chalk.blue('npx justd-cli@latest init')} to initialize the project.`)}`,
+    )
+    return
+  }
+
   const userConfig = JSON.parse(readFileSync(userConfigPath, 'utf8'))
 
   const currentTheme = userConfig.theme || 'default'
@@ -17,12 +25,11 @@ export async function setTheme(overrideConfirmation: boolean) {
     confirmOverride = await confirm({
       message: `Are you sure you want to override the current theme '${currentTheme}' with others?`,
     })
-    if (confirmOverride) {
-    } else {
+
+    if (!confirmOverride) {
       console.log('Theme change canceled.')
+      return
     }
-  } else {
-    console.log('Theme change canceled.')
   }
 
   const _newTheme = await selectTheme(cssPath)
