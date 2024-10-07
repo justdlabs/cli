@@ -31,8 +31,9 @@ program
 program
   .command('theme')
   .description('Change the current theme')
+  .option('-y, --yes', 'Skip confirmation prompt')
   .action(async (options) => {
-    await setTheme()
+    await setTheme(options.yes)
   })
 
 program
