@@ -24,6 +24,7 @@ export async function selectTheme(cssLocation: string): Promise<string | undefin
   const selectedTheme = await select({
     message: 'Select a theme:',
     choices: themes.map((theme) => ({ name: capitalize(theme.replace('.css', '')), value: theme })),
+    pageSize: 15,
   })
 
   const cssSourcePath = path.join(resourceDir, `themes/${selectedTheme}`)
