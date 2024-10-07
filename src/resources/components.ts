@@ -60,6 +60,7 @@ const components: any[] = [
       { name: 'tag-group' },
       { name: 'table' },
       { name: 'choicebox' },
+      { name: 'tree' },
     ],
   },
   {
@@ -158,6 +159,7 @@ const components: any[] = [
   { name: 'table', children: [{ name: 'checkbox' }, { name: 'touch-target' }] },
   { name: 'grid-list', children: [{ name: 'checkbox' }] },
   { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
+  { name: 'tree', children: [{ name: 'touch-target' }, { name: 'checkbox' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Date and Time
