@@ -1,5 +1,12 @@
 
 
+## [0.10.3](https://github.com/justdlabs/cli/compare/v0.10.2...v0.10.3) (2024-10-07)
+
+
+### Bug Fixes
+
+* determine css path ([a882184](https://github.com/justdlabs/cli/commit/a882184bce13788d9685d5426ca607738962f38f))
+
 ## [0.10.2](https://github.com/justdlabs/cli/compare/v0.10.1...v0.10.2) (2024-10-07)
 
 
