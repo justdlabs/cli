@@ -1,5 +1,12 @@
 
 
+## [0.10.8](https://github.com/justdlabs/cli/compare/v0.10.7...v0.10.8) (2024-10-07)
+
+
+### Bug Fixes
+
+* question hah ([6649cd7](https://github.com/justdlabs/cli/commit/6649cd75061d474a4830920501186e72d2e2692f))
+
 ## [0.10.7](https://github.com/justdlabs/cli/compare/v0.10.6...v0.10.7) (2024-10-07)
 
 
