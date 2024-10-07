@@ -15,7 +15,7 @@ export async function setTheme(overrideConfirmation: boolean) {
 
   if (!overrideConfirmation) {
     confirmOverride = await confirm({
-      message: `Are you sure you want to override the current theme '${currentTheme}' with '${currentTheme}'?`,
+      message: `Are you sure you want to override the current theme '${currentTheme}' with others?`,
     })
     if (confirmOverride) {
     } else {
