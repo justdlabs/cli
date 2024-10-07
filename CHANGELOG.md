@@ -1,5 +1,17 @@
 
 
+## [0.10.0](https://github.com/justdlabs/cli/compare/v0.9.1...v0.10.0) (2024-10-07)
+
+
+### Features
+
+* add theme command to change a theme directly from the cli ([3525dcd](https://github.com/justdlabs/cli/commit/3525dcd759a43b427084f7cb58cfccb2a5b4eb5c))
+
+
+### Bug Fixes
+
+* cleaning ([0efff54](https://github.com/justdlabs/cli/commit/0efff546e64f38a1b105dfb4cb93821ba98d0906))
+
 ## [0.9.1](https://github.com/justdlabs/cli/compare/v0.9.0...v0.9.1) (2024-10-07)
 
 ## [0.9.0](https://github.com/justdlabs/cli/compare/v0.8.1...v0.9.0) (2024-10-07)
