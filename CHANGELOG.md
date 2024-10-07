@@ -1,5 +1,12 @@
 
 
+## [0.8.0](https://github.com/justdlabs/cli/compare/v0.7.0...v0.8.0) (2024-10-07)
+
+
+### Features
+
+* new tree component added ([3d07b0d](https://github.com/justdlabs/cli/commit/3d07b0d8c4351a5b347892055d5050f330bd58bb))
+
 ## [0.7.0](https://github.com/justdlabs/cli/compare/v0.6.2...v0.7.0) (2024-10-07)
 
 
