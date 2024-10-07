@@ -1,5 +1,12 @@
 
 
+## [0.10.4](https://github.com/justdlabs/cli/compare/v0.10.3...v0.10.4) (2024-10-07)
+
+
+### Bug Fixes
+
+* give info what component not being override ([75290de](https://github.com/justdlabs/cli/commit/75290ded5b22d3f849e10d8115ee960b05d18f97))
+
 ## [0.10.3](https://github.com/justdlabs/cli/compare/v0.10.2...v0.10.3) (2024-10-07)
 
 
