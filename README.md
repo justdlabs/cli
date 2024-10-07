@@ -7,13 +7,21 @@ You need to do this in your new project directory. And make sure you have instal
 ```bash
 npx just-cli@latest init
 ```
+With `init` command, it will identify your project type, install the necessary packages, asking for what theme you want to use, and create a `justd.json` file.
 ### Add
 After that, you can run the following command to start adding new components.
 ```bash
 npx just-cli@latest add <component-name>
 ```
 
+### Change Theme
+You can change the theme by running the following command.
+```bash
+npx justd-cli@latest theme
+```
+
 ### Diff
+If you want to see the difference between your current components and the new one, you can run the following command.
 
 ```bash
 npx just-cli@latest diff
