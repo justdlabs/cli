@@ -1,5 +1,12 @@
 
 
+## [0.7.0](https://github.com/justdlabs/cli/compare/v0.6.2...v0.7.0) (2024-10-07)
+
+
+### Features
+
+* new component: progress-circle ([c95908c](https://github.com/justdlabs/cli/commit/c95908c817a7d9840cc4609296fc40978c74a389))
+
 ## [0.6.2](https://github.com/justdlabs/cli/compare/v0.6.1...v0.6.2) (2024-10-06)
 
 
