@@ -1,5 +1,12 @@
 
 
+## [0.10.7](https://github.com/justdlabs/cli/compare/v0.10.6...v0.10.7) (2024-10-07)
+
+
+### Bug Fixes
+
+* lfg ([ad10324](https://github.com/justdlabs/cli/commit/ad10324496aaf3f2d021612bccfdb9edbef1d85c))
+
 ## [0.10.6](https://github.com/justdlabs/cli/compare/v0.10.5...v0.10.6) (2024-10-07)
 
 
