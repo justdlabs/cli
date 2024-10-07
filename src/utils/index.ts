@@ -44,7 +44,7 @@ export async function getCSSPath() {
     })
 
     if (useExistingPath) {
-      return cssPath // Return the existing path if confirmed
+      return cssPath
     }
   } else {
     if (cssPath) {
@@ -54,16 +54,14 @@ export async function getCSSPath() {
 
   cssPath = await input({
     message: 'Please provide a CSS path:',
-    default: cssPath, // Pre-fill input with the current css path or empty
+    default: cssPath,
   })
 
-  // Update the config object with the new CSS path
   config.css = cssPath
 
-  // Write the updated config back to justd.json
   fs.writeFileSync(configFile, JSON.stringify(config, null, 2))
 
-  return cssPath // Return the new CSS path
+  return cssPath
 }
 
 export async function writeFile(description: string, url: string, writePath: string) {
