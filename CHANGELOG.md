@@ -1,5 +1,12 @@
 
 
+## [0.10.5](https://github.com/justdlabs/cli/compare/v0.10.4...v0.10.5) (2024-10-07)
+
+
+### Bug Fixes
+
+* fix theme on laravel ([b2aaf6d](https://github.com/justdlabs/cli/commit/b2aaf6d6424093ab63c758925580b9343f95d277))
+
 ## [0.10.4](https://github.com/justdlabs/cli/compare/v0.10.3...v0.10.4) (2024-10-07)
 
 
