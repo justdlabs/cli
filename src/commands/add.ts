@@ -41,7 +41,6 @@ async function processComponent(
 ) {
   const componentPath = getWriteComponentPath(componentName)
   const utilsFolder = getUtilsFolderPath()
-
   const classesFile = path.join(utilsFolder, 'classes.ts')
 
   if (!fs.existsSync(classesFile)) {
@@ -60,7 +59,7 @@ async function processComponent(
       console.log(`${chalk.yellow('Replacing')} ${componentName}...`)
       fs.rmSync(componentPath, { recursive: true, force: true })
     } else if (isChild) {
-      console.log(`${chalk.blue('Skipping')} ${componentName} as it already exists and it's a child.`)
+      console.log(`The child ${chalk.blue('is not')} override due to the -o flag.`)
       return
     } else {
       console.warn(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)

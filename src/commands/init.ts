@@ -10,13 +10,13 @@ import ora from 'ora'
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
 import { existsSync } from 'node:fs'
-import { selectTheme } from '@/src/commands/select-theme'
+import { capitalize, selectTheme } from '@/src/commands/select-theme'
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Adjust the path to reference the correct resource directory relative to the compiled output
-const resourceDir = path.resolve(__dirname, '../src/resources')
+export const resourceDir = path.resolve(__dirname, '../src/resources')
 const stubs = path.resolve(__dirname, '../src/resources/stubs')
 
 export async function init() {
@@ -120,7 +120,7 @@ export async function init() {
   }
 
   // Handle CSS file placement (always overwrite)
-  await selectTheme(cssLocation, resourceDir)
+  const selectedTheme = await selectTheme(cssLocation)
 
   // Determine the target Tailwind config file based on existing files
   const tailwindConfigTarget = fs.existsSync('tailwind.config.js') ? 'tailwind.config.js' : 'tailwind.config.ts'
@@ -200,7 +200,10 @@ export async function init() {
   const config = {
     $schema: 'https://getjustd.com',
     ui: uiFolder,
-    utils: utilsFolder,
+    classes: utilsFolder,
+    theme: capitalize(selectedTheme?.replace('.css', '')!),
+    css: cssLocation,
+    created_at: new Date().toISOString(),
   }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
   spinner.succeed('Configuration saved to justd.json')

@@ -3,9 +3,8 @@ import path from 'path'
 import chalk from 'chalk'
 import ora from 'ora'
 import { select } from '@inquirer/prompts'
-import { resourceDir } from './init'
 
-export async function selectTheme(cssLocation: string): Promise<string | undefined> {
+export async function selectTheme(cssLocation: string, resourceDir: string) {
   const themes = [
     'default.css',
     'zinc.css',
@@ -24,6 +23,7 @@ export async function selectTheme(cssLocation: string): Promise<string | undefin
   const selectedTheme = await select({
     message: 'Select a theme:',
     choices: themes.map((theme) => ({ name: capitalize(theme.replace('.css', '')), value: theme })),
+    pageSize: 15,
   })
 
   const cssSourcePath = path.join(resourceDir, `themes/${selectedTheme}`)
@@ -40,7 +40,6 @@ export async function selectTheme(cssLocation: string): Promise<string | undefin
       const cssContent = fs.readFileSync(cssSourcePath, 'utf8')
       fs.writeFileSync(cssLocation, cssContent, { flag: 'w' })
       spinner.succeed(`CSS file copied to ${cssLocation}`)
-      return selectedTheme
     } catch (error) {
       // @ts-ignore
       spinner.fail(`Failed to write CSS file to ${cssLocation}: ${error.message}`)
@@ -48,10 +47,8 @@ export async function selectTheme(cssLocation: string): Promise<string | undefin
   } else {
     spinner.warn(`Source CSS file does not exist at ${cssSourcePath}`)
   }
-
-  return undefined
 }
 
-export function capitalize(str: string) {
+function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }

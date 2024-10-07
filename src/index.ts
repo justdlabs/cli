@@ -4,7 +4,8 @@ import { program } from 'commander'
 import { add } from './commands/add'
 import { init } from './commands/init'
 import { diff } from './commands/diff'
-import { help } from '@/src/commands/help'
+import { help } from './commands/help'
+import { setTheme } from './commands/set-theme'
 import packageJson from '../package.json'
 
 const version = packageJson.version
@@ -25,6 +26,13 @@ program
   .option('-o, --override', 'Override existing components')
   .action(async (components, options) => {
     await add({ component: components.join(' '), ...options })
+  })
+
+program
+  .command('theme')
+  .description('Change the current theme')
+  .action(async (options) => {
+    await setTheme()
   })
 
 program

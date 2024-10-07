@@ -21,7 +21,17 @@ export function getUtilsFolderPath() {
   const configFile = 'justd.json'
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
-    return config.utils
+    return config.classes
+  } else {
+    throw new Error('Configuration file justd.json not found. Please run the init command first.')
+  }
+}
+
+export function getCSSPath() {
+  const configFile = 'justd.json'
+  if (fs.existsSync(configFile)) {
+    const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+    return config.css
   } else {
     throw new Error('Configuration file justd.json not found. Please run the init command first.')
   }
