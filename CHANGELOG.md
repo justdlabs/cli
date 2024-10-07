@@ -1,5 +1,12 @@
 
 
+## [0.10.6](https://github.com/justdlabs/cli/compare/v0.10.5...v0.10.6) (2024-10-07)
+
+
+### Bug Fixes
+
+* fix async ([6dece44](https://github.com/justdlabs/cli/commit/6dece442b2e9daa8b3c20168b6612000a7e2dc76))
+
 ## [0.10.5](https://github.com/justdlabs/cli/compare/v0.10.4...v0.10.5) (2024-10-07)
 
 
