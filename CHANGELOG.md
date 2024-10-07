@@ -1,5 +1,12 @@
 
 
+## [0.10.2](https://github.com/justdlabs/cli/compare/v0.10.1...v0.10.2) (2024-10-07)
+
+
+### Bug Fixes
+
+* minor ([0447bd5](https://github.com/justdlabs/cli/commit/0447bd512b3d1147d4a987b1ee3dccd91be8f2c2))
+
 ## [0.10.1](https://github.com/justdlabs/cli/compare/v0.10.0...v0.10.1) (2024-10-07)
 
 
