@@ -2,12 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import { checkbox } from '@inquirer/prompts'
 import { components, namespaces } from '../resources/components'
-import { getWriteComponentPath, writeFile } from '../utils'
+import { getUtilsFolderPath, getWriteComponentPath, writeFile } from '../utils'
 import chalk from 'chalk'
 import { getPackageManager } from '../utils/get-package-manager'
 import { additionalDeps } from '../utils/additional-deps'
 import ora from 'ora'
-import { getRepoUrlForComponent } from '@/src/utils/repo'
+import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
+import fetch from 'node-fetch'
 
 async function createComponent(componentName: string) {
   const writePath = getWriteComponentPath(componentName)
@@ -36,12 +37,31 @@ async function processComponent(
   processed: Set<string>,
   allComponents: any[],
   override: boolean,
+  isChild: boolean = false, // Add this flag to track if it's a child component
 ) {
   const componentPath = getWriteComponentPath(componentName)
+  const utilsFolder = getUtilsFolderPath()
+
+  const classesFile = path.join(utilsFolder, 'classes.ts')
+
+  if (!fs.existsSync(classesFile)) {
+    if (!fs.existsSync(utilsFolder)) {
+      fs.mkdirSync(utilsFolder, { recursive: true })
+    }
+    const responseClasses = await fetch(getClassesTsRepoUrl())
+    const fileContentClasses = await responseClasses.text()
+    fs.writeFileSync(classesFile, fileContentClasses, { flag: 'w' })
+  }
+
+  // Check if the component exists
   if (fs.existsSync(componentPath)) {
-    if (override) {
+    // Only allow overriding if it's NOT a child component
+    if (override && !isChild) {
       console.log(`${chalk.yellow('Replacing')} ${componentName}...`)
       fs.rmSync(componentPath, { recursive: true, force: true })
+    } else if (isChild) {
+      console.log(`${chalk.blue('Skipping')} ${componentName} as it already exists and it's a child.`)
+      return
     } else {
       console.warn(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
       return
@@ -58,7 +78,8 @@ async function processComponent(
   const component = allComponents.find((c) => c.name === componentName)
   if (component && component.children) {
     for (const child of component.children) {
-      await processComponent(child.name, packageManager, action, processed, allComponents, override)
+      // Process child components, but never override them
+      await processComponent(child.name, packageManager, action, processed, allComponents, false, true)
     }
   }
 }
@@ -91,9 +112,7 @@ export async function add(options: any) {
 
   const packageManager = await getPackageManager()
   const action = packageManager === 'npm' ? 'i ' : 'add '
-  const targetComponent = components.find((comp) => comp.name === options.component)
 
-  // Initialize a new set for each session
   const processed = new Set<string>()
   for (const componentName of selectedComponents) {
     const targetComponent = components.find((comp) => comp.name === componentName)
@@ -104,14 +123,12 @@ export async function add(options: any) {
     console.log(`Starting to add ${componentName}...`)
 
     if (namespaces.includes(componentName) && targetComponent.children) {
-      // Only process the children of the component
       for (const child of targetComponent.children) {
-        await processComponent(child.name, packageManager, action, processed, components, override)
+        await processComponent(child.name, packageManager, action, processed, components, false, true)
       }
-    } else {
-      // Process the component and all its children
-      await processComponent(componentName, packageManager, action, processed, components, override)
     }
+
+    await processComponent(componentName, packageManager, action, processed, components, override, false)
   }
   console.log(chalk.green(`✔ All the goodies in ${options.component} are now locked and loaded.`))
 }

@@ -5,3 +5,11 @@ export const getRepoUrlForComponent = (componentName: string) => {
   }
   return repoUrl
 }
+
+export const getClassesTsRepoUrl = (): string => {
+  const utils = `https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts`
+  if (!utils) {
+    throw new Error('REPO_URL environment variable is not set')
+  }
+  return utils
+}

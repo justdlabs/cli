@@ -7,9 +7,10 @@ import fetch from 'node-fetch'
 import chalk from 'chalk'
 import { getPackageManager } from '@/src/utils/get-package-manager'
 import ora from 'ora'
-import { getRepoUrlForComponent } from '@/src/utils/repo'
+import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
 import { existsSync } from 'node:fs'
+import { selectTheme } from '@/src/commands/select-theme'
 // Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -104,10 +105,14 @@ export async function init() {
 
   const spinner = ora(`Initializing Justd...`).start()
 
+  // Ensure the utils folders exist
+  if (!fs.existsSync(utilsFolder)) {
+    fs.mkdirSync(utilsFolder, { recursive: true })
+  }
+
   // Ensure the components and UI folders exist
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
-    fs.mkdirSync(utilsFolder, { recursive: true })
     spinner.succeed(`Created UI folder at ${uiFolder}`)
   } else {
     spinner.succeed(`UI folder already exists at ${uiFolder}`)
@@ -115,23 +120,7 @@ export async function init() {
   }
 
   // Handle CSS file placement (always overwrite)
-  const cssSourcePath = path.join(resourceDir, 'tailwind-css/app.css')
-  if (!fs.existsSync(path.dirname(cssLocation))) {
-    fs.mkdirSync(path.dirname(cssLocation), { recursive: true })
-    spinner.succeed(`Created directory for CSS at ${chalk.blue(path.dirname(cssLocation))}`)
-  }
-  if (fs.existsSync(cssSourcePath)) {
-    try {
-      const cssContent = fs.readFileSync(cssSourcePath, 'utf8')
-      fs.writeFileSync(cssLocation, cssContent, { flag: 'w' })
-      spinner.succeed(`CSS file copied to ${cssLocation}`)
-    } catch (error) {
-      // @ts-ignore
-      spinner.fail(`Failed to write CSS file to ${cssLocation}: ${error.message}`)
-    }
-  } else {
-    spinner.warn(`Source CSS file does not exist at ${cssSourcePath}`)
-  }
+  await selectTheme(cssLocation, resourceDir)
 
   // Determine the target Tailwind config file based on existing files
   const tailwindConfigTarget = fs.existsSync('tailwind.config.js') ? 'tailwind.config.js' : 'tailwind.config.ts'
@@ -184,8 +173,7 @@ export async function init() {
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
 
-  const classesUrl = 'https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts'
-  const responseClasses = await fetch(classesUrl)
+  const responseClasses = await fetch(getClassesTsRepoUrl())
   const fileContentClasses = await responseClasses.text()
   fs.writeFileSync(path.join(utilsFolder, 'classes.ts'), fileContentClasses, { flag: 'w' })
   spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
@@ -212,6 +200,7 @@ export async function init() {
   const config = {
     $schema: 'https://getjustd.com',
     ui: uiFolder,
+    utils: utilsFolder,
   }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
   spinner.succeed('Configuration saved to justd.json')
