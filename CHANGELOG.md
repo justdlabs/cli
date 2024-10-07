@@ -1,5 +1,12 @@
 
 
+## [0.8.1](https://github.com/justdlabs/cli/compare/v0.8.0...v0.8.1) (2024-10-07)
+
+
+### Bug Fixes
+
+* fix colors ([a3821c6](https://github.com/justdlabs/cli/commit/a3821c6db0b4ec864d244316f7faa7dccd509a0c))
+
 ## [0.8.0](https://github.com/justdlabs/cli/compare/v0.7.0...v0.8.0) (2024-10-07)
 
 
