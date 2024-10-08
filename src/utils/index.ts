@@ -28,8 +28,6 @@ export function getUtilsFolderPath() {
         config.classes = 'src/utils'
       } else if (fs.existsSync('resources/js')) {
         config.classes = 'resources/js/utils'
-      } else if (fs.existsSync('resources') && !fs.existsSync('resources/js')) {
-        config.classes = 'resources/utils'
       } else {
         config.classes = 'utils'
       }
