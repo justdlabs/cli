@@ -1,5 +1,12 @@
 
 
+## [0.10.11](https://github.com/justdlabs/cli/compare/v0.10.10...v0.10.11) (2024-10-08)
+
+
+### Bug Fixes
+
+* cleaning stuff ([68c451e](https://github.com/justdlabs/cli/commit/68c451ec130bca69818090997b7785cc405dca34))
+
 ## [0.10.10](https://github.com/justdlabs/cli/compare/v0.10.9...v0.10.10) (2024-10-08)
 
 
