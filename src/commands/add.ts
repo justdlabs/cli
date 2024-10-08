@@ -52,14 +52,12 @@ async function processComponent(
     fs.writeFileSync(classesFile, fileContentClasses, { flag: 'w' })
   }
 
-  // Check if the component exists
   if (fs.existsSync(componentPath)) {
-    // Only allow overriding if it's NOT a child component
     if (override && !isChild) {
       console.log(`${chalk.yellow('Replacing')} ${componentName}...`)
       fs.rmSync(componentPath, { recursive: true, force: true })
     } else if (isChild) {
-      console.log(`The ${chalk.blue(componentName)} ${chalk.blue('is not')} override due to the -o flag.`)
+      console.log(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
       return
     } else {
       console.warn(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
