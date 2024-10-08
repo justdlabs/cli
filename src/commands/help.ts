@@ -8,17 +8,17 @@ export function help(program: Command) {
     .command('help [command]')
     .description('Show help information')
     .action((commandName) => {
-      console.log(`CLI Tool v${version}\n`) // Print version
+      console.log(`CLI Tool v${version}\n`)
 
       if (commandName) {
         const command = program.commands.find((cmd) => cmd.name() === commandName)
         if (command) {
-          command.outputHelp() // Show help for specific command
+          command.outputHelp()
         } else {
           console.log(`Command "${commandName}" not found.`)
         }
       } else {
-        program.outputHelp() // Show general help
+        program.outputHelp()
       }
     })
 }

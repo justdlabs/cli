@@ -1,4 +1,4 @@
-import { input, confirm } from '@inquirer/prompts'
+import { confirm, input } from '@inquirer/prompts'
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
@@ -22,6 +22,21 @@ export function getUtilsFolderPath() {
   const configFile = 'justd.json'
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+
+    if (!config.classes) {
+      if (fs.existsSync('src')) {
+        config.classes = 'src/utils'
+      } else if (fs.existsSync('resources/js')) {
+        config.classes = 'resources/js/utils'
+      } else if (fs.existsSync('resources') && !fs.existsSync('resources/js')) {
+        config.classes = 'resources'
+      } else {
+        config.classes = 'utils'
+      }
+
+      fs.writeFileSync(configFile, JSON.stringify(config, null, 2), 'utf8')
+    }
+
     return config.classes
   } else {
     throw new Error('Configuration file justd.json not found. Please run the init command first.')

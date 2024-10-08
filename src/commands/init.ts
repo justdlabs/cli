@@ -11,11 +11,9 @@ import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
 import { existsSync } from 'node:fs'
 import { capitalize, selectTheme } from '@/src/commands/select-theme'
-// Define __filename and __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Adjust the path to reference the correct resource directory relative to the compiled output
 export const resourceDir = path.resolve(__dirname, '../src/resources')
 const stubs = path.resolve(__dirname, '../src/resources/stubs')
 
@@ -29,7 +27,6 @@ export async function init() {
     other: 'styles/app.css',
   }
 
-  // Check if either tailwind.config.ts or tailwind.config.js exists
   const configJsExists = fs.existsSync('tailwind.config.js')
   const configTsExists = fs.existsSync('tailwind.config.ts')
 
@@ -105,12 +102,10 @@ export async function init() {
 
   const spinner = ora(`Initializing Justd...`).start()
 
-  // Ensure the utils folders exist
   if (!fs.existsSync(utilsFolder)) {
     fs.mkdirSync(utilsFolder, { recursive: true })
   }
 
-  // Ensure the components and UI folders exist
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
     spinner.succeed(`Created UI folder at ${uiFolder}`)
@@ -196,19 +191,16 @@ export async function init() {
     fs.unlinkSync('d.json')
   }
 
-  // Save configuration to 'justd.json'
   const config = {
     $schema: 'https://getjustd.com',
     ui: uiFolder,
     classes: utilsFolder,
     theme: capitalize(selectedTheme?.replace('.css', '')!),
     css: cssLocation,
-    created_at: new Date().toISOString(),
   }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
   spinner.succeed('Configuration saved to justd.json')
 
-  // Wait for the installation to complete before proceeding
   spinner.succeed('Installation complete.')
 
   const continuedToAddComponent = spawn('npx justd-cli@latest add', {

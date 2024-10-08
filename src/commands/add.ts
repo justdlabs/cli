@@ -37,7 +37,7 @@ async function processComponent(
   processed: Set<string>,
   allComponents: any[],
   override: boolean,
-  isChild: boolean = false, // Add this flag to track if it's a child component
+  isChild: boolean = false,
 ) {
   const componentPath = getWriteComponentPath(componentName)
   const utilsFolder = getUtilsFolderPath()
