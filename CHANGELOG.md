@@ -1,5 +1,12 @@
 
 
+## [0.10.12](https://github.com/justdlabs/cli/compare/v0.10.11...v0.10.12) (2024-10-08)
+
+
+### Bug Fixes
+
+* remove resources only ([8347c42](https://github.com/justdlabs/cli/commit/8347c42f0d9263ed4cacc0c8528a5432b9597ed0))
+
 ## [0.10.11](https://github.com/justdlabs/cli/compare/v0.10.10...v0.10.11) (2024-10-08)
 
 
