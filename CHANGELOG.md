@@ -1,5 +1,12 @@
 
 
+## [0.10.10](https://github.com/justdlabs/cli/compare/v0.10.9...v0.10.10) (2024-10-08)
+
+
+### Bug Fixes
+
+* change resources/utils ([05cb688](https://github.com/justdlabs/cli/commit/05cb6889e8bcc7340f08a45f04ca071b775c35ee))
+
 ## [0.10.9](https://github.com/justdlabs/cli/compare/v0.10.8...v0.10.9) (2024-10-08)
 
 
