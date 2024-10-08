@@ -114,19 +114,15 @@ export async function init() {
     spinner.succeed(`Utils folder already exists at ${utilsFolder}`)
   }
 
-  // Handle CSS file placement (always overwrite)
   const selectedTheme = await selectTheme(cssLocation)
 
-  // Determine the target Tailwind config file based on existing files
   const tailwindConfigTarget = fs.existsSync('tailwind.config.js') ? 'tailwind.config.js' : 'tailwind.config.ts'
 
-  // Check if the config source path exists
   if (!fs.existsSync(configSourcePath)) {
     spinner.warn(chalk.yellow(`Source Tailwind config file does not exist at ${configSourcePath}`))
     return
   }
 
-  // Copy Tailwind configuration content (always overwrite)
   try {
     const tailwindConfigContent = fs.readFileSync(configSourcePath, 'utf8')
     fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: 'w' }) // Overwrite the existing Tailwind config
@@ -173,7 +169,6 @@ export async function init() {
   fs.writeFileSync(path.join(utilsFolder, 'classes.ts'), fileContentClasses, { flag: 'w' })
   spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
 
-  // Copy theme provider and providers files
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, 'utf8')
     fs.writeFileSync(path.join(rootFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
