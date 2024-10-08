@@ -1,5 +1,15 @@
 
 
+## [1.0.1](https://github.com/justdlabs/cli/compare/v0.10.12...v1.0.1) (2024-10-08)
+
+
+### Bug Fixes
+
+* v ([877e90a](https://github.com/justdlabs/cli/commit/877e90a746a1612cfe7a33486f15a7454e9e9847))
+* v ([1911935](https://github.com/justdlabs/cli/commit/1911935fcc12d2a777f0e40fe9c35d45516fd815))
+* v1 released ([17b46b2](https://github.com/justdlabs/cli/commit/17b46b2b22a6c1a9e8bd9da293138e9821cb0d98))
+* versioning ([f1dbcdc](https://github.com/justdlabs/cli/commit/f1dbcdc4e03f62da5bd488929534a991cbbcf076))
+
 ## [0.10.12](https://github.com/justdlabs/cli/compare/v0.10.11...v0.10.12) (2024-10-08)
 
 
