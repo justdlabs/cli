@@ -1,5 +1,13 @@
 
 
+## [1.0.5](https://github.com/justdlabs/cli/compare/v1.0.3...v1.0.5) (2024-10-09)
+
+
+### Bug Fixes
+
+* add chart component ([31d10b1](https://github.com/justdlabs/cli/commit/31d10b11ebfc1e409e0dcd81ef2c72d684bb73dd))
+* bump version ([6029c73](https://github.com/justdlabs/cli/commit/6029c73b66e11f1ead88a8af484b1595b0363176))
+
 ## [1.0.3](https://github.com/justdlabs/cli/compare/v1.0.2...v1.0.3) (2024-10-09)
 
 
