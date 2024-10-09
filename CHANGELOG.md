@@ -1,5 +1,12 @@
 
 
+## [1.0.7](https://github.com/justdlabs/cli/compare/v1.0.6...v1.0.7) (2024-10-09)
+
+
+### Bug Fixes
+
+* add sky theme ([237d3cc](https://github.com/justdlabs/cli/commit/237d3cc039885dd472b9dabcfdbba35b3614453d))
+
 ## [1.0.6](https://github.com/justdlabs/cli/compare/v1.0.5...v1.0.6) (2024-10-09)
 
 
