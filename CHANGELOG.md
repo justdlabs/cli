@@ -1,5 +1,12 @@
 
 
+## [1.0.6](https://github.com/justdlabs/cli/compare/v1.0.5...v1.0.6) (2024-10-09)
+
+
+### Bug Fixes
+
+* add command ([41cdd6a](https://github.com/justdlabs/cli/commit/41cdd6a95c1dffb883d66d90811a83696fa1a0b0))
+
 ## [1.0.5](https://github.com/justdlabs/cli/compare/v1.0.3...v1.0.5) (2024-10-09)
 
 
