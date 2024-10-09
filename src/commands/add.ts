@@ -75,7 +75,6 @@ async function processComponent(
   const component = allComponents.find((c) => c.name === componentName)
   if (component && component.children) {
     for (const child of component.children) {
-      // Process child components, but never override them
       await processComponent(child.name, packageManager, action, processed, allComponents, false, true)
     }
   }
@@ -123,9 +122,9 @@ export async function add(options: any) {
       for (const child of targetComponent.children) {
         await processComponent(child.name, packageManager, action, processed, components, false, true)
       }
+    } else {
+      await processComponent(componentName, packageManager, action, processed, components, override, false)
     }
-
-    await processComponent(componentName, packageManager, action, processed, components, override, false)
   }
   console.log(chalk.green(`✔ All the goodies in ${options.component} are now locked and loaded.`))
 }
