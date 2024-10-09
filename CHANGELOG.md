@@ -1,5 +1,12 @@
 
 
+## [1.0.3](https://github.com/justdlabs/cli/compare/v1.0.2...v1.0.3) (2024-10-09)
+
+
+### Bug Fixes
+
+* install recharts when chart added ([e597b90](https://github.com/justdlabs/cli/commit/e597b9016d3e405af314527ed5f51e6d4193f570))
+
 ## [1.0.2](https://github.com/justdlabs/cli/compare/v1.0.1...v1.0.2) (2024-10-08)
 
 
