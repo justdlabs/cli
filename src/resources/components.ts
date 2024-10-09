@@ -105,6 +105,7 @@ const components: any[] = [
     name: 'surfaces',
     children: [
       { name: 'card' },
+      { name: 'chart' },
       { name: 'description-list' },
       { name: 'grid' },
       { name: 'separator' },
@@ -213,6 +214,7 @@ const components: any[] = [
   // ⌘ The children of Surfaces
   // ------------------------------------------------------------------------------------- //
   { name: 'card' },
+  { name: 'chart' },
   { name: 'description-list' },
   { name: 'grid' },
   { name: 'separator' },
