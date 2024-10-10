@@ -1,5 +1,12 @@
 
 
+## [1.1.1](https://github.com/justdlabs/cli/compare/v1.1.0...v1.1.1) (2024-10-10)
+
+
+### Bug Fixes
+
+* fix laravel installation ([d00542b](https://github.com/justdlabs/cli/commit/d00542bac8d73c538dcfbf60d5073617951402ac))
+
 ## [1.1.0](https://github.com/justdlabs/cli/compare/v1.0.7...v1.1.0) (2024-10-10)
 
 
