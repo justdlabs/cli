@@ -1,5 +1,12 @@
 
 
+## [1.1.2](https://github.com/justdlabs/cli/compare/v1.1.1...v1.1.2) (2024-10-10)
+
+
+### Bug Fixes
+
+* !artisan ([8ded36e](https://github.com/justdlabs/cli/commit/8ded36ed8948d98bb5137baeaa8d261e09e2a634))
+
 ## [1.1.1](https://github.com/justdlabs/cli/compare/v1.1.0...v1.1.1) (2024-10-10)
 
 
