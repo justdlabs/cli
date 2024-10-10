@@ -15,7 +15,7 @@ export function possibilityCssPath(): string {
     return 'src/app/globals.css'
   } else if (hasFolder('app')) {
     return 'app/globals.css'
-  } else if (hasFolder('resources/css')) {
+  } else if (fs.existsSync('artisan')) {
     return 'resources/css/app.css'
   }
 
@@ -27,7 +27,7 @@ export function possibilityComponentsPath(): string {
     return 'src/components'
   } else if (hasFolder('app')) {
     return 'components'
-  } else if (hasFolder('resources/css')) {
+  } else if (fs.existsSync('artisan')) {
     return 'resources/js/components'
   }
   return 'components'
@@ -38,7 +38,7 @@ export function possibilityUtilsPath(): string {
     return 'src/utils'
   } else if (hasFolder('app')) {
     return 'utils'
-  } else if (hasFolder('resources/css')) {
+  } else if (fs.existsSync('artisan')) {
     return 'resources/js/utils'
   }
   return 'utils'
@@ -49,7 +49,7 @@ export function possibilityRootPath(): string {
     return 'src'
   } else if (hasFolder('app')) {
     return 'utils'
-  } else if (hasFolder('resources/css')) {
+  } else if (fs.existsSync('artisan')) {
     return 'resources/js'
   }
   return ''
