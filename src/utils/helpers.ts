@@ -11,46 +11,46 @@ export function capitalize(str: string) {
 }
 
 export function possibilityCssPath(): string {
-  if (hasFolder('src')) {
-    return 'src/app/globals.css'
-  } else if (hasFolder('app')) {
-    return 'app/globals.css'
-  } else if (fs.existsSync('artisan')) {
+  if (fs.existsSync('artisan')) {
     return 'resources/css/app.css'
+  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+    return 'app/globals.css'
+  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
+    return 'src/app/globals.css'
   }
 
   return 'styles.css'
 }
 
 export function possibilityComponentsPath(): string {
-  if (hasFolder('src')) {
-    return 'src/components'
-  } else if (hasFolder('app')) {
-    return 'components'
-  } else if (fs.existsSync('artisan')) {
+  if (fs.existsSync('artisan')) {
     return 'resources/js/components'
+  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
+    return 'src/components'
+  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+    return 'components'
   }
   return 'components'
 }
 
 export function possibilityUtilsPath(): string {
-  if (hasFolder('src')) {
-    return 'src/utils'
-  } else if (hasFolder('app')) {
-    return 'utils'
-  } else if (fs.existsSync('artisan')) {
+  if (fs.existsSync('artisan')) {
     return 'resources/js/utils'
+  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+    return 'utils'
+  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
+    return 'src/utils'
   }
   return 'utils'
 }
 
 export function possibilityRootPath(): string {
-  if (hasFolder('src')) {
-    return 'src'
-  } else if (hasFolder('app')) {
-    return 'utils'
-  } else if (fs.existsSync('artisan')) {
+  if (fs.existsSync('artisan')) {
     return 'resources/js'
+  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+    return 'utils'
+  } else if (hasFolder('src')) {
+    return 'src'
   }
   return ''
 }
