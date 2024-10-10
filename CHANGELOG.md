@@ -1,5 +1,12 @@
 
 
+## [1.1.0](https://github.com/justdlabs/cli/compare/v1.0.7...v1.1.0) (2024-10-10)
+
+
+### Features
+
+* refactoring ([4df16ae](https://github.com/justdlabs/cli/commit/4df16ae4919f8eb65a697835bbd75232b04691a3))
+
 ## [1.0.7](https://github.com/justdlabs/cli/compare/v1.0.6...v1.0.7) (2024-10-09)
 
 
