@@ -10,7 +10,9 @@ import ora from 'ora'
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
 import { existsSync } from 'node:fs'
-import { capitalize, selectTheme } from '@/src/commands/select-theme'
+import { theme } from '@/src/commands/theme'
+import { capitalize, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -18,15 +20,6 @@ export const resourceDir = path.resolve(__dirname, '../src/resources')
 const stubs = path.resolve(__dirname, '../src/resources/stubs')
 
 export async function init() {
-  const cssPath = {
-    laravel: 'resources/css/app.css',
-    vite: 'src/index.css',
-    remix: 'app/tailwind.css',
-    nextHasSrc: 'src/app/globals.css',
-    nextNoSrc: 'app/globals.css',
-    other: 'styles/app.css',
-  }
-
   const configJsExists = fs.existsSync('tailwind.config.js')
   const configTsExists = fs.existsSync('tailwind.config.ts')
 
@@ -55,46 +48,36 @@ export async function init() {
 
   let rootFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers, utilsFolder
 
+  rootFolder = await input({
+    message: 'Enter the path to your components folder:',
+    default: possibilityComponentsPath(),
+  })
+
+  uiFolder = path.join(rootFolder, 'ui')
+
+  utilsFolder = await input({
+    message: 'Enter the path to your utils folder:',
+    default: possibilityUtilsPath(),
+  })
+
+  cssLocation = await input({
+    message: 'Where would you like to place the CSS file?',
+    default: possibilityCssPath(),
+  })
+
   if (hasNextConfig) {
-    const projectTypeSrc = existsSync('src') && !existsSync('app')
-    const hasSrc = projectTypeSrc ? 'src' : ''
-    rootFolder = path.join(hasSrc, 'components')
-    uiFolder = path.join(rootFolder, 'ui')
-    utilsFolder = path.join(hasSrc, 'utils')
-    cssLocation = projectTypeSrc ? cssPath.nextHasSrc : cssPath.nextNoSrc
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
   } else if (fs.existsSync('artisan')) {
-    rootFolder = 'resources/js'
-    uiFolder = path.join(`${rootFolder}/components`, 'ui')
-    utilsFolder = path.join(`${rootFolder}/utils`)
-    cssLocation = cssPath.laravel
     configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
     themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
     providers = path.join(stubs, 'laravel/providers.stub')
   } else if (hasRemixConfig) {
-    rootFolder = 'app'
-    uiFolder = path.join(rootFolder, 'ui')
-    utilsFolder = path.join(rootFolder, 'utils')
-    cssLocation = cssPath.remix
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
   } else {
-    rootFolder = await input({
-      message: 'Enter the path to your components folder:',
-      default: 'components',
-    })
-    const projectTypeSrc = existsSync('src')
-    const hasSrc = projectTypeSrc ? 'src' : ''
-    rootFolder = path.join(hasSrc, 'components')
-    uiFolder = path.join(rootFolder, 'ui')
-    utilsFolder = path.join(hasSrc, 'utils')
-    cssLocation = await input({
-      message: 'Where would you like to place the CSS file?',
-      default: cssPath.other,
-    })
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
@@ -114,7 +97,7 @@ export async function init() {
     spinner.succeed(`Utils folder already exists at ${utilsFolder}`)
   }
 
-  const selectedTheme = await selectTheme(cssLocation)
+  const selectedTheme = await theme(cssLocation)
 
   const tailwindConfigTarget = fs.existsSync('tailwind.config.js') ? 'tailwind.config.js' : 'tailwind.config.ts'
 

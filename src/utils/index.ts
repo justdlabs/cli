@@ -2,6 +2,7 @@ import { confirm, input } from '@inquirer/prompts'
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
+import { possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
 
 export function getWriteComponentPath(componentName: string) {
   const uiFolder = getUIFolderPath()
@@ -24,13 +25,7 @@ export function getUtilsFolderPath() {
     const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
 
     if (!config.classes) {
-      if (fs.existsSync('src')) {
-        config.classes = 'src/utils'
-      } else if (fs.existsSync('resources/js')) {
-        config.classes = 'resources/js/utils'
-      } else {
-        config.classes = 'utils'
-      }
+      config.classes = possibilityUtilsPath()
 
       fs.writeFileSync(configFile, JSON.stringify(config, null, 2), 'utf8')
     }
@@ -49,7 +44,7 @@ export async function getCSSPath() {
   }
 
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
-  let cssPath = config.css || ''
+  let cssPath = config.css || possibilityCssPath()
 
   if (cssPath && fs.existsSync(cssPath)) {
     const useExistingPath = await confirm({
@@ -67,7 +62,7 @@ export async function getCSSPath() {
 
   cssPath = await input({
     message: 'Please provide a CSS path:',
-    default: cssPath,
+    default: possibilityCssPath(),
   })
 
   config.css = cssPath

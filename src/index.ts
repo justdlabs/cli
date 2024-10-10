@@ -5,7 +5,7 @@ import { add } from './commands/add'
 import { init } from './commands/init'
 import { diff } from './commands/diff'
 import { help } from './commands/help'
-import { setTheme } from './commands/set-theme'
+import { setTheme } from './commands/theme'
 import packageJson from '../package.json'
 
 const version = packageJson.version
@@ -29,11 +29,11 @@ program
   })
 
 program
-  .command('theme')
+  .command('theme [name]')
   .description('Change the current theme')
   .option('-y, --yes', 'Skip confirmation prompt')
-  .action(async (options) => {
-    await setTheme(options.yes)
+  .action(async (themeName, options) => {
+    await setTheme(options.yes, themeName)
   })
 
 program
