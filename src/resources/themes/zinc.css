@@ -25,7 +25,7 @@
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;
         --muted: 240 6% 90%;
-        --muted-fg: 240.01 4% 46%;
+        --muted-fg: 240 3.83% 46.08%;
         --danger: 0.01 72% 51%;
         --danger-fg: 360 86% 97%;
         --warning: 43.2 96% 56.99%;
@@ -37,13 +37,13 @@
         --radius: 0.5rem;
         --primary-chart: 240.06 6% 24%;
         --secondary-chart: 239.96 4% 52%;
-        --tertiary-chart: 240.01 5% 65%;
+        --tertiary-chart: 240 5.03% 64.9%;
         --highlight-chart: 239.99 4% 84%;
         --accent-chart: 240 4% 96%
     }
 
     .dark {
-        --bg: 0 0% 0%;
+        --bg: 240 10% 2.92%;
         --fg: 223.81 0% 98%;
         --primary: 0 0% 100%;
         --primary-fg: 240.02 6% 10%;
@@ -58,7 +58,7 @@
         --overlay: 240.03 6% 6%;
         --overlay-fg: 223.81 0% 98%;
         --muted: 239.95 3% 16%;
-        --muted-fg: 240.01 5% 65%;
+        --muted-fg: 240 5.03% 64.9%;
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;
         --success: 161.17 91% 31%;
@@ -67,7 +67,7 @@
         --toggle: 239.99 5% 26%;
         --border: 240.01 7.1% 15%;
         --input: 239.95 3% 16%;
-        --primary-chart: 239.95 5% 28.96%;
+        --primary-chart: 240 4.76% 95.88%;
         --secondary-chart: 239.92 4% 56.99%;
         --tertiary-chart: 239.99 5% 67%;
         --highlight-chart: 239.99 4% 84%;
