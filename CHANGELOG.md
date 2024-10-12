@@ -1,5 +1,12 @@
 
 
+## [1.1.5](https://github.com/justdlabs/cli/compare/v1.1.4...v1.1.5) (2024-10-12)
+
+
+### Bug Fixes
+
+* fix zinc theme ([25a06aa](https://github.com/justdlabs/cli/commit/25a06aa1d46c0f7d47106f9ff525f2749794326d))
+
 ## [1.1.4](https://github.com/justdlabs/cli/compare/v1.1.3...v1.1.4) (2024-10-12)
 
 
