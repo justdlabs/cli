@@ -1,5 +1,12 @@
 
 
+## [1.1.4](https://github.com/justdlabs/cli/compare/v1.1.3...v1.1.4) (2024-10-12)
+
+
+### Bug Fixes
+
+* remove primary color scale from tw config ([8c9cc00](https://github.com/justdlabs/cli/commit/8c9cc00f35b519d94d8bb57a5775bc809601a924))
+
 ## [1.1.3](https://github.com/justdlabs/cli/compare/v1.1.2...v1.1.3) (2024-10-10)
 
 
