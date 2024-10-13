@@ -18,7 +18,6 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   //  ✓ Primitives
   // ------------------------------------------------------------------------------------- //
-  { name: 'touch-target' },
   { name: 'heading' },
   { name: 'primitive' },
   { name: 'dropdown' },
@@ -141,9 +140,9 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Buttons
   // ------------------------------------------------------------------------------------- //
-  { name: 'button', children: [{ name: 'touch-target' }] },
+  { name: 'button' },
   { name: 'file-trigger', children: [{ name: 'button' }] },
-  { name: 'toggle', children: [{ name: 'touch-target' }] },
+  { name: 'toggle' },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
@@ -151,16 +150,16 @@ const components: any[] = [
   { name: 'accordion' },
   {
     name: 'menu',
-    children: [{ name: 'dropdown' }, { name: 'touch-target' }, { name: 'keyboard' }, { name: 'popover' }],
+    children: [{ name: 'dropdown' }, { name: 'keyboard' }, { name: 'popover' }],
   },
   { name: 'carousel', children: [{ name: 'button' }] },
   { name: 'list-box', children: [{ name: 'dropdown' }, { name: 'field' }] },
   { name: 'tabs' },
   { name: 'tag-group', children: [{ name: 'field' }, { name: 'badge' }] },
-  { name: 'table', children: [{ name: 'checkbox' }, { name: 'touch-target' }] },
+  { name: 'table', children: [{ name: 'checkbox' }] },
   { name: 'grid-list', children: [{ name: 'checkbox' }] },
   { name: 'choicebox', children: [{ name: 'checkbox' }, { name: 'field' }] },
-  { name: 'tree', children: [{ name: 'touch-target' }, { name: 'checkbox' }] },
+  { name: 'tree', children: [{ name: 'checkbox' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Date and Time
@@ -199,8 +198,8 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Navigation
   // ------------------------------------------------------------------------------------- //
-  { name: 'link', children: [{ name: 'touch-target' }] },
-  { name: 'disclosure', children: [{ name: 'touch-target' }] },
+  { name: 'link' },
+  { name: 'disclosure' },
   {
     name: 'pagination',
     children: [{ name: 'button' }],
@@ -218,7 +217,7 @@ const components: any[] = [
   { name: 'description-list' },
   { name: 'grid' },
   { name: 'separator' },
-  { name: 'show-more', children: [{ name: 'button' }, { name: 'touch-target' }] },
+  { name: 'show-more', children: [{ name: 'button' }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Drag And Drop
@@ -335,7 +334,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Layouts
   // ------------------------------------------------------------------------------------- //
-  { name: 'aside', children: [{ name: 'button' }, { name: 'sheet' }, { name: 'touch-target' }] },
+  { name: 'aside', children: [{ name: 'button' }, { name: 'sheet' }] },
   { name: 'container' },
 ]
 
