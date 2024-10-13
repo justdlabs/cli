@@ -22,7 +22,7 @@ const components: any[] = [
   { name: 'heading' },
   { name: 'primitive' },
   { name: 'dropdown' },
-  { name: 'dialog', children: [{ name: 'button' }, { name: 'heading' }] },
+  { name: 'dialog', children: [{ name: 'button' }] },
   { name: 'field' },
   { name: 'keyboard' },
 
@@ -213,7 +213,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Surfaces
   // ------------------------------------------------------------------------------------- //
-  { name: 'card' },
+  { name: 'card', children: [{ name: 'heading' }] },
   { name: 'chart' },
   { name: 'description-list' },
   { name: 'grid' },
