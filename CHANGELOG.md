@@ -1,5 +1,12 @@
 
 
+## [1.1.8](https://github.com/justdlabs/cli/compare/v1.1.7...v1.1.8) (2024-10-13)
+
+
+### Bug Fixes
+
+* touch-target removed ([a925189](https://github.com/justdlabs/cli/commit/a925189f37a804d6118ad9d3370e59d78577d250))
+
 ## [1.1.7](https://github.com/justdlabs/cli/compare/v1.1.6...v1.1.7) (2024-10-13)
 
 
