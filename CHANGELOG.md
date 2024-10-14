@@ -1,5 +1,12 @@
 
 
+## [1.1.13](https://github.com/justdlabs/cli/compare/v1.1.12...v1.1.13) (2024-10-14)
+
+
+### Bug Fixes
+
+* fix theme command ([363f321](https://github.com/justdlabs/cli/commit/363f321a2e66f47a85e070a8ce19d233fa815684))
+
 ## [1.1.12](https://github.com/justdlabs/cli/compare/v1.1.11...v1.1.12) (2024-10-14)
 
 
