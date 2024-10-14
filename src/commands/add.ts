@@ -22,11 +22,21 @@ async function createComponent(componentName: string) {
 
   const url = getRepoUrlForComponent(componentName)
   try {
-    await writeFile(`${componentName} created`, url, writePath)
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
+
+    let content = await response.text()
+
+    const isLaravel = fs.existsSync(path.resolve(process.cwd(), 'artisan'))
+
+    if (isLaravel) {
+      content = content.replace(/['"]use client['"]\s*\n?/g, '')
+    }
+
+    fs.writeFileSync(writePath, content)
     spinner.succeed(`${componentName} created`)
   } catch (error) {
-    // @ts-ignore
-    spinner.fail(`Error writing component to ${writePath}: ${error.message}`)
+    spinner.fail(`Error writing component to ${writePath}`)
   }
 }
 

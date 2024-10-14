@@ -143,7 +143,17 @@ export async function init() {
 
   const fileUrl = getRepoUrlForComponent('primitive')
   const response = await fetch(fileUrl)
-  const fileContent = await response.text()
+
+  if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
+
+  let fileContent = await response.text()
+
+  const isLaravel = fs.existsSync(path.resolve(process.cwd(), 'artisan'))
+
+  if (isLaravel) {
+    fileContent = fileContent.replace(/['"]use client['"]\s*\n?/g, '')
+  }
+
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
 
