@@ -19,7 +19,14 @@ const fetchRemoteComponent = async (componentName: string): Promise<string> => {
 }
 
 const compareComponents = (localContent: string, remoteContent: string) => {
-  const diff = diffLines(localContent, remoteContent)
+  const sanitizeContent = (content: string) =>
+    content
+      .replace(/['"]use client['"];/g, '')
+      .replace(/['"]use client['"]\n/g, '')
+      .replace(/"/g, "'")
+      .trim()
+
+  const diff = diffLines(sanitizeContent(localContent), sanitizeContent(remoteContent))
   return diff.filter((part) => part.added || part.removed)
 }
 
