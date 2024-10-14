@@ -1,5 +1,12 @@
 
 
+## [1.1.11](https://github.com/justdlabs/cli/compare/v1.1.10...v1.1.11) (2024-10-14)
+
+
+### Bug Fixes
+
+* remove `accordion` since it's now use disclosure ([3120e4e](https://github.com/justdlabs/cli/commit/3120e4e48c05604782bfebdc67dd8828cbcc6d13))
+
 ## [1.1.10](https://github.com/justdlabs/cli/compare/v1.1.9...v1.1.10) (2024-10-14)
 
 
