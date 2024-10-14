@@ -51,7 +51,6 @@ const components: any[] = [
   {
     name: 'collections',
     children: [
-      { name: 'accordion' },
       { name: 'menu' },
       { name: 'grid-list' },
       { name: 'list-box' },
@@ -147,7 +146,6 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Collections
   // ------------------------------------------------------------------------------------- //
-  { name: 'accordion' },
   {
     name: 'menu',
     children: [{ name: 'dropdown' }, { name: 'keyboard' }, { name: 'popover' }],
