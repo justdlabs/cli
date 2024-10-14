@@ -12,7 +12,7 @@ const namespaces = [
   'surfaces',
   'media',
   'colors',
-  'layouts'
+  'layouts',
 ]
 
 const components: any[] = [

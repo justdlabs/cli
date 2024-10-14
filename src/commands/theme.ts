@@ -46,8 +46,7 @@ export async function theme(cssLocation: string): Promise<string | undefined> {
       spinner.succeed(`CSS file copied to ${cssLocation}`)
       return selectedTheme
     } catch (error) {
-      // @ts-ignore
-      spinner.fail(`Failed to write CSS file to ${cssLocation}: ${error.message}`)
+      spinner.fail(`Failed to write CSS file to ${cssLocation}`)
     }
   } else {
     spinner.warn(`Source CSS file does not exist at ${cssSourcePath}`)
@@ -89,6 +88,11 @@ export async function setTheme(overrideConfirmation: boolean, selectedTheme?: st
   if (_newTheme) {
     const newTheme = capitalize(_newTheme.replace('.css', ''))
     userConfig.theme = newTheme
+
+    const cssSourcePath = path.join(resourceDir, `themes/${_newTheme}.css`)
+    const cssContent = readFileSync(cssSourcePath, 'utf8')
+    writeFileSync(cssPath, cssContent, { flag: 'w' })
+
     userConfig.css = cssPath
     writeFileSync(userConfigPath, JSON.stringify(userConfig, null, 2))
     console.log(`Theme changed to '${newTheme}'`)

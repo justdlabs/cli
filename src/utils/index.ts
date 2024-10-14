@@ -71,13 +71,3 @@ export async function getCSSPath() {
 
   return cssPath
 }
-
-export async function writeFile(description: string, url: string, writePath: string) {
-  try {
-    const response = await fetch(url)
-    const content = await response.text()
-    fs.writeFileSync(writePath, content)
-  } catch (error: any) {
-    console.error(chalk.red(`Error writing component to ${writePath}: ${error.message}`))
-  }
-}
