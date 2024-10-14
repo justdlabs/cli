@@ -30,7 +30,6 @@ export async function init() {
     return
   }
 
-  // Check if Next.js config files exist
   const hasNextConfig =
     fs.existsSync('next.config.ts') || fs.existsSync('next.config.js') || fs.existsSync('next.config.mjs')
   const hasRemixConfig = (() => {
@@ -108,7 +107,7 @@ export async function init() {
 
   try {
     const tailwindConfigContent = fs.readFileSync(configSourcePath, 'utf8')
-    fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: 'w' }) // Overwrite the existing Tailwind config
+    fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: 'w' })
   } catch (error) {
     // @ts-ignore
     spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
