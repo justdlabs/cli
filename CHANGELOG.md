@@ -1,5 +1,12 @@
 
 
+## [1.1.9](https://github.com/justdlabs/cli/compare/v1.1.8...v1.1.9) (2024-10-14)
+
+
+### Bug Fixes
+
+* improve the diff command to ingore different use client and single and double quotes ([c78c9a7](https://github.com/justdlabs/cli/commit/c78c9a76122380242fa3cc4501b49f328039b47d))
+
 ## [1.1.8](https://github.com/justdlabs/cli/compare/v1.1.7...v1.1.8) (2024-10-13)
 
 
