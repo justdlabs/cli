@@ -1,5 +1,13 @@
 
 
+## [1.1.10](https://github.com/justdlabs/cli/compare/v1.1.9...v1.1.10) (2024-10-14)
+
+
+### Bug Fixes
+
+* detect if this laravel project remove `use client` ([524d848](https://github.com/justdlabs/cli/commit/524d8488f0a27f7b44cfda7abed63a198d4a1c78))
+* formatting ([498ba3b](https://github.com/justdlabs/cli/commit/498ba3b93ddc985c61c4970919f8882743eeb209))
+
 ## [1.1.9](https://github.com/justdlabs/cli/compare/v1.1.8...v1.1.9) (2024-10-14)
 
 
