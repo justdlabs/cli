@@ -1,5 +1,12 @@
 
 
+## [1.1.12](https://github.com/justdlabs/cli/compare/v1.1.11...v1.1.12) (2024-10-14)
+
+
+### Bug Fixes
+
+* add layouts to the namespaces ([0edfc9f](https://github.com/justdlabs/cli/commit/0edfc9f8aa8964aa339fa94a5096bf56deb5b4a2))
+
 ## [1.1.11](https://github.com/justdlabs/cli/compare/v1.1.10...v1.1.11) (2024-10-14)
 
 
