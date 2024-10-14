@@ -1,7 +1,6 @@
 import { confirm, input } from '@inquirer/prompts'
 import fs from 'fs'
 import path from 'path'
-import chalk from 'chalk'
 import { possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
 
 export function getWriteComponentPath(componentName: string) {
