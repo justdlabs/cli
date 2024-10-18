@@ -102,14 +102,7 @@ const components: any[] = [
   },
   {
     name: 'surfaces',
-    children: [
-      { name: 'card' },
-      { name: 'chart' },
-      { name: 'description-list' },
-      { name: 'grid' },
-      { name: 'separator' },
-      { name: 'show-more' },
-    ],
+    children: [{ name: 'card' }, { name: 'chart' }, { name: 'description-list' }, { name: 'grid' }, { name: 'separator' }, { name: 'show-more' }],
   },
   { name: 'media', children: [{ name: 'avatar' }, { name: 'carousel' }] },
   {
@@ -120,13 +113,7 @@ const components: any[] = [
   { name: 'drag-and-drop', children: [{ name: 'drop-zone' }] },
   {
     name: 'controls',
-    children: [
-      { name: 'toolbar' },
-      { name: 'slider' },
-      { name: 'switch' },
-      { name: 'command-menu' },
-      { name: 'context-menu' },
-    ],
+    children: [{ name: 'toolbar' }, { name: 'slider' }, { name: 'switch' }, { name: 'command-menu' }, { name: 'context-menu' }],
   },
   {
     name: 'layouts',
@@ -170,13 +157,7 @@ const components: any[] = [
   { name: 'date-range-picker', children: [{ name: 'date-picker' }] },
   {
     name: 'date-picker',
-    children: [
-      { name: 'popover' },
-      { name: 'field' },
-      { name: 'calendar' },
-      { name: 'date-field' },
-      { name: 'range-calendar' },
-    ],
+    children: [{ name: 'popover' }, { name: 'field' }, { name: 'calendar' }, { name: 'date-field' }, { name: 'range-calendar' }],
   },
   { name: 'time-field', children: [{ name: 'field' }, { name: 'date-field' }] },
 
@@ -263,13 +244,7 @@ const components: any[] = [
   },
   {
     name: 'multiple-select',
-    children: [
-      { name: 'field' },
-      { name: 'list-box' },
-      { name: 'popover' },
-      { name: 'tag-group' },
-      { name: 'visually-hidden' },
-    ],
+    children: [{ name: 'field' }, { name: 'list-box' }, { name: 'popover' }, { name: 'tag-group' }, { name: 'visually-hidden' }],
   },
 
   // ------------------------------------------------------------------------------------- //
@@ -290,13 +265,7 @@ const components: any[] = [
 
   {
     name: 'color-picker',
-    children: [
-      { name: 'color-area' },
-      { name: 'color-field' },
-      { name: 'color-slider' },
-      { name: 'color-swatch' },
-      { name: 'field' },
-    ],
+    children: [{ name: 'color-area' }, { name: 'color-field' }, { name: 'color-slider' }, { name: 'color-swatch' }, { name: 'field' }],
   },
   {
     name: 'color-field',

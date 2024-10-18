@@ -11,7 +11,7 @@ import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
 import open from 'open'
 import { existsSync } from 'node:fs'
 import { theme } from '@/src/commands/theme'
-import { capitalize, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
+import { capitalize, isLaravel, isNextJs, isRemix, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -24,35 +24,18 @@ export async function init() {
   const configTsExists = fs.existsSync('tailwind.config.ts')
 
   if (!configJsExists && !configTsExists) {
-    console.error(
-      'No Tailwind configuration file found. Please ensure tailwind.config.ts or tailwind.config.js exists in the root directory.',
-    )
+    console.error('No Tailwind configuration file found. Please ensure tailwind.config.ts or tailwind.config.js exists in the root directory.')
     return
   }
 
-  const hasNextConfig =
-    fs.existsSync('next.config.ts') || fs.existsSync('next.config.js') || fs.existsSync('next.config.mjs')
-  const hasRemixConfig = (() => {
-    const packageJsonPath = path.join(process.cwd(), 'package.json')
+  let componentFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers, utilsFolder
 
-    if (existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-      const { dependencies = {}, devDependencies = {} } = packageJson
-
-      return '@remix-run/react' in dependencies || '@remix-run/react' in devDependencies
-    }
-
-    return false
-  })()
-
-  let rootFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers, utilsFolder
-
-  rootFolder = await input({
+  componentFolder = await input({
     message: 'Enter the path to your components folder:',
     default: possibilityComponentsPath(),
   })
 
-  uiFolder = path.join(rootFolder, 'ui')
+  uiFolder = path.join(componentFolder, 'ui')
 
   utilsFolder = await input({
     message: 'Enter the path to your utils folder:',
@@ -64,15 +47,15 @@ export async function init() {
     default: possibilityCssPath(),
   })
 
-  if (hasNextConfig) {
+  if (isNextJs()) {
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
-  } else if (fs.existsSync('artisan')) {
+  } else if (isLaravel()) {
     configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
     themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
     providers = path.join(stubs, 'laravel/providers.stub')
-  } else if (hasRemixConfig) {
+  } else if (isRemix()) {
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
@@ -147,9 +130,7 @@ export async function init() {
 
   let fileContent = await response.text()
 
-  const isLaravel = fs.existsSync(path.resolve(process.cwd(), 'artisan'))
-
-  if (isLaravel) {
+  if (isLaravel()) {
     fileContent = fileContent.replace(/['"]use client['"]\s*\n?/g, '')
   }
 
@@ -163,14 +144,14 @@ export async function init() {
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, 'utf8')
-    fs.writeFileSync(path.join(rootFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
+    fs.writeFileSync(path.join(componentFolder, 'theme-provider.tsx'), themeProviderContent, { flag: 'w' })
 
     if (providers) {
       const providersContent = fs.readFileSync(providers, 'utf8')
-      fs.writeFileSync(path.join(rootFolder, 'providers.tsx'), providersContent, { flag: 'w' })
+      fs.writeFileSync(path.join(componentFolder, 'providers.tsx'), providersContent, { flag: 'w' })
     }
 
-    spinner.succeed(`Theme provider and providers files copied to ${rootFolder}`)
+    spinner.succeed(`Theme provider and providers files copied to ${componentFolder}`)
   }
 
   // Save configuration to justd.json with relative path

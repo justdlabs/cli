@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import { existsSync } from 'node:fs'
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
@@ -53,4 +54,25 @@ export function possibilityRootPath(): string {
     return 'src'
   }
   return ''
+}
+
+export function isNextJs(): boolean {
+  return fs.existsSync('next.config.ts') || fs.existsSync('next.config.js') || fs.existsSync('next.config.mjs')
+}
+
+export function isRemix(): boolean {
+  const packageJsonPath = path.join(process.cwd(), 'package.json')
+
+  if (existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+    const { dependencies = {}, devDependencies = {} } = packageJson
+
+    return '@remix-run/react' in dependencies || '@remix-run/react' in devDependencies
+  }
+
+  return false
+}
+
+export function isLaravel(): boolean {
+  return fs.existsSync(path.resolve(process.cwd(), 'artisan'))
 }

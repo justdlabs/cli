@@ -6,6 +6,7 @@ export const getRepoUrlForComponent = (componentName: string) => {
   return repoUrl
 }
 
+// Getting the classes.ts file from the Justd repository
 export const getClassesTsRepoUrl = (): string => {
   const utils = `https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts`
   if (!utils) {

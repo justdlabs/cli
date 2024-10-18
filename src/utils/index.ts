@@ -3,11 +3,13 @@ import fs from 'fs'
 import path from 'path'
 import { possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
 
+// This function is used to get the write path for a component
 export function getWriteComponentPath(componentName: string) {
   const uiFolder = getUIFolderPath()
   return path.join(uiFolder, `${componentName}.tsx`)
 }
 
+// Get the path to the UI folder from the justd.json file
 export function getUIFolderPath() {
   const configFile = 'justd.json'
   if (fs.existsSync(configFile)) {
@@ -18,6 +20,7 @@ export function getUIFolderPath() {
   }
 }
 
+// Get the path to the utils folder from the justd.json file
 export function getUtilsFolderPath() {
   const configFile = 'justd.json'
   if (fs.existsSync(configFile)) {
@@ -35,6 +38,7 @@ export function getUtilsFolderPath() {
   }
 }
 
+// Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
   const configFile = 'justd.json'
 
