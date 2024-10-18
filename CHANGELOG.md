@@ -1,5 +1,12 @@
 
 
+## [1.1.15](https://github.com/justdlabs/cli/compare/v1.1.14...v1.1.15) (2024-10-18)
+
+
+### Bug Fixes
+
+* add comments to make sure user understand how to develop it ([8c3b991](https://github.com/justdlabs/cli/commit/8c3b9916e0609f5d2f57bcef6d15b79bd400d474))
+
 ## [1.1.14](https://github.com/justdlabs/cli/compare/v1.1.13...v1.1.14) (2024-10-14)
 
 
