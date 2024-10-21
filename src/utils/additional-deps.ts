@@ -9,6 +9,7 @@ export const additionalDeps = async (componentName: string, packageManager: stri
     disclosure: 'justd-icons',
     tabs: 'framer-motion',
     'progress-bar': 'framer-motion',
+    'navbar': 'framer-motion',
     meter: 'framer-motion',
     chart: 'recharts',
     'input-otp': 'input-otp',

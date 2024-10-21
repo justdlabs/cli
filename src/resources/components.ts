@@ -117,7 +117,7 @@ const components: any[] = [
   },
   {
     name: 'layouts',
-    children: [{ name: 'aside' }, { name: 'container' }],
+    children: [{ name: 'sidebar' }, { name: 'navbar' }, { name: 'container' }],
   },
 
   // ------------------------------------------------------------------------------------- //
@@ -302,7 +302,8 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Layouts
   // ------------------------------------------------------------------------------------- //
-  { name: 'aside', children: [{ name: 'button' }, { name: 'sheet' }] },
+  { name: 'sidebar', children: [{ name: 'button' }, { name: 'sheet' }] },
+  { name: 'navbar', children: [{ name: 'button' }, { name: 'container' }, { name: 'sheet' }] },
   { name: 'container' },
 ]
 
