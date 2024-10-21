@@ -1,5 +1,12 @@
 
 
+## [1.2.0](https://github.com/justdlabs/cli/compare/v1.1.15...v1.2.0) (2024-10-21)
+
+
+### Features
+
+* add navbar component ([f8dc0dc](https://github.com/justdlabs/cli/commit/f8dc0dce0a34741f53a5c74b1958ac5d4d7e0c2d))
+
 ## [1.1.15](https://github.com/justdlabs/cli/compare/v1.1.14...v1.1.15) (2024-10-18)
 
 
