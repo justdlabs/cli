@@ -1,5 +1,12 @@
 
 
+## [1.2.1](https://github.com/justdlabs/cli/compare/v1.2.0...v1.2.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* add tooltip to sidebar ([9771a0d](https://github.com/justdlabs/cli/commit/9771a0d6feccfb4bd16adf2af1316e8ceb5b830e))
+
 ## [1.2.0](https://github.com/justdlabs/cli/compare/v1.1.15...v1.2.0) (2024-10-21)
 
 
