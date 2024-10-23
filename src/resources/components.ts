@@ -302,7 +302,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Layouts
   // ------------------------------------------------------------------------------------- //
-  { name: 'sidebar', children: [{ name: 'button' }, { name: 'sheet' }] },
+  { name: 'sidebar', children: [{ name: 'button' }, { name: 'sheet' }, { name: 'tooltip' }] },
   { name: 'navbar', children: [{ name: 'button' }, { name: 'container' }, { name: 'sheet' }] },
   { name: 'container' },
 ]
