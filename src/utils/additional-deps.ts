@@ -5,11 +5,11 @@ import ora from 'ora'
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
     toast: 'sonner',
-    drawer: 'framer-motion',
+    drawer: 'vaul',
     disclosure: 'justd-icons',
     tabs: 'framer-motion',
     'progress-bar': 'framer-motion',
-    'navbar': 'framer-motion',
+    navbar: 'framer-motion',
     meter: 'framer-motion',
     chart: 'recharts',
     'input-otp': 'input-otp',

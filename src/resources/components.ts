@@ -223,7 +223,7 @@ const components: any[] = [
   },
   {
     name: 'drawer',
-    children: [{ name: 'dialog' }],
+    children: [{ name: 'button' }],
   },
   { name: 'tooltip' },
   {
