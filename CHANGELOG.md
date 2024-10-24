@@ -1,5 +1,12 @@
 
 
+## [1.2.2](https://github.com/justdlabs/cli/compare/v1.2.1...v1.2.2) (2024-10-24)
+
+
+### Refactors
+
+* include vaul when adding drawer ([2923ef0](https://github.com/justdlabs/cli/commit/2923ef0a01bce36ca13b0277707bfe9c172b86ee))
+
 ## [1.2.1](https://github.com/justdlabs/cli/compare/v1.2.0...v1.2.1) (2024-10-23)
 
 
