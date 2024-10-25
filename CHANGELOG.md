@@ -1,5 +1,12 @@
 
 
+## [1.2.3](https://github.com/justdlabs/cli/compare/v1.2.2...v1.2.3) (2024-10-25)
+
+
+### Refactors
+
+* make drawer strick to the default rac ([6b320ee](https://github.com/justdlabs/cli/commit/6b320ee8cacbd3b198b88c07dc99410ca81234e0))
+
 ## [1.2.2](https://github.com/justdlabs/cli/compare/v1.2.1...v1.2.2) (2024-10-24)
 
 
