@@ -1,5 +1,12 @@
 
 
+## [1.2.4](https://github.com/justdlabs/cli/compare/v1.2.3...v1.2.4) (2024-10-25)
+
+
+### Bug Fixes
+
+* add loader when text field added ([6229823](https://github.com/justdlabs/cli/commit/622982311ec9c8a64dfa69f1dad8f8e8bbed33fb))
+
 ## [1.2.3](https://github.com/justdlabs/cli/compare/v1.2.2...v1.2.3) (2024-10-25)
 
 
