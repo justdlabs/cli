@@ -84,9 +84,6 @@ export async function init() {
 
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
-  } else {
-    spinner.succeed(`UI folder already exists at ${uiFolder}`)
-    spinner.succeed(`Utils folder already exists at ${utilsFolder}`)
   }
 
   let currentAlias = '@/*'
@@ -153,10 +150,12 @@ export async function init() {
   const installCommand = `${packageManager} ${action} ${packages}`
 
   spinner.info(`Installing dependencies...`)
+
   const child = spawn(installCommand, {
     stdio: 'inherit',
     shell: true,
   })
+
   await new Promise<void>((resolve) => {
     child.on('close', () => {
       resolve()
@@ -189,11 +188,6 @@ export async function init() {
       const providersContent = fs.readFileSync(providers, 'utf8')
       fs.writeFileSync(path.join(componentFolder, 'providers.tsx'), providersContent, { flag: 'w' })
     }
-  }
-
-  // Save configuration to justd.json with relative path
-  if (fs.existsSync('d.json')) {
-    fs.unlinkSync('d.json')
   }
 
   const config = {

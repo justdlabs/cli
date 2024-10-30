@@ -12,8 +12,6 @@ import fetch from 'node-fetch'
 import { getUIPathFromConfig } from '@/utils/helpers'
 import { getAliasFromConfig, isLaravel } from '@/utils/helpers'
 
-const uiPath = getUIPathFromConfig()
-
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
   if (processed.has(componentName)) {
     return
