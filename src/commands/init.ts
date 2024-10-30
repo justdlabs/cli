@@ -194,7 +194,6 @@ export async function init() {
     if (!tsConfig.compilerOptions.paths['ui']) {
       tsConfig.compilerOptions.paths['ui'] = [`./${uiFolder}/index.ts`]
       fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-      console.log(chalk.green('Added "ui" alias to tsconfig.json'))
     }
   }
 
@@ -225,6 +224,7 @@ export async function init() {
     fs.mkdirSync(uiFolder, { recursive: true })
     spinner.succeed(`Created UI folder at ${uiFolder}`)
   }
+  console.log(chalk.green('Added "ui" alias to tsconfig.json'))
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
   spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
   if (themeProvider) {
