@@ -1,5 +1,12 @@
 
 
+## [1.2.9](https://github.com/justdlabs/cli/compare/v1.2.8...v1.2.9) (2024-10-30)
+
+
+### Bug Fixes
+
+* make the alias clever ([4865fd7](https://github.com/justdlabs/cli/commit/4865fd7ffb258b8a336500307249687c6083a348))
+
 ## [1.2.8](https://github.com/justdlabs/cli/compare/v1.2.7...v1.2.8) (2024-10-30)
 
 
