@@ -76,16 +76,6 @@ export async function init() {
     providers = path.join(stubs, 'next/providers.stub')
   }
 
-  const spinner = ora(`Initializing Justd...`).start()
-
-  if (!fs.existsSync(utilsFolder)) {
-    fs.mkdirSync(utilsFolder, { recursive: true })
-  }
-
-  if (!fs.existsSync(uiFolder)) {
-    fs.mkdirSync(uiFolder, { recursive: true })
-  }
-
   let currentAlias = '@/*'
   async function configureAlias() {
     const customizeAlias = await confirm({
@@ -94,7 +84,7 @@ export async function init() {
     })
 
     const rootPath = possibilityRootPath()
-    const tsConfigPath = path.resolve('tsconfig.json')
+    const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
     const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
 
     if (customizeAlias) {
@@ -116,10 +106,19 @@ export async function init() {
 
   await configureAlias()
 
+  if (!fs.existsSync(utilsFolder)) {
+    fs.mkdirSync(utilsFolder, { recursive: true })
+  }
+
+  if (!fs.existsSync(uiFolder)) {
+    fs.mkdirSync(uiFolder, { recursive: true })
+  }
+
   const selectedTheme = await theme(cssLocation)
 
   const tailwindConfigTarget = fs.existsSync('tailwind.config.js') ? 'tailwind.config.js' : 'tailwind.config.ts'
 
+  const spinner = ora(`Initializing Justd...`).start()
   if (!fs.existsSync(configSourcePath)) {
     spinner.warn(chalk.yellow(`Source Tailwind config file does not exist at ${configSourcePath}`))
     return
