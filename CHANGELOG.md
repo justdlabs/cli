@@ -1,5 +1,17 @@
 
 
+## [1.2.5](https://github.com/justdlabs/cli/compare/v1.2.4...v1.2.5) (2024-10-30)
+
+
+### Bug Fixes
+
+* fix init cmd ([2894792](https://github.com/justdlabs/cli/commit/2894792de03a21d2688dcbec75388a9ab6ed9e41))
+
+
+### Refactors
+
+* allow user to select the path ([e363f54](https://github.com/justdlabs/cli/commit/e363f547d4d99cfa9625685b74b2600b24f9bd75))
+
 ## [1.2.4](https://github.com/justdlabs/cli/compare/v1.2.3...v1.2.4) (2024-10-25)
 
 
