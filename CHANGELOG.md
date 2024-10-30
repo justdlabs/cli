@@ -1,5 +1,12 @@
 
 
+## [1.2.13](https://github.com/justdlabs/cli/compare/v1.2.12...v1.2.13) (2024-10-30)
+
+
+### Bug Fixes
+
+* add ui to `tsconfig.json` ([ec7b95c](https://github.com/justdlabs/cli/commit/ec7b95c7411256cdc480e39a7eb15b39b9b2fbd0))
+
 ## [1.2.12](https://github.com/justdlabs/cli/compare/v1.2.11...v1.2.12) (2024-10-30)
 
 
