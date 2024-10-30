@@ -184,6 +184,20 @@ export async function init() {
     alias: currentAlias,
   }
 
+  const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
+  if (fs.existsSync(tsConfigPath)) {
+    const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
+
+    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
+    if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
+
+    if (!tsConfig.compilerOptions.paths['ui']) {
+      tsConfig.compilerOptions.paths['ui'] = [`./${uiFolder}/index.ts`]
+      fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+      console.log(chalk.green('Added "ui" alias to tsconfig.json'))
+    }
+  }
+
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
 
   const continuedToAddComponent = spawn('npx justd-cli@latest add', {
