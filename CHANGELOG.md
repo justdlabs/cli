@@ -1,5 +1,12 @@
 
 
+## [1.2.8](https://github.com/justdlabs/cli/compare/v1.2.7...v1.2.8) (2024-10-30)
+
+
+### Bug Fixes
+
+* huft ([aeddeb3](https://github.com/justdlabs/cli/commit/aeddeb3967e83e92fc049efc011280b38543da9d))
+
 ## [1.2.7](https://github.com/justdlabs/cli/compare/v1.2.6...v1.2.7) (2024-10-30)
 
 
