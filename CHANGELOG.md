@@ -1,5 +1,12 @@
 
 
+## [1.2.7](https://github.com/justdlabs/cli/compare/v1.2.6...v1.2.7) (2024-10-30)
+
+
+### Bug Fixes
+
+* init should be faster ([785462d](https://github.com/justdlabs/cli/commit/785462db114feb268aad0425900b4844a7a72195))
+
 ## [1.2.6](https://github.com/justdlabs/cli/compare/v1.2.5...v1.2.6) (2024-10-30)
 
 
