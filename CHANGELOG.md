@@ -1,5 +1,12 @@
 
 
+## [1.2.12](https://github.com/justdlabs/cli/compare/v1.2.11...v1.2.12) (2024-10-30)
+
+
+### Bug Fixes
+
+* fix aliases on config json ([1efaf7a](https://github.com/justdlabs/cli/commit/1efaf7a32ade82a7e2bf224dfe2d30cbc9ea9968))
+
 ## [1.2.11](https://github.com/justdlabs/cli/compare/v1.2.10...v1.2.11) (2024-10-30)
 
 
