@@ -1,17 +1,25 @@
-import { input, select } from '@inquirer/prompts'
+import { confirm, input, select } from '@inquirer/prompts'
 import fs from 'fs'
 import { spawn } from 'child_process'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import fetch from 'node-fetch'
 import chalk from 'chalk'
-import { getPackageManager } from '@/src/utils/get-package-manager'
+import { getPackageManager } from '@/utils/get-package-manager'
 import ora from 'ora'
-import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
+import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/utils/repo'
 import open from 'open'
-import { existsSync } from 'node:fs'
-import { theme } from '@/src/commands/theme'
-import { capitalize, isLaravel, isNextJs, isRemix, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
+import { theme } from '@/commands/theme'
+import {
+  capitalize,
+  isLaravel,
+  isNextJs,
+  isRemix,
+  possibilityComponentsPath,
+  possibilityCssPath,
+  possibilityRootPath,
+  possibilityUtilsPath,
+} from '@/utils/helpers'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -73,11 +81,41 @@ export async function init() {
 
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
-    spinner.succeed(`Created UI folder at ${uiFolder}`)
   } else {
     spinner.succeed(`UI folder already exists at ${uiFolder}`)
     spinner.succeed(`Utils folder already exists at ${utilsFolder}`)
   }
+
+  let currentAlias = '@/*'
+  async function configureAlias() {
+    const customizeAlias = await confirm({
+      message: 'Would you like to customize the import alias (' + currentAlias + ' by default)?',
+      default: false,
+    })
+
+    const rootPath = possibilityRootPath()
+    const tsConfigPath = path.resolve('tsconfig.json')
+    const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
+
+    if (customizeAlias) {
+      const customAlias = await input({ message: 'Enter your custom alias (e.g., ~/*):' })
+      tsConfig.compilerOptions.paths = {
+        [customAlias]: [`./${rootPath}/*`],
+        ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
+      }
+
+      currentAlias = customAlias
+    } else {
+      tsConfig.compilerOptions.paths = {
+        '@/*': [`./${rootPath}/*`],
+        ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
+      }
+    }
+
+    fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+  }
+
+  await configureAlias()
 
   const selectedTheme = await theme(cssLocation)
 
@@ -135,12 +173,11 @@ export async function init() {
   }
 
   fs.writeFileSync(path.join(uiFolder, 'primitive.tsx'), fileContent, { flag: 'w' })
-  spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
+  fs.writeFileSync(path.join(uiFolder, 'index.ts'), `export * from './primitive';`, { flag: 'w' })
 
   const responseClasses = await fetch(getClassesTsRepoUrl())
   const fileContentClasses = await responseClasses.text()
   fs.writeFileSync(path.join(utilsFolder, 'classes.ts'), fileContentClasses, { flag: 'w' })
-  spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, 'utf8')
@@ -150,8 +187,6 @@ export async function init() {
       const providersContent = fs.readFileSync(providers, 'utf8')
       fs.writeFileSync(path.join(componentFolder, 'providers.tsx'), providersContent, { flag: 'w' })
     }
-
-    spinner.succeed(`Theme provider and providers files copied to ${componentFolder}`)
   }
 
   // Save configuration to justd.json with relative path
@@ -165,11 +200,9 @@ export async function init() {
     classes: utilsFolder,
     theme: capitalize(selectedTheme?.replace('.css', '')!),
     css: cssLocation,
+    alias: currentAlias,
   }
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
-  spinner.succeed('Configuration saved to justd.json')
-
-  spinner.succeed('Installation complete.')
 
   const continuedToAddComponent = spawn('npx justd-cli@latest add', {
     stdio: 'inherit',
@@ -190,6 +223,20 @@ export async function init() {
     ],
     default: true,
   })
+
+  // Note After Installed------------------------------------------------------------------- //
+  if (!fs.existsSync(uiFolder)) {
+    fs.mkdirSync(uiFolder, { recursive: true })
+    spinner.succeed(`Created UI folder at ${uiFolder}`)
+  }
+  spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
+  spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
+  if (themeProvider) {
+    spinner.succeed(`Theme provider and providers files copied to ${componentFolder}`)
+  }
+  spinner.succeed('Configuration saved to justd.json')
+  spinner.succeed('Installation complete.')
+  // ------------------------------------------------------------------------------------- //
 
   if (visitRepo) {
     open('https://github.com/justdlabs/justd').then(() => {

@@ -1,14 +1,47 @@
 import fs from 'fs'
 import path from 'path'
 import { checkbox } from '@inquirer/prompts'
-import { components, namespaces } from '../resources/components'
-import { getUtilsFolderPath, getWriteComponentPath } from '../utils'
+import { components, namespaces } from '@/resources/components'
+import { getUtilsFolderPath, getWriteComponentPath } from '@/utils'
 import chalk from 'chalk'
-import { getPackageManager } from '../utils/get-package-manager'
-import { additionalDeps } from '../utils/additional-deps'
+import { getPackageManager } from '@/utils/get-package-manager'
+import { additionalDeps } from '@/utils/additional-deps'
 import ora from 'ora'
-import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/src/utils/repo'
+import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/utils/repo'
 import fetch from 'node-fetch'
+import { getUIPathFromConfig } from '@/utils/helpers'
+import { getAliasFromConfig, isLaravel } from '@/utils/helpers'
+
+const uiPath = getUIPathFromConfig()
+
+async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
+  if (processed.has(componentName)) {
+    return
+  }
+
+  const uiPath = getUIPathFromConfig()
+  const indexPath = path.join(process.cwd(), uiPath, 'index.ts')
+  const componentExport = `export * from './${componentName}';`
+
+  let existingExports = ''
+  if (fs.existsSync(indexPath)) {
+    existingExports = fs.readFileSync(indexPath, 'utf-8')
+  }
+
+  if (!existingExports.includes(componentExport)) {
+    const newContent = existingExports.trim() + (existingExports.trim() ? '\n' : '') + componentExport + '\n'
+    fs.writeFileSync(indexPath, newContent)
+  }
+
+  processed.add(componentName)
+
+  const component = components.find((c) => c.name === componentName)
+  if (component && component.children) {
+    for (const child of component.children) {
+      await updateIndexFile(child.name, processed)
+    }
+  }
+}
 
 async function createComponent(componentName: string) {
   const writePath = getWriteComponentPath(componentName)
@@ -24,14 +57,17 @@ async function createComponent(componentName: string) {
   try {
     const response = await fetch(url)
     if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
-
     let content = await response.text()
 
-    const isLaravel = fs.existsSync(path.resolve(process.cwd(), 'artisan'))
-
-    if (isLaravel) {
+    if (isLaravel()) {
       content = content.replace(/['"]use client['"]\s*\n?/g, '')
     }
+
+    const alias = getAliasFromConfig()
+    const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
+    content = content.replace(aliasRegex, (match) => {
+      return match.replace('@/', `${alias}/`)
+    })
 
     fs.writeFileSync(writePath, content)
     spinner.succeed(`${componentName} created`)
@@ -91,7 +127,7 @@ async function processComponent(
 }
 
 export async function add(options: any) {
-  const { component, skip, override } = options
+  const { component, override } = options
   const configFilePath = path.join(process.cwd(), 'justd.json')
   if (!fs.existsSync(configFilePath)) {
     console.error(
@@ -135,6 +171,7 @@ export async function add(options: any) {
     } else {
       await processComponent(componentName, packageManager, action, processed, components, override, false)
     }
+    await updateIndexFile(componentName)
   }
   console.log(chalk.green(`✔ All the goodies in ${options.component} are now locked and loaded.`))
 }

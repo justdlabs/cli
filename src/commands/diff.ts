@@ -3,7 +3,7 @@ import path from 'path'
 import fetch from 'node-fetch'
 import { diffLines } from 'diff'
 import { checkbox } from '@inquirer/prompts'
-import { getRepoUrlForComponent } from '@/src/utils/repo'
+import { getRepoUrlForComponent } from '@/utils/repo'
 import chalk from 'chalk'
 
 const getLocalComponentPath = (configPath: string, componentName: string) => {

@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { existsSync } from 'node:fs'
+import chalk from 'chalk'
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
@@ -49,7 +50,7 @@ export function possibilityRootPath(): string {
   if (fs.existsSync('artisan')) {
     return 'resources/js'
   } else if (hasFolder('app') && !fs.existsSync('artisan')) {
-    return 'utils'
+    return '/'
   } else if (hasFolder('src')) {
     return 'src'
   }
@@ -75,4 +76,27 @@ export function isRemix(): boolean {
 
 export function isLaravel(): boolean {
   return fs.existsSync(path.resolve(process.cwd(), 'artisan'))
+}
+
+export function getUIPathFromConfig() {
+  const configFilePath = path.join(process.cwd(), 'justd.json')
+  if (!fs.existsSync(configFilePath)) {
+    console.error(
+      `${chalk.red('justd.json not found')}. ${chalk.gray(`Please run ${chalk.blue('npx justd-cli@latest init')} to initialize the project.`)}`,
+    )
+    return
+  }
+
+  const config = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))
+  return config.ui || possibilityComponentsPath() + '/ui'
+}
+
+export function getAliasFromConfig() {
+  const configFilePath = path.join(process.cwd(), 'justd.json')
+  if (!fs.existsSync(configFilePath)) {
+    throw new Error('justd.json not found. Please initialize the project.')
+  }
+
+  const config = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))
+  return config.alias.replace('/*', '') // Remove '/*' from the alias
 }

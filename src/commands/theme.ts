@@ -4,8 +4,8 @@ import chalk from 'chalk'
 import ora from 'ora'
 import { confirm, select } from '@inquirer/prompts'
 import { resourceDir } from './init'
-import { getCSSPath } from '@/src/utils'
-import { capitalize } from '@/src/utils/helpers'
+import { getCSSPath } from '@/utils'
+import { capitalize } from '@/utils/helpers'
 
 export async function theme(cssLocation: string): Promise<string | undefined> {
   const themes = [

@@ -1,7 +1,7 @@
 import { confirm, input } from '@inquirer/prompts'
 import fs from 'fs'
 import path from 'path'
-import { possibilityCssPath, possibilityUtilsPath } from '@/src/utils/helpers'
+import { possibilityCssPath, possibilityUtilsPath } from '@/utils/helpers'
 
 // This function is used to get the write path for a component
 export function getWriteComponentPath(componentName: string) {
