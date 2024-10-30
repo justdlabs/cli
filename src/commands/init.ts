@@ -224,7 +224,7 @@ export async function init() {
     fs.mkdirSync(uiFolder, { recursive: true })
     spinner.succeed(`Created UI folder at ${uiFolder}`)
   }
-  console.log(chalk.green('Added "ui" alias to tsconfig.json'))
+  spinner.succeed('Added "ui" alias to tsconfig.json')
   spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
   spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
   if (themeProvider) {
@@ -242,7 +242,7 @@ export async function init() {
     })
   } else {
     console.log(chalk.blueBright('------------------------------'))
-    console.log(' Happy coding! 🔥')
+    console.log('        Happy coding! 🔥')
     console.log(chalk.blueBright('------------------------------'))
   }
 

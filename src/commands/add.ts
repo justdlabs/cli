@@ -157,7 +157,7 @@ export async function add(options: any) {
   for (const componentName of selectedComponents) {
     const targetComponent = components.find((comp) => comp.name === componentName)
     if (!targetComponent) {
-      console.log(chalk.yellow('No component found'))
+      console.log(chalk.red('No component found'))
       return
     }
     console.log(`Starting to add ${componentName}...`)
@@ -171,5 +171,4 @@ export async function add(options: any) {
     }
     await updateIndexFile(componentName)
   }
-  console.log(chalk.green(`✔ All the goodies in ${options.component} are now locked and loaded.`))
 }
