@@ -98,5 +98,5 @@ export function getAliasFromConfig() {
   }
 
   const config = JSON.parse(fs.readFileSync(configFilePath, 'utf-8'))
-  return config.alias.replace('/*', '') // Remove '/*' from the alias
+  return config.alias
 }

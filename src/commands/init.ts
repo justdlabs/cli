@@ -76,36 +76,6 @@ export async function init() {
     providers = path.join(stubs, 'next/providers.stub')
   }
 
-  let currentAlias = '@/*'
-  async function configureAlias() {
-    const customizeAlias = await confirm({
-      message: 'Would you like to customize the import alias (' + currentAlias + ' by default)?',
-      default: false,
-    })
-
-    const rootPath = possibilityRootPath()
-    const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
-    const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
-
-    if (customizeAlias) {
-      const customAlias = await input({ message: 'Enter your custom alias (e.g., ~/*):' })
-      tsConfig.compilerOptions.paths = {
-        [customAlias]: [`./${rootPath}/*`],
-        ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
-      }
-      currentAlias = customAlias
-    } else {
-      tsConfig.compilerOptions.paths = {
-        [currentAlias]: [`./${rootPath}/*`],
-        ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
-      }
-    }
-
-    fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-  }
-
-  await configureAlias()
-
   if (!fs.existsSync(utilsFolder)) {
     fs.mkdirSync(utilsFolder, { recursive: true })
   }
@@ -188,6 +158,23 @@ export async function init() {
       fs.writeFileSync(path.join(componentFolder, 'providers.tsx'), providersContent, { flag: 'w' })
     }
   }
+
+  async function getUserAlias() {
+    const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
+    if (fs.existsSync(tsConfigPath)) {
+      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
+      const paths = tsConfig.compilerOptions?.paths
+      if (paths) {
+        const aliases = Object.keys(paths)
+        if (aliases.length > 0) {
+          return aliases[0].replace(/\/\*$/, '') // Remove /* from the alias
+        }
+      }
+    }
+    return '@'
+  }
+
+  const currentAlias = await getUserAlias()
 
   const config = {
     $schema: 'https://getjustd.com',
