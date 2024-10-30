@@ -18,6 +18,9 @@
       "@/*": [
         "./src/*"
       ],
+      "ui": [
+        "./src/components/ui/index.ts"
+      ]
     }
   },
   "include": [

@@ -28,6 +28,9 @@ export const resourceDir = path.resolve(__dirname, '../src/resources')
 const stubs = path.resolve(__dirname, '../src/resources/stubs')
 
 export async function init() {
+  if (!fs.existsSync('justd.json')) {
+    fs.writeFileSync('justd.json', '{}')
+  }
   const configJsExists = fs.existsSync('tailwind.config.js')
   const configTsExists = fs.existsSync('tailwind.config.ts')
 
@@ -103,11 +106,10 @@ export async function init() {
         [customAlias]: [`./${rootPath}/*`],
         ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
       }
-
       currentAlias = customAlias
     } else {
       tsConfig.compilerOptions.paths = {
-        '@/*': [`./${rootPath}/*`],
+        [currentAlias]: [`./${rootPath}/*`],
         ui: ['./' + possibilityComponentsPath() + '/ui/index.ts'],
       }
     }
@@ -202,6 +204,7 @@ export async function init() {
     css: cssLocation,
     alias: currentAlias,
   }
+
   fs.writeFileSync('justd.json', JSON.stringify(config, null, 2))
 
   const continuedToAddComponent = spawn('npx justd-cli@latest add', {
