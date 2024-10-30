@@ -13,48 +13,63 @@ export function capitalize(str: string) {
 }
 
 export function possibilityCssPath(): string {
-  if (fs.existsSync('artisan')) {
+  if (isLaravel()) {
     return 'resources/css/app.css'
-  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && isNextJs()) {
+    return 'src/globals.css'
+  } else if (hasFolder('app') && isNextJs() && !fs.existsSync('artisan')) {
     return 'app/globals.css'
-  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
-    return 'src/app/globals.css'
+  } else if (hasFolder('app') && !fs.existsSync('artisan') && isRemix()) {
+    return 'app/tailwind.css'
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && !isRemix() && !isNextJs()) {
+    return 'src/index.css'
   }
-
-  return 'styles.css'
+  return 'src/index.css'
 }
 
 export function possibilityComponentsPath(): string {
-  if (fs.existsSync('artisan')) {
+  if (isLaravel()) {
     return 'resources/js/components'
-  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && isNextJs()) {
     return 'src/components'
-  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+  } else if (hasFolder('app') && isNextJs() && !fs.existsSync('artisan')) {
     return 'components'
+  } else if (hasFolder('app') && !fs.existsSync('artisan') && isRemix()) {
+    return 'app/components'
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && !isRemix() && !isNextJs()) {
+    return 'src/components'
   }
   return 'components'
 }
 
 export function possibilityUtilsPath(): string {
-  if (fs.existsSync('artisan')) {
+  if (isLaravel()) {
     return 'resources/js/utils'
-  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && isNextJs()) {
+    return 'src/utils'
+  } else if (hasFolder('app') && isNextJs() && !fs.existsSync('artisan')) {
     return 'utils'
-  } else if (hasFolder('src') && !fs.existsSync('artisan')) {
+  } else if (hasFolder('app') && !fs.existsSync('artisan') && isRemix()) {
+    return 'app/utils'
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && !isRemix() && !isNextJs()) {
     return 'src/utils'
   }
   return 'utils'
 }
 
 export function possibilityRootPath(): string {
-  if (fs.existsSync('artisan')) {
+  if (isLaravel()) {
     return 'resources/js'
-  } else if (hasFolder('app') && !fs.existsSync('artisan')) {
-    return '/'
-  } else if (hasFolder('src')) {
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && isNextJs()) {
+    return 'src'
+  } else if (hasFolder('app') && isNextJs() && !fs.existsSync('artisan')) {
+    return 'utils'
+  } else if (hasFolder('app') && !fs.existsSync('artisan') && isRemix()) {
+    return 'app'
+  } else if (hasFolder('src') && !fs.existsSync('artisan') && !isRemix() && !isNextJs()) {
     return 'src'
   }
-  return ''
+  return 'utils'
 }
 
 export function isNextJs(): boolean {
