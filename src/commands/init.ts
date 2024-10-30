@@ -160,19 +160,23 @@ export async function init() {
   }
 
   async function getUserAlias() {
-    const tsConfigPath = path.join(process.cwd(), 'tsconfig.json')
+    const tsConfigPath = path.join(process.cwd(), 'tsconfig.json');
     if (fs.existsSync(tsConfigPath)) {
-      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'))
-      const paths = tsConfig.compilerOptions?.paths
+      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'));
+      const paths = tsConfig.compilerOptions?.paths;
+
       if (paths) {
-        const aliases = Object.keys(paths)
-        if (aliases.length > 0) {
-          return aliases[0].replace(/\/\*$/, '') // Remove /* from the alias
+        const aliases: Record<string, string[]> = {};
+        for (const key in paths) {
+          const cleanedKey = key.replace('/*', '');
+          aliases[cleanedKey] = paths[key].map((p: string) => p.replace('/*', ''));
         }
+        return aliases;
       }
     }
-    return '@'
+    return {};
   }
+
 
   const currentAlias = await getUserAlias()
 
