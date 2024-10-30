@@ -1,5 +1,12 @@
 
 
+## [1.2.15](https://github.com/justdlabs/cli/compare/v1.2.14...v1.2.15) (2024-10-30)
+
+
+### Refactors
+
+* refactoring message ([11be863](https://github.com/justdlabs/cli/commit/11be863ad63b799ad1e64f7c53b4ed615c9fb94b))
+
 ## [1.2.14](https://github.com/justdlabs/cli/compare/v1.2.13...v1.2.14) (2024-10-30)
 
 
