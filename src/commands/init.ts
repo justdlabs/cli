@@ -1,4 +1,4 @@
-import { confirm, input, select } from '@inquirer/prompts'
+import { input, select } from '@inquirer/prompts'
 import fs from 'fs'
 import { spawn } from 'child_process'
 import path from 'path'
@@ -18,7 +18,6 @@ import {
   isRemix,
   possibilityComponentsPath,
   possibilityCssPath,
-  possibilityRootPath,
   possibilityUtilsPath,
 } from '@/utils/helpers'
 
@@ -109,30 +108,19 @@ export async function init() {
 
   const packageManager = await getPackageManager()
 
-  let packages = [
-    'react-aria-components',
-    'tailwindcss-react-aria-components',
-    'tailwind-variants',
-    'tailwind-merge',
-    'clsx',
-    'justd-icons',
-    'tailwindcss-animate',
-  ].join(' ')
+  let mainPackages = ['react-aria-components', 'justd-icons'].join(' ')
+
+  let devPackages = ['tailwindcss-react-aria-components', 'tailwind-variants', 'tailwind-merge', 'clsx', 'tailwindcss-animate'].join(' ')
 
   if (isNextJs()) {
-    packages += ' next-themes'
+    devPackages += ' next-themes'
   }
   if (isRemix()) {
-    packages += ' remix-themes'
+    devPackages += ' remix-themes'
   }
 
-  const devPackages = packages
-    .split(' ')
-    .filter((pkg) => pkg !== 'react-aria-components' && pkg !== 'justd-icons')
-    .join(' ')
-
   const action = packageManager === 'npm' ? 'i ' : 'add '
-  const installCommand = `${packageManager} ${action} ${packages} && ${packageManager} ${action} -D ${devPackages}`
+  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
 
   spinner.info(`Installing dependencies...`)
 
