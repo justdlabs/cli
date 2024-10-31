@@ -55,12 +55,12 @@ export async function init() {
     default: possibilityCssPath(),
   })
 
-  if (isNextJs()) {
-    configSourcePath = path.join(stubs, "next/tailwind.config.next.stub")
+  if (isNextJs() && hasFolder("src")) {
+    configSourcePath = path.join(stubs, "next/tailwind.config.src.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
-  } else if (isNextJs() && hasFolder("src")) {
-    configSourcePath = path.join(stubs, "next/tailwind.config.src.next.stub")
+  } else if (isNextJs() && !hasFolder("src")) {
+    configSourcePath = path.join(stubs, "next/tailwind.config.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else if (isLaravel()) {
@@ -72,7 +72,7 @@ export async function init() {
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else {
-    configSourcePath = path.join(stubs, "next/tailwind.config.next.stub")
+    configSourcePath = path.join(stubs, "next/tailwind.config.next.src.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   }
@@ -105,25 +105,19 @@ export async function init() {
 
   const packageManager = await getPackageManager()
 
-  let packages = [
-    "react-aria-components",
-    "tailwindcss-react-aria-components",
-    "tailwind-variants",
-    "tailwind-merge",
-    "clsx",
-    "justd-icons",
-    "tailwindcss-animate",
-  ].join(" ")
+  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+
+  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
 
   if (isNextJs()) {
-    packages += " next-themes"
+    devPackages += " next-themes"
   }
   if (isRemix()) {
-    packages += " remix-themes"
+    devPackages += " remix-themes"
   }
 
   const action = packageManager === "npm" ? "i " : "add "
-  const installCommand = `${packageManager} ${action} ${packages}`
+  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
 
   spinner.info(`Installing dependencies...`)
 
