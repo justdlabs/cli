@@ -1,5 +1,12 @@
 
 
+## [1.2.19](https://github.com/justdlabs/cli/compare/v1.2.18...v1.2.19) (2024-10-31)
+
+
+### Bug Fixes
+
+* fixing error ([ebd3de2](https://github.com/justdlabs/cli/commit/ebd3de2fece0518b0490076487ab25cdf90e48c0))
+
 ## [1.2.18](https://github.com/justdlabs/cli/compare/v1.2.17...v1.2.18) (2024-10-31)
 
 
