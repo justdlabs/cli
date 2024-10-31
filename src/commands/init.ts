@@ -12,6 +12,7 @@ import open from 'open'
 import { theme } from '@/commands/theme'
 import {
   capitalize,
+  hasFolder,
   isLaravel,
   isNextJs,
   isRemix,
@@ -62,6 +63,10 @@ export async function init() {
     configSourcePath = path.join(stubs, 'next/tailwind.config.next.stub')
     themeProvider = path.join(stubs, 'next/theme-provider.stub')
     providers = path.join(stubs, 'next/providers.stub')
+  } else if (isNextJs() && hasFolder('src')) {
+    configSourcePath = path.join(stubs, 'next/tailwind.config.src.next.stub')
+    themeProvider = path.join(stubs, 'next/theme-provider.stub')
+    providers = path.join(stubs, 'next/providers.stub')
   } else if (isLaravel()) {
     configSourcePath = path.join(stubs, 'laravel/tailwind.config.laravel.stub')
     themeProvider = path.join(stubs, 'laravel/theme-provider.stub')
@@ -103,7 +108,8 @@ export async function init() {
   }
 
   const packageManager = await getPackageManager()
-  const packages = [
+
+  let packages = [
     'react-aria-components',
     'tailwindcss-react-aria-components',
     'tailwind-variants',
@@ -111,9 +117,14 @@ export async function init() {
     'clsx',
     'justd-icons',
     'tailwindcss-animate',
-  ]
-    .map((component) => component)
-    .join(' ')
+  ].join(' ')
+
+  if (isNextJs()) {
+    packages += ' next-themes'
+  }
+  if (isRemix()) {
+    packages += ' remix-themes'
+  }
 
   const action = packageManager === 'npm' ? 'i ' : 'add '
   const installCommand = `${packageManager} ${action} ${packages}`
