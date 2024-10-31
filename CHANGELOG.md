@@ -1,5 +1,12 @@
 
 
+## [1.2.21](https://github.com/justdlabs/cli/compare/v1.2.20...v1.2.21) (2024-10-31)
+
+
+### Bug Fixes
+
+* fix path css ([ad2c28f](https://github.com/justdlabs/cli/commit/ad2c28f722e10042033977a83146a5937dfb508a))
+
 ## [1.2.20](https://github.com/justdlabs/cli/compare/v1.2.19...v1.2.20) (2024-10-31)
 
 
