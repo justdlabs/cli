@@ -1,5 +1,12 @@
 
 
+## [1.2.17](https://github.com/justdlabs/cli/compare/v1.2.16...v1.2.17) (2024-10-31)
+
+
+### Bug Fixes
+
+* add need theme as a project types ([8bba3be](https://github.com/justdlabs/cli/commit/8bba3bedb2fbbb875a38b16f446d07dee979367c))
+
 ## [1.2.16](https://github.com/justdlabs/cli/compare/v1.2.15...v1.2.16) (2024-10-30)
 
 ## [1.2.15](https://github.com/justdlabs/cli/compare/v1.2.14...v1.2.15) (2024-10-30)
