@@ -1,5 +1,13 @@
 
 
+## [1.2.18](https://github.com/justdlabs/cli/compare/v1.2.17...v1.2.18) (2024-10-31)
+
+
+### Bug Fixes
+
+* add dev flag ([366d9e1](https://github.com/justdlabs/cli/commit/366d9e11727a14b612435c42a8cf4eeb383d36e1))
+* init ([54e6ca9](https://github.com/justdlabs/cli/commit/54e6ca997795da63556417715531540b77a364aa))
+
 ## [1.2.17](https://github.com/justdlabs/cli/compare/v1.2.16...v1.2.17) (2024-10-31)
 
 
