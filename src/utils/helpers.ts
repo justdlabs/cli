@@ -16,7 +16,7 @@ export function possibilityCssPath(): string {
   if (isLaravel()) {
     return "resources/css/app.css"
   } else if (hasFolder("src") && !fs.existsSync("artisan") && isNextJs()) {
-    return "src/globals.css"
+    return "src/app/globals.css"
   } else if (hasFolder("app") && isNextJs() && !fs.existsSync("artisan")) {
     return "app/globals.css"
   } else if (hasFolder("app") && !fs.existsSync("artisan") && isRemix()) {
