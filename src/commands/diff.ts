@@ -1,13 +1,13 @@
-import fs from 'fs'
-import path from 'path'
-import fetch from 'node-fetch'
-import { diffLines } from 'diff'
-import { checkbox } from '@inquirer/prompts'
-import { getRepoUrlForComponent } from '@/utils/repo'
-import chalk from 'chalk'
+import fs from "fs"
+import path from "path"
+import fetch from "node-fetch"
+import { diffLines } from "diff"
+import { checkbox } from "@inquirer/prompts"
+import { getRepoUrlForComponent } from "@/utils/repo"
+import chalk from "chalk"
 
 const getLocalComponentPath = (configPath: string, componentName: string) => {
-  const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
+  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
   return path.join(config.ui, `${componentName}.tsx`)
 }
 
@@ -21,8 +21,8 @@ const fetchRemoteComponent = async (componentName: string): Promise<string> => {
 const compareComponents = (localContent: string, remoteContent: string) => {
   const sanitizeContent = (content: string) =>
     content
-      .replace(/['"]use client['"];/g, '')
-      .replace(/['"]use client['"]\n/g, '')
+      .replace(/['"]use client['"];/g, "")
+      .replace(/['"]use client['"]\n/g, "")
       .replace(/"/g, "'")
       .trim()
 
@@ -32,16 +32,16 @@ const compareComponents = (localContent: string, remoteContent: string) => {
 
 export const diff = async (...args: string[]) => {
   try {
-    const configPath = path.resolve(process.cwd(), 'justd.json')
-    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
+    const configPath = path.resolve(process.cwd(), "justd.json")
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
     const componentsDir = config.ui
 
-    const excludeComponents = ['index']
+    const excludeComponents = ["index"]
 
     let componentNames = fs
       .readdirSync(componentsDir)
-      .filter((file) => file.endsWith('.tsx'))
-      .map((file) => path.basename(file, '.tsx'))
+      .filter((file) => file.endsWith(".tsx"))
+      .map((file) => path.basename(file, ".tsx"))
       .filter((name) => !excludeComponents.includes(name))
 
     if (args.length > 0) {
@@ -52,7 +52,7 @@ export const diff = async (...args: string[]) => {
 
     for (const componentName of componentNames) {
       const localComponentPath = getLocalComponentPath(configPath, componentName)
-      const localContent = fs.readFileSync(localComponentPath, 'utf-8')
+      const localContent = fs.readFileSync(localComponentPath, "utf-8")
 
       try {
         const remoteContent = await fetchRemoteComponent(componentName)
@@ -61,16 +61,16 @@ export const diff = async (...args: string[]) => {
         if (diffs.length > 0) {
           console.log(`Differences found in ${componentName}:`)
           diffs.forEach((part) => {
-            const symbol = part.added ? '+' : '-'
+            const symbol = part.added ? "+" : "-"
             const colorFn = part.added ? chalk.green : chalk.red
             process.stdout.write(
               part.value
-                .split('\n')
+                .split("\n")
                 .map((line) => colorFn(`${symbol} ${line}`))
-                .join('\n'),
+                .join("\n"),
             )
           })
-          console.log('\n')
+          console.log("\n")
           changedComponents.push(componentName)
         } else {
           console.log(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
@@ -82,7 +82,7 @@ export const diff = async (...args: string[]) => {
 
     if (changedComponents.length > 0) {
       const selectedComponents = await checkbox({
-        message: 'Select components to update',
+        message: "Select components to update",
         choices: [
           ...changedComponents.map((componentName) => ({
             title: componentName,
@@ -93,8 +93,8 @@ export const diff = async (...args: string[]) => {
         initial: changedComponents,
       })
 
-      if (selectedComponents.includes('none') || selectedComponents.length === 0) {
-        console.log('No components selected for update.')
+      if (selectedComponents.includes("none") || selectedComponents.length === 0) {
+        console.log("No components selected for update.")
         return
       }
 
@@ -109,9 +109,9 @@ export const diff = async (...args: string[]) => {
         }
       }
     } else {
-      console.log(chalk.green('✔ All components are up to date.'))
+      console.log(chalk.green("✔ All components are up to date."))
     }
   } catch (error: any) {
-    console.error('Error checking differences:', error.message)
+    console.error("Error checking differences:", error.message)
   }
 }

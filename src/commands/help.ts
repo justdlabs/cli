@@ -1,12 +1,12 @@
-import { Command } from 'commander'
-import packageJson from '../../package.json'
+import { Command } from "commander"
+import packageJson from "../../package.json"
 
 const version = packageJson.version
 
 export function help(program: Command) {
   program
-    .command('help [command]')
-    .description('Show help information')
+    .command("help [command]")
+    .description("Show help information")
     .action((commandName) => {
       console.log(`CLI Tool v${version}\n`)
 

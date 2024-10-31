@@ -1,7 +1,7 @@
-import { confirm, input } from '@inquirer/prompts'
-import fs from 'fs'
-import path from 'path'
-import { possibilityCssPath, possibilityUtilsPath } from '@/utils/helpers'
+import { confirm, input } from "@inquirer/prompts"
+import fs from "fs"
+import path from "path"
+import { possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
 
 // This function is used to get the write path for a component
 export function getWriteComponentPath(componentName: string) {
@@ -11,42 +11,42 @@ export function getWriteComponentPath(componentName: string) {
 
 // Get the path to the UI folder from the justd.json file
 export function getUIFolderPath() {
-  const configFile = 'justd.json'
+  const configFile = "justd.json"
   if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
     return config.ui
   } else {
-    throw new Error('Configuration file justd.json not found. Please run the init command first.')
+    throw new Error("Configuration file justd.json not found. Please run the init command first.")
   }
 }
 
 // Get the path to the utils folder from the justd.json file
 export function getUtilsFolderPath() {
-  const configFile = 'justd.json'
+  const configFile = "justd.json"
   if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
 
     if (!config.classes) {
       config.classes = possibilityUtilsPath()
 
-      fs.writeFileSync(configFile, JSON.stringify(config, null, 2), 'utf8')
+      fs.writeFileSync(configFile, JSON.stringify(config, null, 2), "utf8")
     }
 
     return config.classes
   } else {
-    throw new Error('Configuration file justd.json not found. Please run the init command first.')
+    throw new Error("Configuration file justd.json not found. Please run the init command first.")
   }
 }
 
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
-  const configFile = 'justd.json'
+  const configFile = "justd.json"
 
   if (!fs.existsSync(configFile)) {
-    throw new Error('Configuration file justd.json not found. Please run the init command first.')
+    throw new Error("Configuration file justd.json not found. Please run the init command first.")
   }
 
-  const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+  const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
   let cssPath = config.css || possibilityCssPath()
 
   if (cssPath && fs.existsSync(cssPath)) {
@@ -64,7 +64,7 @@ export async function getCSSPath() {
   }
 
   cssPath = await input({
-    message: 'Please provide a CSS path:',
+    message: "Please provide a CSS path:",
     default: possibilityCssPath(),
   })
 

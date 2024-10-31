@@ -1,16 +1,16 @@
-import fs from 'fs'
-import path from 'path'
-import { checkbox } from '@inquirer/prompts'
-import { components, namespaces } from '@/resources/components'
-import { getUtilsFolderPath, getWriteComponentPath } from '@/utils'
-import chalk from 'chalk'
-import { getPackageManager } from '@/utils/get-package-manager'
-import { additionalDeps } from '@/utils/additional-deps'
-import ora from 'ora'
-import { getClassesTsRepoUrl, getRepoUrlForComponent } from '@/utils/repo'
-import fetch from 'node-fetch'
-import { getUIPathFromConfig } from '@/utils/helpers'
-import { getAliasFromConfig, isLaravel } from '@/utils/helpers'
+import fs from "fs"
+import path from "path"
+import { checkbox } from "@inquirer/prompts"
+import { components, namespaces } from "@/resources/components"
+import { getUtilsFolderPath, getWriteComponentPath } from "@/utils"
+import chalk from "chalk"
+import { getPackageManager } from "@/utils/get-package-manager"
+import { additionalDeps } from "@/utils/additional-deps"
+import ora from "ora"
+import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
+import fetch from "node-fetch"
+import { getUIPathFromConfig } from "@/utils/helpers"
+import { getAliasFromConfig, isLaravel } from "@/utils/helpers"
 
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
   if (processed.has(componentName)) {
@@ -18,16 +18,16 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   }
 
   const uiPath = getUIPathFromConfig()
-  const indexPath = path.join(process.cwd(), uiPath, 'index.ts')
+  const indexPath = path.join(process.cwd(), uiPath, "index.ts")
   const componentExport = `export * from './${componentName}';`
 
-  let existingExports = ''
+  let existingExports = ""
   if (fs.existsSync(indexPath)) {
-    existingExports = fs.readFileSync(indexPath, 'utf-8')
+    existingExports = fs.readFileSync(indexPath, "utf-8")
   }
 
   if (!existingExports.includes(componentExport)) {
-    const newContent = existingExports.trim() + (existingExports.trim() ? '\n' : '') + componentExport + '\n'
+    const newContent = existingExports.trim() + (existingExports.trim() ? "\n" : "") + componentExport + "\n"
     fs.writeFileSync(indexPath, newContent)
   }
 
@@ -58,13 +58,13 @@ async function createComponent(componentName: string) {
     let content = await response.text()
 
     if (isLaravel()) {
-      content = content.replace(/['"]use client['"]\s*\n?/g, '')
+      content = content.replace(/['"]use client['"]\s*\n?/g, "")
     }
 
     const alias = getAliasFromConfig()
     const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
     content = content.replace(aliasRegex, (match) => {
-      return match.replace('@/', `${alias}/`)
+      return match.replace("@/", `${alias}/`)
     })
 
     fs.writeFileSync(writePath, content)
@@ -85,7 +85,7 @@ async function processComponent(
 ) {
   const componentPath = getWriteComponentPath(componentName)
   const utilsFolder = getUtilsFolderPath()
-  const classesFile = path.join(utilsFolder, 'classes.ts')
+  const classesFile = path.join(utilsFolder, "classes.ts")
 
   if (!fs.existsSync(classesFile)) {
     if (!fs.existsSync(utilsFolder)) {
@@ -93,18 +93,18 @@ async function processComponent(
     }
     const responseClasses = await fetch(getClassesTsRepoUrl())
     const fileContentClasses = await responseClasses.text()
-    fs.writeFileSync(classesFile, fileContentClasses, { flag: 'w' })
+    fs.writeFileSync(classesFile, fileContentClasses, { flag: "w" })
   }
 
   if (fs.existsSync(componentPath)) {
     if (override && !isChild) {
-      console.log(`${chalk.yellow('Replacing')} ${componentName}...`)
+      console.log(`${chalk.yellow("Replacing")} ${componentName}...`)
       fs.rmSync(componentPath, { recursive: true, force: true })
     } else if (isChild) {
-      console.log(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
+      console.log(`${chalk.blue("ℹ")} ${componentName} already exists. Use the -o flag to override.`)
       return
     } else {
-      console.warn(`${chalk.blue('ℹ')} ${componentName} already exists. Use the -o flag to override.`)
+      console.warn(`${chalk.blue("ℹ")} ${componentName} already exists. Use the -o flag to override.`)
       return
     }
   }
@@ -126,16 +126,16 @@ async function processComponent(
 
 export async function add(options: any) {
   const { component, override } = options
-  const configFilePath = path.join(process.cwd(), 'justd.json')
+  const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
     console.error(
-      `${chalk.red('justd.json not found')}. ${chalk.gray(`Please run ${chalk.blue('npx justd-cli@latest init')} to initialize the project.`)}`,
+      `${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`,
     )
     return
   }
 
-  const exclude = ['primitive']
-  let selectedComponents = component ? component.split(' ') : []
+  const exclude = ["primitive"]
+  let selectedComponents = component ? component.split(" ") : []
   if (selectedComponents.length === 0) {
     const choices = components
       .filter((comp) => !exclude.includes(comp.name))
@@ -143,7 +143,7 @@ export async function add(options: any) {
       .map((comp) => ({ name: comp.name, value: comp.name }))
     selectedComponents = await checkbox({
       required: true,
-      message: 'Select components to add:',
+      message: "Select components to add:",
       choices: choices,
       pageSize: 17,
       loop: false,
@@ -151,13 +151,13 @@ export async function add(options: any) {
   }
 
   const packageManager = await getPackageManager()
-  const action = packageManager === 'npm' ? 'i ' : 'add '
+  const action = packageManager === "npm" ? "i " : "add "
 
   const processed = new Set<string>()
   for (const componentName of selectedComponents) {
     const targetComponent = components.find((comp) => comp.name === componentName)
     if (!targetComponent) {
-      console.log(chalk.red('No component found'))
+      console.log(chalk.red("No component found"))
       return
     }
     console.log(`Starting to add ${componentName}...`)
