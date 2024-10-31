@@ -126,8 +126,13 @@ export async function init() {
     packages += ' remix-themes'
   }
 
+  const devPackages = packages
+    .split(' ')
+    .filter((pkg) => pkg !== 'react-aria-components' && pkg !== 'justd-icons')
+    .join(' ')
+
   const action = packageManager === 'npm' ? 'i ' : 'add '
-  const installCommand = `${packageManager} ${action} ${packages}`
+  const installCommand = `${packageManager} ${action} ${packages} && ${packageManager} ${action} -D ${devPackages}`
 
   spinner.info(`Installing dependencies...`)
 
