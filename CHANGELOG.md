@@ -1,5 +1,12 @@
 
 
+## [1.2.20](https://github.com/justdlabs/cli/compare/v1.2.19...v1.2.20) (2024-10-31)
+
+
+### Bug Fixes
+
+* detect src folder in nextjs ([8493a51](https://github.com/justdlabs/cli/commit/8493a51507b0b619102d3a8d923dc55c9a024532))
+
 ## [1.2.19](https://github.com/justdlabs/cli/compare/v1.2.18...v1.2.19) (2024-10-31)
 
 
