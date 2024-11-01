@@ -200,15 +200,10 @@ export async function init() {
     }
 
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-    if (!tsConfig.compilerOptions.paths) {
-      const rootPath = await input({
-        message: "No paths found in tsconfig.json. Please enter the root directory path for the '@/':",
-        default: "./src",
-      })
+    if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
 
-      tsConfig.compilerOptions.paths = {
-        "@/*": [`${rootPath}/*`],
-      }
+    if (!tsConfig.compilerOptions.paths["ui"]) {
+      tsConfig.compilerOptions.paths["ui"] = [`./${uiFolder}/index.ts`]
 
       try {
         fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
