@@ -115,3 +115,5 @@ export function getAliasFromConfig() {
   const config = JSON.parse(fs.readFileSync(configFilePath, "utf-8"))
   return config.alias
 }
+
+export const justdConfigFile = path.resolve(process.cwd(), "justd.json")

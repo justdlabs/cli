@@ -1,7 +1,7 @@
 import { confirm, input } from "@inquirer/prompts"
 import fs from "fs"
 import path from "path"
-import { possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
+import { justdConfigFile, possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
 
 // This function is used to get the write path for a component
 export function getWriteComponentPath(componentName: string) {
@@ -40,7 +40,7 @@ export function getUtilsFolderPath() {
 
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
-  const configFile = "justd.json"
+  const configFile = justdConfigFile
 
   if (!fs.existsSync(configFile)) {
     throw new Error("Configuration file justd.json not found. Please run the init command first.")

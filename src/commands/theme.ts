@@ -5,7 +5,7 @@ import ora from "ora"
 import { confirm, select } from "@inquirer/prompts"
 import { resourceDir } from "./init"
 import { getCSSPath } from "@/utils"
-import { capitalize } from "@/utils/helpers"
+import { capitalize, justdConfigFile, possibilityCssPath } from "@/utils/helpers"
 
 export async function theme(cssLocation: string): Promise<string | undefined> {
   const themes = [
@@ -67,8 +67,11 @@ export async function setTheme(overrideConfirmation: boolean, selectedTheme?: st
   const userConfig = JSON.parse(readFileSync(userConfigPath, "utf8"))
 
   const currentTheme = userConfig.theme || "default"
-
-  const cssPath = await getCSSPath()
+  const config = JSON.parse(fs.readFileSync(justdConfigFile, "utf8"))
+  let cssPath = config.css || possibilityCssPath()
+  if (!overrideConfirmation) {
+    cssPath = await getCSSPath()
+  }
 
   let confirmOverride = true
 
@@ -89,7 +92,7 @@ export async function setTheme(overrideConfirmation: boolean, selectedTheme?: st
     const newTheme = capitalize(_newTheme.replace(".css", ""))
     userConfig.theme = newTheme
 
-    const cssSourcePath = path.join(resourceDir, `themes/${_newTheme}.css`)
+    const cssSourcePath = path.join(resourceDir, `themes/${newTheme}.css`)
     const cssContent = readFileSync(cssSourcePath, "utf8")
     writeFileSync(cssPath, cssContent, { flag: "w" })
 
