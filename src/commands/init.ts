@@ -85,8 +85,6 @@ export async function init() {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
 
-  const selectedTheme = await theme(cssLocation)
-
   const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
 
   async function getUserAlias(): Promise<string | null> {
@@ -138,6 +136,7 @@ export async function init() {
 
   const currentAlias = await getUserAlias()
 
+  const selectedTheme = await theme(cssLocation)
   const config = {
     $schema: "https://getjustd.com",
     ui: uiFolder,
