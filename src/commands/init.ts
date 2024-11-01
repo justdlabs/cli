@@ -91,15 +91,48 @@ export async function init() {
 
   async function getUserAlias(): Promise<string | null> {
     const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-    if (fs.existsSync(tsConfigPath)) {
-      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
-      const paths = tsConfig.compilerOptions?.paths
 
-      if (paths) {
-        const firstAliasKey = Object.keys(paths)[0]
-        return firstAliasKey.replace("/*", "")
+    if (!fs.existsSync(tsConfigPath)) {
+      console.error("tsconfig.json not found.")
+      return null
+    }
+
+    let tsConfig
+    try {
+      tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
+    } catch (error) {
+      console.error("Failed to read tsconfig.json.")
+      return null
+    }
+
+    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
+
+    if (!("paths" in tsConfig.compilerOptions)) {
+      const rootPath = await input({
+        message: "No paths key found in tsconfig.json. Please enter the root directory path for the '@/':",
+        default: "./src",
+      })
+
+      tsConfig.compilerOptions.paths = {
+        "@/*": [`${rootPath || "./src"}/*`],
+      }
+
+      const spinner = ora("Updating tsconfig.json with paths...").start()
+      try {
+        fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+        spinner.succeed("Paths added to tsconfig.json.")
+      } catch (error) {
+        spinner.fail("Failed to write to tsconfig.json.")
+        return null
       }
     }
+
+    const paths = tsConfig.compilerOptions.paths
+    if (paths) {
+      const firstAliasKey = Object.keys(paths)[0]
+      return firstAliasKey.replace("/*", "")
+    }
+
     return null
   }
 
@@ -137,25 +170,6 @@ export async function init() {
     }
 
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-
-    if (!("paths" in tsConfig.compilerOptions)) {
-      const rootPath = await input({
-        message: "No paths key found in tsconfig.json. Please enter the root directory path for the '@/':",
-        default: "./src",
-      })
-
-      tsConfig.compilerOptions.paths = {
-        "@/*": [`${rootPath || "./src"}/*`],
-      }
-
-      try {
-        fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-        spinner.succeed("Paths added to tsconfig.json.")
-      } catch (error) {
-        spinner.fail("Failed to write to tsconfig.json.")
-        return
-      }
-    }
   }
 
   const packageManager = await getPackageManager()
