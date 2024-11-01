@@ -197,17 +197,6 @@ export async function init() {
     console.error("Error writing to justd.json:", error?.message)
   }
 
-  const continuedToAddComponent = spawn("npx justd-cli@latest add", {
-    stdio: "inherit",
-    shell: true,
-  })
-
-  await new Promise<void>((resolve) => {
-    continuedToAddComponent.on("close", () => {
-      resolve()
-    })
-  })
-
   const packageManager = await getPackageManager()
 
   let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
@@ -231,9 +220,28 @@ export async function init() {
     shell: true,
   })
 
-  await new Promise<void>((resolve) => {
-    child.on("close", () => {
-      resolve()
+  await new Promise<void>((resolve, reject) => {
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject(new Error("Installation process failed"))
+      }
+    })
+  })
+
+  const continuedToAddComponent = spawn("npx justd-cli@latest add", {
+    stdio: "inherit",
+    shell: true,
+  })
+
+  await new Promise<void>((resolve, reject) => {
+    continuedToAddComponent.on("close", (code) => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject(new Error("Component addition process failed"))
+      }
     })
   })
 
