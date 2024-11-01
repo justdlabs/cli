@@ -215,20 +215,45 @@ export async function init() {
 
   spinner.info(`Installing dependencies...`)
 
-  const child = spawn(installCommand, {
-    stdio: "inherit",
-    shell: true,
-  })
-
-  await new Promise<void>((resolve, reject) => {
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve()
-      } else {
-        reject(new Error("Installation process failed"))
-      }
+  try {
+    const child = spawn(installCommand, {
+      stdio: "inherit",
+      shell: true,
     })
-  })
+
+    await new Promise<void>((resolve, reject) => {
+      child.on("close", (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          spinner.fail("Installation process failed.")
+          reject(new Error("Installation process failed"))
+        }
+      })
+    })
+
+    const continuedToAddComponent = spawn("npx justd-cli@latest add", {
+      stdio: "inherit",
+      shell: true,
+    })
+
+    await new Promise<void>((resolve, reject) => {
+      continuedToAddComponent.on("close", (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          spinner.fail("Component addition process failed.")
+          reject(new Error("Component addition process failed"))
+        }
+      })
+    })
+
+    spinner.succeed("Dependencies installed and components added successfully.")
+  } catch (error) {
+    // @ts-ignore
+    spinner.fail(`An error occurred: ${error.message}`)
+    return // Exit function on error
+  }
 
   const continuedToAddComponent = spawn("npx justd-cli@latest add", {
     stdio: "inherit",
