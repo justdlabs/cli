@@ -1,5 +1,12 @@
 
 
+## [1.2.35](https://github.com/justdlabs/cli/compare/v1.2.34...v1.2.35) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix stepes ([fc0ef06](https://github.com/justdlabs/cli/commit/fc0ef06b0fbbb2b8f34cdcb244dbb10e0e44e2f5))
+
 ## [1.2.34](https://github.com/justdlabs/cli/compare/v1.2.33...v1.2.34) (2024-11-01)
 
 
