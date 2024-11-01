@@ -1,5 +1,13 @@
 
 
+## [1.2.36](https://github.com/justdlabs/cli/compare/v1.2.35...v1.2.36) (2024-11-01)
+
+
+### Bug Fixes
+
+* bump ([2cb3b1d](https://github.com/justdlabs/cli/commit/2cb3b1dce06b9d3054428f4abbc7c4861b23863b))
+* bump ([82222ee](https://github.com/justdlabs/cli/commit/82222eea191ac563eeab32be9ed0a474edb2c187))
+
 ## [1.2.35](https://github.com/justdlabs/cli/compare/v1.2.34...v1.2.35) (2024-11-01)
 
 
