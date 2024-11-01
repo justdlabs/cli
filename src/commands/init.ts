@@ -160,31 +160,6 @@ export async function init() {
     }
   }
 
-  async function getUserAlias(): Promise<string | null> {
-    const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-    if (fs.existsSync(tsConfigPath)) {
-      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
-      const paths = tsConfig.compilerOptions?.paths
-
-      if (paths) {
-        const firstAliasKey = Object.keys(paths)[0]
-        return firstAliasKey.replace("/*", "")
-      }
-    }
-    return null
-  }
-
-  const currentAlias = await getUserAlias()
-
-  const config = {
-    $schema: "https://getjustd.com",
-    ui: uiFolder,
-    classes: utilsFolder,
-    theme: capitalize(selectedTheme?.replace(".css", "")!),
-    css: cssLocation,
-    alias: currentAlias,
-  }
-
   const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
 
   if (fs.existsSync(tsConfigPath)) {
@@ -212,12 +187,36 @@ export async function init() {
 
       try {
         fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-        fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
       } catch (error) {
         // @ts-ignore
         console.error("Error writing to tsconfig:", error.message)
       }
     }
+  }
+
+  async function getUserAlias(): Promise<string | null> {
+    const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
+    if (fs.existsSync(tsConfigPath)) {
+      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
+      const paths = tsConfig.compilerOptions?.paths
+
+      if (paths) {
+        const firstAliasKey = Object.keys(paths)[0]
+        return firstAliasKey.replace("/*", "")
+      }
+    }
+    return null
+  }
+
+  const currentAlias = await getUserAlias()
+
+  const config = {
+    $schema: "https://getjustd.com",
+    ui: uiFolder,
+    classes: utilsFolder,
+    theme: capitalize(selectedTheme?.replace(".css", "")!),
+    css: cssLocation,
+    alias: currentAlias,
   }
 
   try {
