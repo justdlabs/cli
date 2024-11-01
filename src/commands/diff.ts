@@ -1,6 +1,5 @@
 import fs from "fs"
 import path from "path"
-import fetch from "node-fetch"
 import { diffLines } from "diff"
 import { checkbox } from "@inquirer/prompts"
 import { getRepoUrlForComponent } from "@/utils/repo"

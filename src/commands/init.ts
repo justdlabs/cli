@@ -3,7 +3,6 @@ import fs from "fs"
 import { spawn } from "child_process"
 import path from "path"
 import { fileURLToPath } from "url"
-import fetch from "node-fetch"
 import chalk from "chalk"
 import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
@@ -18,6 +17,7 @@ import {
   isRemix,
   possibilityComponentsPath,
   possibilityCssPath,
+  possibilityRootPath,
   possibilityUtilsPath,
 } from "@/utils/helpers"
 
@@ -108,7 +108,7 @@ export async function init() {
     if (!("paths" in tsConfig.compilerOptions)) {
       const rootPath = await input({
         message: "No paths key found in tsconfig.json. Please enter the root directory path for the '@/':",
-        default: "./src",
+        default: "./" + possibilityRootPath(),
       })
 
       tsConfig.compilerOptions.paths = {

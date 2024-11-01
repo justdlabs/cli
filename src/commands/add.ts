@@ -8,7 +8,6 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import fetch from "node-fetch"
 import { getUIPathFromConfig } from "@/utils/helpers"
 import { getAliasFromConfig, isLaravel } from "@/utils/helpers"
 
