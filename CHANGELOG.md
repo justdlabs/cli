@@ -1,5 +1,12 @@
 
 
+## [1.2.37](https://github.com/justdlabs/cli/compare/v1.2.36...v1.2.37) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix theme switcher ([60c8e3e](https://github.com/justdlabs/cli/commit/60c8e3ed00fa879c87b5a975538a66473e2268c8))
+
 ## [1.2.36](https://github.com/justdlabs/cli/compare/v1.2.35...v1.2.36) (2024-11-01)
 
 
