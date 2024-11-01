@@ -87,22 +87,6 @@ export async function init() {
 
   const selectedTheme = await theme(cssLocation)
 
-  const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
-
-  const spinner = ora(`Initializing Justd...`).start()
-  if (!fs.existsSync(configSourcePath)) {
-    spinner.warn(chalk.yellow(`Source Tailwind config file does not exist at ${configSourcePath}`))
-    return
-  }
-
-  try {
-    const tailwindConfigContent = fs.readFileSync(configSourcePath, "utf8")
-    fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
-  } catch (error) {
-    // @ts-ignore
-    spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
-  }
-
   async function getUserAlias(): Promise<string | null> {
     const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
     if (fs.existsSync(tsConfigPath)) {
@@ -130,6 +114,16 @@ export async function init() {
 
   const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
 
+  const spinner = ora(`Initializing Justd...`).start()
+
+  try {
+    const tailwindConfigContent = fs.readFileSync(configSourcePath, "utf8")
+    fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
+  } catch (error) {
+    // @ts-ignore
+    spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
+  }
+
   if (fs.existsSync(tsConfigPath)) {
     let tsConfig
     try {
@@ -142,9 +136,9 @@ export async function init() {
 
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
 
-    if (!tsConfig.compilerOptions.paths) {
+    if (!("paths" in tsConfig.compilerOptions)) {
       const rootPath = await input({
-        message: "No paths found in tsconfig.json. Please enter the root directory path for the '@/':",
+        message: "No paths key found in tsconfig.json. Please enter the root directory path for the '@/':",
         default: "./src",
       })
 
