@@ -103,35 +103,6 @@ export async function init() {
     spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
   }
 
-  const packageManager = await getPackageManager()
-
-  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
-
-  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
-
-  if (isNextJs()) {
-    devPackages += " next-themes"
-  }
-  if (isRemix()) {
-    devPackages += " remix-themes"
-  }
-
-  const action = packageManager === "npm" ? "i " : "add "
-  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
-
-  spinner.info(`Installing dependencies...`)
-
-  const child = spawn(installCommand, {
-    stdio: "inherit",
-    shell: true,
-  })
-
-  await new Promise<void>((resolve) => {
-    child.on("close", () => {
-      resolve()
-    })
-  })
-
   const fileUrl = getRepoUrlForComponent("primitive")
   const response = await fetch(fileUrl)
 
@@ -233,6 +204,35 @@ export async function init() {
 
   await new Promise<void>((resolve) => {
     continuedToAddComponent.on("close", () => {
+      resolve()
+    })
+  })
+
+  const packageManager = await getPackageManager()
+
+  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+
+  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+
+  if (isNextJs()) {
+    devPackages += " next-themes"
+  }
+  if (isRemix()) {
+    devPackages += " remix-themes"
+  }
+
+  const action = packageManager === "npm" ? "i " : "add "
+  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
+
+  spinner.info(`Installing dependencies...`)
+
+  const child = spawn(installCommand, {
+    stdio: "inherit",
+    shell: true,
+  })
+
+  await new Promise<void>((resolve) => {
+    child.on("close", () => {
       resolve()
     })
   })
