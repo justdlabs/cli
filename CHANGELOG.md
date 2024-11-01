@@ -1,5 +1,12 @@
 
 
+## [1.2.33](https://github.com/justdlabs/cli/compare/v1.2.32...v1.2.33) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix tw config ([7de5621](https://github.com/justdlabs/cli/commit/7de5621471d94c7f97301d649a6fdd633d5b6ee0))
+
 ## [1.2.32](https://github.com/justdlabs/cli/compare/v1.2.31...v1.2.32) (2024-11-01)
 
 
