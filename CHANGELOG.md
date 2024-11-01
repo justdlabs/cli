@@ -1,5 +1,12 @@
 
 
+## [1.2.24](https://github.com/justdlabs/cli/compare/v1.2.23...v1.2.24) (2024-11-01)
+
+
+### Bug Fixes
+
+* path ([50c340b](https://github.com/justdlabs/cli/commit/50c340bc9e1f7aadb2e393e5998afa964afa86a8))
+
 ## [1.2.23](https://github.com/justdlabs/cli/compare/v1.2.22...v1.2.23) (2024-11-01)
 
 
