@@ -212,6 +212,7 @@ export async function init() {
 
       try {
         fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+        fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
       } catch (error) {
         // @ts-ignore
         console.error("Error writing to tsconfig:", error.message)
