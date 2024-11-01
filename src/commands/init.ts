@@ -87,6 +87,8 @@ export async function init() {
 
   const selectedTheme = await theme(cssLocation)
 
+  const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
+
   async function getUserAlias(): Promise<string | null> {
     const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
     if (fs.existsSync(tsConfigPath)) {
