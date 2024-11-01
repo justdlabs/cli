@@ -1,5 +1,12 @@
 
 
+## [1.2.23](https://github.com/justdlabs/cli/compare/v1.2.22...v1.2.23) (2024-11-01)
+
+
+### Bug Fixes
+
+* path for non choose framework ([20e085a](https://github.com/justdlabs/cli/commit/20e085a3ca0c2efdb192b3c2af1a07856765352e))
+
 ## [1.2.22](https://github.com/justdlabs/cli/compare/v1.2.21...v1.2.22) (2024-10-31)
 
 
