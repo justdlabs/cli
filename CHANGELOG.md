@@ -1,5 +1,12 @@
 
 
+## [1.2.28](https://github.com/justdlabs/cli/compare/v1.2.27...v1.2.28) (2024-11-01)
+
+
+### Bug Fixes
+
+* fix looping ([d7b1cfe](https://github.com/justdlabs/cli/commit/d7b1cfe6cb6584a376e9a276df87fdacbc8048f5))
+
 ## [1.2.27](https://github.com/justdlabs/cli/compare/v1.2.26...v1.2.27) (2024-11-01)
 
 
