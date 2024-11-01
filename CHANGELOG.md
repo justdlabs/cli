@@ -1,5 +1,7 @@
 
 
+## [1.2.31](https://github.com/justdlabs/cli/compare/v1.2.30...v1.2.31) (2024-11-01)
+
 ## [1.2.30](https://github.com/justdlabs/cli/compare/v1.2.29...v1.2.30) (2024-11-01)
 
 
