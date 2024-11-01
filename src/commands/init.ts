@@ -103,6 +103,95 @@ export async function init() {
     spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
   }
 
+  const packageManager = await getPackageManager()
+
+  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+
+  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+
+  if (isNextJs()) {
+    devPackages += " next-themes"
+  }
+
+  if (isRemix()) {
+    devPackages += " remix-themes"
+  }
+
+  async function getUserAlias(): Promise<string | null> {
+    const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
+    if (fs.existsSync(tsConfigPath)) {
+      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
+      const paths = tsConfig.compilerOptions?.paths
+
+      if (paths) {
+        const firstAliasKey = Object.keys(paths)[0]
+        return firstAliasKey.replace("/*", "")
+      }
+    }
+    return null
+  }
+
+  const currentAlias = await getUserAlias()
+
+  const config = {
+    $schema: "https://getjustd.com",
+    ui: uiFolder,
+    classes: utilsFolder,
+    theme: capitalize(selectedTheme?.replace(".css", "")!),
+    css: cssLocation,
+    alias: currentAlias,
+  }
+
+  const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
+
+  if (fs.existsSync(tsConfigPath)) {
+    let tsConfig
+    try {
+      const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
+      tsConfig = JSON.parse(tsConfigContent)
+    } catch (error) {
+      spinner.fail("Failed to parse tsconfig.json.")
+      return
+    }
+
+    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
+
+    if (!tsConfig.compilerOptions.paths) {
+      const rootPath = await input({
+        message: "No paths found in tsconfig.json. Please enter the root directory path for the '@/':",
+        default: "./src",
+      })
+
+      tsConfig.compilerOptions.paths = {
+        "@/*": [`${rootPath || "./src"}/*`],
+      }
+
+      try {
+        fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+        spinner.succeed("Paths added to tsconfig.json.")
+      } catch (error) {
+        spinner.fail("Failed to write to tsconfig.json.")
+        return
+      }
+    }
+  }
+
+  const action = packageManager === "npm" ? "i " : "add "
+  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
+
+  spinner.info(`Installing dependencies...`)
+
+  const child = spawn(installCommand, {
+    stdio: "inherit",
+    shell: true,
+  })
+
+  await new Promise<void>((resolve) => {
+    child.on("close", () => {
+      resolve()
+    })
+  })
+
   const fileUrl = getRepoUrlForComponent("primitive")
   const response = await fetch(fileUrl)
 
@@ -131,65 +220,6 @@ export async function init() {
     }
   }
 
-  const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-
-  if (fs.existsSync(tsConfigPath)) {
-    let tsConfig
-
-    try {
-      const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
-      tsConfig = JSON.parse(tsConfigContent)
-    } catch (error) {
-      // @ts-ignore
-      console.error("JSON parsing error:", error.message)
-      return
-    }
-
-    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-    if (!tsConfig.compilerOptions.paths) {
-      const rootPath = await input({
-        message: "No paths found in tsconfig.json. Please enter the root directory path for the '@/':",
-        default: "./src",
-      })
-
-      tsConfig.compilerOptions.paths = {
-        "@/*": [`${rootPath}/*`],
-      }
-
-      try {
-        fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-      } catch (error) {
-        // @ts-ignore
-        console.error("Error writing to tsconfig:", error.message)
-      }
-    }
-  }
-
-  async function getUserAlias(): Promise<string | null> {
-    const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-    if (fs.existsSync(tsConfigPath)) {
-      const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
-      const paths = tsConfig.compilerOptions?.paths
-
-      if (paths) {
-        const firstAliasKey = Object.keys(paths)[0]
-        return firstAliasKey.replace("/*", "")
-      }
-    }
-    return null
-  }
-
-  const currentAlias = await getUserAlias()
-
-  const config = {
-    $schema: "https://getjustd.com",
-    ui: uiFolder,
-    classes: utilsFolder,
-    theme: capitalize(selectedTheme?.replace(".css", "")!),
-    css: cssLocation,
-    alias: currentAlias,
-  }
-
   try {
     fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
   } catch (error) {
@@ -197,76 +227,14 @@ export async function init() {
     console.error("Error writing to justd.json:", error?.message)
   }
 
-  const packageManager = await getPackageManager()
-
-  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
-
-  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
-
-  if (isNextJs()) {
-    devPackages += " next-themes"
-  }
-  if (isRemix()) {
-    devPackages += " remix-themes"
-  }
-
-  const action = packageManager === "npm" ? "i " : "add "
-  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
-
-  spinner.info(`Installing dependencies...`)
-
-  try {
-    const child = spawn(installCommand, {
-      stdio: "inherit",
-      shell: true,
-    })
-
-    await new Promise<void>((resolve, reject) => {
-      child.on("close", (code) => {
-        if (code === 0) {
-          resolve()
-        } else {
-          spinner.fail("Installation process failed.")
-          reject(new Error("Installation process failed"))
-        }
-      })
-    })
-
-    const continuedToAddComponent = spawn("npx justd-cli@latest add", {
-      stdio: "inherit",
-      shell: true,
-    })
-
-    await new Promise<void>((resolve, reject) => {
-      continuedToAddComponent.on("close", (code) => {
-        if (code === 0) {
-          resolve()
-        } else {
-          spinner.fail("Component addition process failed.")
-          reject(new Error("Component addition process failed"))
-        }
-      })
-    })
-
-    spinner.succeed("Dependencies installed and components added successfully.")
-  } catch (error) {
-    // @ts-ignore
-    spinner.fail(`An error occurred: ${error.message}`)
-    return // Exit function on error
-  }
-
   const continuedToAddComponent = spawn("npx justd-cli@latest add", {
     stdio: "inherit",
     shell: true,
   })
 
-  await new Promise<void>((resolve, reject) => {
-    continuedToAddComponent.on("close", (code) => {
-      if (code === 0) {
-        resolve()
-      } else {
-        reject(new Error("Component addition process failed"))
-      }
+  await new Promise<void>((resolve) => {
+    continuedToAddComponent.on("close", () => {
+      resolve()
     })
   })
 
