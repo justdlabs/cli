@@ -72,7 +72,7 @@ export async function init() {
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else {
-    configSourcePath = path.join(stubs, "next/tailwind.config.next.src.stub")
+    configSourcePath = path.join(stubs, "next/tailwind.config.src.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   }
