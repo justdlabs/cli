@@ -103,20 +103,6 @@ export async function init() {
     spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
   }
 
-  const packageManager = await getPackageManager()
-
-  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
-
-  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
-
-  if (isNextJs()) {
-    devPackages += " next-themes"
-  }
-
-  if (isRemix()) {
-    devPackages += " remix-themes"
-  }
-
   async function getUserAlias(): Promise<string | null> {
     const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
     if (fs.existsSync(tsConfigPath)) {
@@ -174,6 +160,20 @@ export async function init() {
         return
       }
     }
+  }
+
+  const packageManager = await getPackageManager()
+
+  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+
+  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+
+  if (isNextJs()) {
+    devPackages += " next-themes"
+  }
+
+  if (isRemix()) {
+    devPackages += " remix-themes"
   }
 
   const action = packageManager === "npm" ? "i " : "add "
