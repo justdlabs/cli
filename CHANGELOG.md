@@ -1,5 +1,12 @@
 
 
+## [1.2.39](https://github.com/justdlabs/cli/compare/v1.2.38...v1.2.39) (2024-11-03)
+
+
+### Bug Fixes
+
+* add loader to search-field ([980e227](https://github.com/justdlabs/cli/commit/980e22786dbd5ea88a98021fa4e6452503221de7))
+
 ## [1.2.38](https://github.com/justdlabs/cli/compare/v1.2.37...v1.2.38) (2024-11-03)
 
 
