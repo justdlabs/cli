@@ -173,7 +173,7 @@ const components: any[] = [
   { name: "checkbox", children: [{ name: "field" }] },
   { name: "textarea", children: [{ name: "field" }] },
   { name: "number-field", children: [{ name: "field" }] },
-  { name: "search-field", children: [{ name: "field" }, { name: "button" }] },
+  { name: "search-field", children: [{ name: "field" }, { name: "button" }, { name: "loader" }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Navigation
