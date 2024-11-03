@@ -20,6 +20,7 @@ import {
   possibilityRootPath,
   possibilityUtilsPath,
 } from "@/utils/helpers"
+import { addUiPathToTsConfig } from "@/utils"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -36,11 +37,18 @@ export async function init() {
     return
   }
 
-  let componentFolder, uiFolder, cssLocation, configSourcePath, themeProvider, providers, utilsFolder
+  let componentFolder: string,
+    uiFolder: string,
+    cssLocation: string,
+    configSourcePath: string,
+    themeProvider: string,
+    providers: string,
+    utilsFolder: string
 
   componentFolder = await input({
     message: "Enter the path to your components folder:",
     default: possibilityComponentsPath(),
+    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
   })
 
   uiFolder = path.join(componentFolder, "ui")
@@ -48,11 +56,13 @@ export async function init() {
   utilsFolder = await input({
     message: "Enter the path to your utils folder:",
     default: possibilityUtilsPath(),
+    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
   })
 
   cssLocation = await input({
     message: "Where would you like to place the CSS file?",
     default: possibilityCssPath(),
+    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
   })
 
   if (isNextJs() && hasFolder("src")) {
@@ -124,6 +134,8 @@ export async function init() {
         return null
       }
     }
+
+    await addUiPathToTsConfig()
 
     const paths = tsConfig.compilerOptions.paths
     if (paths) {

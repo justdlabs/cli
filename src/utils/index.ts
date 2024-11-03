@@ -1,7 +1,7 @@
 import { confirm, input } from "@inquirer/prompts"
 import fs from "fs"
 import path from "path"
-import { justdConfigFile, possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
+import { justdConfigFile, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
 
 // This function is used to get the write path for a component
 export function getWriteComponentPath(componentName: string) {
@@ -73,4 +73,18 @@ export async function getCSSPath() {
   fs.writeFileSync(configFile, JSON.stringify(config, null, 2))
 
   return cssPath
+}
+
+const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
+export async function addUiPathToTsConfig() {
+  try {
+    const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
+    const tsConfig = JSON.parse(tsConfigContent)
+    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
+    if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
+    tsConfig.compilerOptions.paths["ui"] = [`./${possibilityComponentsPath()}/ui/index.ts`]
+    fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+  } catch (error) {
+    console.error("Error updating tsconfig.json:", error)
+  }
 }
