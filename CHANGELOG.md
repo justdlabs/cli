@@ -1,5 +1,12 @@
 
 
+## [1.2.38](https://github.com/justdlabs/cli/compare/v1.2.37...v1.2.38) (2024-11-03)
+
+
+### Bug Fixes
+
+* ui path and validating question ([4a2686d](https://github.com/justdlabs/cli/commit/4a2686d3ab0bebf75f857a481fd73e55a4aabc87))
+
 ## [1.2.37](https://github.com/justdlabs/cli/compare/v1.2.36...v1.2.37) (2024-11-01)
 
 
