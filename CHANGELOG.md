@@ -1,5 +1,12 @@
 
 
+## [1.2.40](https://github.com/justdlabs/cli/compare/v1.2.39...v1.2.40) (2024-11-05)
+
+
+### Bug Fixes
+
+* fix the types of next-themes ([e4e7eeb](https://github.com/justdlabs/cli/commit/e4e7eeb8d22fb848c8a1ec3150fe344a910d5adb))
+
 ## [1.2.39](https://github.com/justdlabs/cli/compare/v1.2.38...v1.2.39) (2024-11-03)
 
 
