@@ -1,5 +1,12 @@
 
 
+## [1.2.41](https://github.com/justdlabs/cli/compare/v1.2.40...v1.2.41) (2024-11-06)
+
+
+### Bug Fixes
+
+* fix colors ([dc3230e](https://github.com/justdlabs/cli/commit/dc3230e5acc95c6cb677b03689c4f837c2a64150))
+
 ## [1.2.40](https://github.com/justdlabs/cli/compare/v1.2.39...v1.2.40) (2024-11-05)
 
 
