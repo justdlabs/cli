@@ -51,8 +51,8 @@
         --secondary-fg: 60 7.1% 98%;
         --tertiary: 19.06 18% 2%;
         --tertiary-fg: 60 7.1% 98%;
-        --accent: 12 7.1 13%;
-        --accent-fg: 60 7.1% 98%;
+        --accent: 0 0% 13%;
+        --accent-fg: 0 0% 98.04%;
         --accent-subtle: 19.55 87% 8%;
         --accent-subtle-fg: 32.14 98% 83%;
         --overlay: 19.16 16% 3%;
@@ -65,7 +65,7 @@
         --success-fg: 151.77 82% 96%;
         --ring: 24.64 95% 53%;
         --toggle: 30.04 9% 18%;
-        --border: 12 8% 11%;
+        --border: 0 0% 14.9%;
         --input: 12 7.1% 12%;
         --primary-chart: 19.7 86% 51%;
         --secondary-chart: 27.63 100% 70%;

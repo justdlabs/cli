@@ -10,7 +10,7 @@
         --fg: 239.93 9% 4%;
         --primary: 160.82 100% 34%;
         --primary-fg: 151.77 82% 96%;
-        --secondary: 240 4% 96%;
+        --secondary: 240 5.88% 90%;
         --secondary-fg: 240.01 6% 10%;
         --tertiary: 0 0% 100%;
         --tertiary-fg: 240 4% 16%;
@@ -20,8 +20,8 @@
         --accent-subtle-fg: 162.96 94% 24%;
         --overlay: 0 0% 100%;
         --overlay-fg: 239.93 9% 4%;
-        --muted: 240 4% 96%;
-        --muted-fg: 240.01 4% 46%;
+        --muted: 240 5.88% 90%;
+        --muted-fg: 240 4% 41%;
         --success: 161.17 91% 31%;
         --success-fg: 151.77 82% 96%;
         --info: 205.77 100% 50%;
@@ -58,7 +58,7 @@
         --overlay: 240.03 6% 6%;
         --overlay-fg: 223.81 0% 98%;
         --muted: 239.95 3% 16%;
-        --muted-fg: 240.01 5% 65%;
+        --muted-fg: 240 5.03% 64.9%;
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;
         --success: 161.17 91% 31%;

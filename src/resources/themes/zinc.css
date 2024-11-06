@@ -12,20 +12,20 @@
         --overlay-fg: 239.93 9% 4%;
         --primary: 240.02 6% 10%;
         --primary-fg: 0 0% 100%;
-        --secondary: 240 4% 96%;
+        --secondary: 240 5.88% 90%;
         --secondary-fg: 240.01 6% 10%;
         --tertiary: 0 0% 100%;
         --tertiary-fg: 240 4% 16%;
         --accent: 240 8% 93%;
         --accent-fg: 240.02 6% 10%;
-        --accent-subtle: 240 4% 96%;
+        --accent-subtle: 240 5.88% 90%;
         --accent-subtle-fg: 239.93 9% 4%;
         --success: 161.17 91% 31%;
         --success-fg: 151.77 82% 96%;
         --info: 205.77 100% 50%;
         --info-fg: 0 0% 100%;
-        --muted: 240 6% 90%;
-        --muted-fg: 240 3.83% 46.08%;
+        --muted: 240 5.88% 90%;
+        --muted-fg: 240 4% 41%;
         --danger: 0.01 72% 51%;
         --danger-fg: 360 86% 97%;
         --warning: 43.2 96% 56.99%;
@@ -39,7 +39,7 @@
         --secondary-chart: 239.96 4% 52%;
         --tertiary-chart: 240 5.03% 64.9%;
         --highlight-chart: 239.99 4% 84%;
-        --accent-chart: 240 4% 96%
+        --accent-chart: 240 5.88% 90%
     }
 
     .dark {
@@ -71,7 +71,7 @@
         --secondary-chart: 239.92 4% 56.99%;
         --tertiary-chart: 239.99 5% 67%;
         --highlight-chart: 239.99 4% 84%;
-        --accent-chart: 240 4% 96%
+        --accent-chart: 240 5.88% 90%
     }
 }
 

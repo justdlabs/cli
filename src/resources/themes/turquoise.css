@@ -10,7 +10,7 @@
         --fg: 222.23 48% 11%;
         --primary: 189.24 100% 38%;
         --primary-fg: 183.16 100% 96%;
-        --secondary: 240 4% 96%;
+        --secondary: 240 5.88% 90%;
         --secondary-fg: 240.01 6% 10%;
         --tertiary: 0 0% 100%;
         --tertiary-fg: 240 4% 16%;
@@ -20,8 +20,6 @@
         --accent-subtle-fg: 194.38 69% 27%;
         --overlay: 210 35% 98%;
         --overlay-fg: 228.65 84% 5%;
-        --muted: 220 13% 91%;
-        --muted-fg: 219.99 9% 46%;
         --success: 161.17 91% 31%;
         --success-fg: 151.77 82% 96%;
         --info: 205.77 100% 50%;
@@ -30,6 +28,8 @@
         --danger-fg: 360 86% 97%;
         --warning: 43.2 96% 56.99%;
         --warning-fg: 20.91 91% 14.1%;
+        --muted: 220 13.04% 90.98%;
+        --muted-fg: 219.99 9% 46%;
         --border: 214.29 33% 91%;
         --input: 214.29 33% 91%;
         --ring: var(--primary);
