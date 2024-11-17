@@ -1,5 +1,12 @@
 
 
+## [1.2.42](https://github.com/justdlabs/cli/compare/v1.2.41...v1.2.42) (2024-11-17)
+
+
+### Bug Fixes
+
+* remove container from navbar ([b979f30](https://github.com/justdlabs/cli/commit/b979f30dc24c7520761c31f1011ad9ec458144b2))
+
 ## [1.2.41](https://github.com/justdlabs/cli/compare/v1.2.40...v1.2.41) (2024-11-06)
 
 
