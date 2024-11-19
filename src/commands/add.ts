@@ -8,11 +8,12 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { getUIPathFromConfig } from "@/utils/helpers"
-import { getAliasFromConfig, isLaravel } from "@/utils/helpers"
+import { getAliasFromConfig, getUIPathFromConfig, isLaravel } from "@/utils/helpers"
+
+const exceptions = ["field", "dropdown", "dialog"]
 
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
-  if (processed.has(componentName)) {
+  if (processed.has(componentName) || exceptions.includes(componentName)) {
     return
   }
 
