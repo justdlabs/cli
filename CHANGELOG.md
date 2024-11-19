@@ -1,5 +1,12 @@
 
 
+## [1.2.44](https://github.com/justdlabs/cli/compare/v1.2.43...v1.2.44) (2024-11-19)
+
+
+### Bug Fixes
+
+* up ([80ab2c8](https://github.com/justdlabs/cli/commit/80ab2c8b6927f02399eead3a1d527aaa89df99f9))
+
 ## [1.2.43](https://github.com/justdlabs/cli/compare/v1.2.42...v1.2.43) (2024-11-19)
 
 
