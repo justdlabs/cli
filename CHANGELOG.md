@@ -1,5 +1,12 @@
 
 
+## [1.2.43](https://github.com/justdlabs/cli/compare/v1.2.42...v1.2.43) (2024-11-19)
+
+
+### Bug Fixes
+
+* exclude not exported component when adding ([c687ece](https://github.com/justdlabs/cli/commit/c687ecec417a82084937b776a12a145ef51c24ab))
+
 ## [1.2.42](https://github.com/justdlabs/cli/compare/v1.2.41...v1.2.42) (2024-11-17)
 
 
