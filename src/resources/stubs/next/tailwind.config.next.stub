@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import { withTV } from 'tailwind-variants/transformer'
 
 const config = {
   darkMode: ['class'],
