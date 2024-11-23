@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { fontFamily } from 'tailwindcss/defaultTheme'
-import { withTV } from 'tailwind-variants/transformer'
 
-const config = withTV({
+const config = {
   darkMode: ['class'],
   content: [
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
@@ -81,6 +80,6 @@ const config = withTV({
     require('tailwindcss-animate'),
     require('tailwindcss-react-aria-components')
   ]
-})
+}
 
 export default config
