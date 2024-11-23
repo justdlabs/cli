@@ -1,5 +1,12 @@
 
 
+## [1.2.46](https://github.com/justdlabs/cli/compare/v1.2.45...v1.2.46) (2024-11-23)
+
+
+### Bug Fixes
+
+* fix tw for nextjs ([7a56fbe](https://github.com/justdlabs/cli/commit/7a56fbe43c43519495e51de12e8999f5e54663a4))
+
 ## [1.2.45](https://github.com/justdlabs/cli/compare/v1.2.44...v1.2.45) (2024-11-23)
 
 
