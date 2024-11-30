@@ -8,7 +8,7 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, isLaravel } from "@/utils/helpers"
+import { getAliasFromConfig, getUIPathFromConfig, isLaravel, isNextJs } from "@/utils/helpers"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -20,7 +20,10 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   const uiPath = getUIPathFromConfig()
   const indexPath = path.join(process.cwd(), uiPath, "index.ts")
   const componentExport = `export * from './${componentName}';`
-
+  if (namespaces.includes(componentName)) {
+    processed.add(componentName)
+    return
+  }
   let existingExports = ""
   if (fs.existsSync(indexPath)) {
     existingExports = fs.readFileSync(indexPath, "utf-8")
@@ -57,7 +60,7 @@ async function createComponent(componentName: string) {
     if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
     let content = await response.text()
 
-    if (isLaravel()) {
+    if (!isNextJs()) {
       content = content.replace(/['"]use client['"]\s*\n?/g, "")
     }
 
