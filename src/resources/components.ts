@@ -1,19 +1,4 @@
-const namespaces = [
-  "buttons",
-  "controls",
-  "collections",
-  "date-and-time",
-  "drag-and-drop",
-  "forms",
-  "navigation",
-  "overlays",
-  "pickers",
-  "statuses",
-  "surfaces",
-  "media",
-  "colors",
-  "layouts",
-]
+const namespaces = ["buttons", "controls", "collections", "date-and-time", "drag-and-drop", "forms", "navigation", "overlays", "pickers", "statuses", "surfaces", "media", "colors", "layouts"]
 
 const components: any[] = [
   // ------------------------------------------------------------------------------------- //
@@ -36,31 +21,11 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "forms",
-    children: [
-      { name: "form" },
-      { name: "text-field" },
-      { name: "tag-field" },
-      { name: "radio" },
-      { name: "checkbox" },
-      { name: "textarea" },
-      { name: "number-field" },
-      { name: "search-field" },
-      { name: "input-otp" },
-      { name: "choicebox" },
-    ],
+    children: [{ name: "form" }, { name: "text-field" }, { name: "tag-field" }, { name: "radio" }, { name: "checkbox" }, { name: "textarea" }, { name: "number-field" }, { name: "search-field" }, { name: "input-otp" }, { name: "choicebox" }],
   },
   {
     name: "collections",
-    children: [
-      { name: "menu" },
-      { name: "grid-list" },
-      { name: "list-box" },
-      { name: "tabs" },
-      { name: "tag-group" },
-      { name: "table" },
-      { name: "choicebox" },
-      { name: "tree" },
-    ],
+    children: [{ name: "menu" }, { name: "grid-list" }, { name: "list-box" }, { name: "tabs" }, { name: "tag-group" }, { name: "table" }, { name: "choicebox" }, { name: "tree" }],
   },
   {
     name: "date-and-time",
@@ -68,16 +33,7 @@ const components: any[] = [
   },
   {
     name: "navigation",
-    children: [
-      { name: "link" },
-      { name: "breadcrumbs" },
-      { name: "pagination" },
-      { name: "button" },
-      { name: "disclosure" },
-      { name: "button" },
-      { name: "separator" },
-      { name: "field" },
-    ],
+    children: [{ name: "link" }, { name: "breadcrumbs" }, { name: "pagination" }, { name: "button" }, { name: "disclosure" }, { name: "button" }, { name: "separator" }, { name: "field" }],
   },
   {
     name: "overlays",
@@ -89,16 +45,7 @@ const components: any[] = [
   },
   {
     name: "statuses",
-    children: [
-      { name: "skeleton" },
-      { name: "badge" },
-      { name: "loader" },
-      { name: "progress-bar" },
-      { name: "progress-circle" },
-      { name: "meter" },
-      { name: "note" },
-      { name: "toast" },
-    ],
+    children: [{ name: "skeleton" }, { name: "badge" }, { name: "loader" }, { name: "progress-bar" }, { name: "progress-circle" }, { name: "meter" }, { name: "note" }, { name: "toast" }],
   },
   {
     name: "surfaces",

@@ -8,42 +8,26 @@ import { getCSSPath } from "@/utils"
 import { capitalize, justdConfigFile, possibilityCssPath } from "@/utils/helpers"
 
 export async function theme(cssLocation: string): Promise<string | undefined> {
-  const themes = [
-    "default.css",
-    "zinc.css",
-    "neutral.css",
-    "slate.css",
-    "gray.css",
-    "azure.css",
-    "sky.css",
-    "amber.css",
-    "violet.css",
-    "emerald.css",
-    "rose.css",
-    "turquoise.css",
-    "orange.css",
-  ]
+  const spinner = ora("Looking up theme...").start()
+  const themes = ["default.css", "zinc.css", "neutral.css", "slate.css", "gray.css", "azure.css", "sky.css", "amber.css", "violet.css", "emerald.css", "rose.css", "turquoise.css", "orange.css"]
 
+  spinner.stop()
   const selectedTheme = await select({
     message: "Select a theme:",
-    choices: themes.map((theme) => ({ name: capitalize(theme.replace(".css", "")), value: theme })),
+    choices: themes.map((theme) => ({ name: theme.replace(".css", ""), value: theme })),
     pageSize: 15,
   })
 
   const cssSourcePath = path.join(resourceDir, `themes/${selectedTheme}`)
 
-  const spinner = ora("Setting up theme...").start()
-
   if (!fs.existsSync(path.dirname(cssLocation))) {
     fs.mkdirSync(path.dirname(cssLocation), { recursive: true })
-    spinner.succeed(`Created directory for CSS at ${chalk.blue(path.dirname(cssLocation))}`)
   }
 
   if (fs.existsSync(cssSourcePath)) {
     try {
       const cssContent = fs.readFileSync(cssSourcePath, "utf8")
       fs.writeFileSync(cssLocation, cssContent, { flag: "w" })
-      spinner.succeed(`CSS file copied to ${cssLocation}`)
       return selectedTheme
     } catch (error) {
       spinner.fail(`Failed to write CSS file to ${cssLocation}`)
@@ -58,9 +42,7 @@ export async function theme(cssLocation: string): Promise<string | undefined> {
 export async function setTheme(overrideConfirmation: boolean, selectedTheme?: string) {
   const userConfigPath = "./justd.json"
   if (!fs.existsSync(userConfigPath)) {
-    console.error(
-      `${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`,
-    )
+    console.error(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
     return
   }
 

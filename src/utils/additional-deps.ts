@@ -21,10 +21,10 @@ export const additionalDeps = async (componentName: string, packageManager: stri
   const dependency = dependencies[componentName]
 
   if (dependency) {
-    const spinner = ora(`Creating...`).start()
+    const spinner = ora().start()
     const installCommand = `${packageManager} ${action} ${dependency}`
     const child = spawn(installCommand, {
-      stdio: "ignore",
+      stdio: ["ignore", "ignore", "ignore"],
       shell: true,
     })
 

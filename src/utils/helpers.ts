@@ -96,9 +96,7 @@ export function isLaravel(): boolean {
 export function getUIPathFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    console.error(
-      `${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`,
-    )
+    console.error(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
     return
   }
 

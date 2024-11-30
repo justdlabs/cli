@@ -1,5 +1,7 @@
-import { input, select } from "@inquirer/prompts"
+import { input } from "@inquirer/prompts"
 import fs from "fs"
+import figlet from "figlet"
+
 import { spawn } from "child_process"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -7,19 +9,8 @@ import chalk from "chalk"
 import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import open from "open"
 import { theme } from "@/commands/theme"
-import {
-  capitalize,
-  hasFolder,
-  isLaravel,
-  isNextJs,
-  isRemix,
-  possibilityComponentsPath,
-  possibilityCssPath,
-  possibilityRootPath,
-  possibilityUtilsPath,
-} from "@/utils/helpers"
+import { capitalize, hasFolder, isLaravel, isNextJs, isRemix, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -29,24 +20,24 @@ export const resourceDir = path.resolve(__dirname, "../src/resources")
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
 export async function init() {
-  const configJsExists = fs.existsSync("tailwind.config.js")
-  const configTsExists = fs.existsSync("tailwind.config.ts")
+  const twExists = fs.existsSync("tailwind.config.js") || fs.existsSync("tailwind.config.cjs") || fs.existsSync("tailwind.config.mjs") || fs.existsSync("tailwind.config.ts") || fs.existsSync("tailwind.config.mts")
 
-  if (!configJsExists && !configTsExists) {
-    console.error("No Tailwind configuration file found. Please ensure tailwind.config.ts or tailwind.config.js exists in the root directory.")
+  const spinner = ora(`Initializing.`).start()
+  setTimeout(() => {
+    spinner.color = "yellow"
+    spinner.text = "Loading rainbows"
+  }, 1000)
+
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  if (!twExists) {
+    spinner.fail("No Tailwind configuration file found. Please ensure tailwind.config.ts or tailwind.config.js exists in the root directory.")
     return
   }
 
-  let componentFolder: string,
-    uiFolder: string,
-    cssLocation: string,
-    configSourcePath: string,
-    themeProvider: string,
-    providers: string,
-    utilsFolder: string
-
+  let componentFolder: string, uiFolder: string, cssLocation: string, configSourcePath: string, themeProvider: string, providers: string, utilsFolder: string
+  spinner.succeed("Initializing.")
   componentFolder = await input({
-    message: "Enter the path to your components folder:",
+    message: "Components folder:",
     default: possibilityComponentsPath(),
     validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
   })
@@ -54,7 +45,7 @@ export async function init() {
   uiFolder = path.join(componentFolder, "ui")
 
   utilsFolder = await input({
-    message: "Enter the path to your utils folder:",
+    message: "Utils folder:",
     default: possibilityUtilsPath(),
     validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
   })
@@ -160,8 +151,6 @@ export async function init() {
 
   const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
 
-  const spinner = ora(`Initializing Justd...`).start()
-
   try {
     const tailwindConfigContent = fs.readFileSync(configSourcePath, "utf8")
     fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
@@ -197,13 +186,12 @@ export async function init() {
     devPackages += " remix-themes"
   }
 
-  const action = packageManager === "npm" ? "i " : "add "
-  const installCommand = `${packageManager} ${action}${mainPackages} && ${packageManager} ${action} -D ${devPackages}`
-
-  spinner.info(`Installing dependencies...`)
+  const action = packageManager === "npm" ? "i" : "add"
+  let installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
+  spinner.start(`Installing dependencies.`)
 
   const child = spawn(installCommand, {
-    stdio: "inherit",
+    stdio: ["ignore", "ignore", "ignore"],
     shell: true,
   })
 
@@ -247,53 +235,46 @@ export async function init() {
     // @ts-ignore
     console.error("Error writing to justd.json:", error?.message)
   }
+  spinner.succeed(`Installing dependencies.`)
+  spinner.start(`Configuring.`)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  const continuedToAddComponent = spawn("npx justd-cli@latest add", {
-    stdio: "inherit",
-    shell: true,
-  })
-
-  await new Promise<void>((resolve) => {
-    continuedToAddComponent.on("close", () => {
-      resolve()
-    })
-  })
-
-  const visitRepo = await select({
-    message: "Hey look! You made it this far! 🌟 How about a quick star on our GitHub repo?",
-    choices: [
-      { name: "Alright, take me there!", value: true },
-      { name: "Maybe next time", value: false },
-    ],
-    default: true,
-  })
-
+  spinner.succeed("Configuring.")
   // Note After Installed------------------------------------------------------------------- //
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
-    spinner.succeed(`Created UI folder at ${uiFolder}`)
   }
-  spinner.succeed('Added "ui" alias to tsconfig.json')
-  spinner.succeed(`primitive.tsx file copied to ${uiFolder}`)
-  spinner.succeed(`classes.ts file copied to ${utilsFolder}`)
+  spinner.succeed(`UI folder created at ${chalk.blue(`"${uiFolder}"`)}`)
+  spinner.succeed(`Primitive file saved to ${chalk.blue(`"${uiFolder}/primitive.tsx"`)}`)
+  spinner.succeed(`Classes file saved to ${chalk.blue(`"${utilsFolder}/classes.ts"`)}`)
   if (themeProvider) {
-    spinner.succeed(`Theme provider and providers files copied to ${componentFolder}`)
-  }
-  spinner.succeed("Configuration saved to justd.json")
-  spinner.succeed("Installation complete.")
-  // ------------------------------------------------------------------------------------- //
-
-  if (visitRepo) {
-    open("https://github.com/justdlabs/justd").then(() => {
-      console.log(chalk.blueBright("-------------------------------------------"))
-      console.log(" Thanks for your support! Happy coding! 🔥")
-      console.log(chalk.blueBright("-------------------------------------------"))
-    })
-  } else {
-    console.log(chalk.blueBright("------------------------------"))
-    console.log("        Happy coding! 🔥")
-    console.log(chalk.blueBright("------------------------------"))
+    spinner.succeed(`Theme Provider file saved to ${chalk.blue(`"${componentFolder}/theme-provider.tsx"`)}`)
+    spinner.succeed(`Providers file saved to ${chalk.blue(`"${componentFolder}/providers.tsx"`)}`)
   }
 
+  spinner.start(`Configuration saved to ${chalk.blue(`"justd.json"`)}`)
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  spinner.succeed(`Configuration saved to ${chalk.blue("justd.json")}`)
+  spinner.succeed(`Installation complete.`)
+
+  console.log("\n\nNot sure what to do next?")
+  console.log(`Visit our documentation at: ${chalk.blueBright("https://getjustd.com")}`)
+
+  console.log("\nNow try to add some components to your project")
+  console.log(`by running: ${chalk.blueBright("npx justd-cli@latest add\n")}`)
+
+  // @ts-ignore
+  figlet.text(
+    "Justd",
+    {
+      font: "Standard",
+      horizontalLayout: "default",
+      width: 80,
+      verticalLayout: "default",
+    },
+    (_: any, data: string) => {
+      console.log(chalk.blue(data))
+    },
+  )
   spinner.stop()
 }
