@@ -1,5 +1,12 @@
 
 
+## [1.2.47](https://github.com/justdlabs/cli/compare/v1.2.46...v1.2.47) (2024-11-30)
+
+
+### Bug Fixes
+
+* remove `use client` if it's not next.js project ([6cfb3ae](https://github.com/justdlabs/cli/commit/6cfb3ae1762250b6887ff63b0bbc7a476b46608d))
+
 ## [1.2.46](https://github.com/justdlabs/cli/compare/v1.2.45...v1.2.46) (2024-11-23)
 
 
