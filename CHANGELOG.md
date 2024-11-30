@@ -1,5 +1,12 @@
 
 
+## [1.2.48](https://github.com/justdlabs/cli/compare/v1.2.47...v1.2.48) (2024-11-30)
+
+
+### Bug Fixes
+
+* fresh the cli ([e488ebf](https://github.com/justdlabs/cli/commit/e488ebf5677868d168e2a961d82d263b22df8f19))
+
 ## [1.2.47](https://github.com/justdlabs/cli/compare/v1.2.46...v1.2.47) (2024-11-30)
 
 
