@@ -75,6 +75,7 @@ export async function add(options: any) {
   const processed = new Set<string>()
 
   try {
+    spinner.start("Checking.")
     for (const componentName of selectedComponents) {
       if (namespaces.includes(componentName) || exceptions.includes(componentName)) continue
 
