@@ -1,5 +1,12 @@
 
 
+## [1.2.49](https://github.com/justdlabs/cli/compare/v1.2.48...v1.2.49) (2024-12-01)
+
+
+### Bug Fixes
+
+* spinner ([677c3b1](https://github.com/justdlabs/cli/commit/677c3b11b124b4e8d8b4490ed82adb782e69762b))
+
 ## [1.2.48](https://github.com/justdlabs/cli/compare/v1.2.47...v1.2.48) (2024-11-30)
 
 
