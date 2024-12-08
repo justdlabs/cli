@@ -106,7 +106,8 @@ export async function init(flags: { force?: boolean }) {
       const stripped = stripJsonComments(tsConfigRaw)
       tsConfig = JSON.parse(stripped)
     } catch (err) {
-      console.error("Error reading tsconfig.json:", err.message)
+      // @ts-ignore
+      console.error("Error reading tsconfig.json:", err?.message)
       process.exit(1)
     }
 
