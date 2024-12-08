@@ -149,7 +149,7 @@ export async function init(flags: { force?: boolean }) {
 
   const selectedTheme = await gray(cssLocation)
   const config = {
-    $schema: "https://getjustd.com",
+    $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
     classes: utilsFolder,
     theme: selectedTheme?.replace(".css", "")!,

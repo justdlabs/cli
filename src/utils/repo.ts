@@ -1,7 +1,7 @@
 import { availablesGrays } from "@/commands/gray"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
-const BRANCH = "tailwind-v4"
+const BRANCH = "main"
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
 export const getThemesRepoUrl = (theme: string): string => {
