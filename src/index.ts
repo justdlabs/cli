@@ -5,7 +5,7 @@ import { add } from "./commands/add"
 import { init } from "./commands/init"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
-import { setTheme } from "./commands/theme"
+import { setGray } from "./commands/gray"
 import packageJson from "../package.json"
 
 const version = packageJson.version
@@ -20,7 +20,7 @@ if (args.includes("--version") || args.includes("-v")) {
 program.version(version, "-v, --version", "Output the version number").description("CLI Tool Description")
 
 //  Init: this command is used to initialize your project, it will assume you have installed tailwindcss, and your main framework or library.
-program.command("init").option("--skip <type>", "Skip a specific step").action(init)
+program.command("init").option("--force", "Force initialization without checking Git").action(init)
 
 //  Add: this command is used to add new components to your project
 //  You can also add multiple components at once by separating them with a space (npx justd-cli@latest add aside avatar button)
@@ -36,11 +36,11 @@ program
 //  Theme: this command useful when you want to switch your current theme
 //  You can see the full theme list here: https://getjustd.com/themes
 program
-  .command("theme [name]")
-  .description("Change the current theme")
+  .command("gray [name]")
+  .description("Change the current gray")
   .option("-y, --yes", "Skip confirmation prompt")
-  .action(async (themeName, options) => {
-    await setTheme(options.yes, themeName)
+  .action(async (grayName, options) => {
+    await setGray(options.yes, grayName)
   })
 
 // Diff: this command will show differences between local and remote components (justd repo)

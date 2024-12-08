@@ -1,5 +1,28 @@
+import { availablesGrays } from "@/commands/gray"
+import { error } from "@/utils/logging"
+
+const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
+const BRANCH = "main"
+
+const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
+export const getThemesRepoUrl = (gray: string): string => {
+  if (!availablesGrays.includes(gray)) {
+    error(`Invalid gray provided: ${gray}`)
+    process.exit(1)
+  }
+
+  const selectedGray = `${THEMES_URL}/${gray}.css`
+
+  if (!selectedGray) {
+    error("Failed to get the gray url")
+    process.exit(1)
+  }
+
+  return selectedGray
+}
+
 export const getRepoUrlForComponent = (componentName: string) => {
-  const repoUrl = `https://raw.githubusercontent.com/justdlabs/justd/main/components/ui/${componentName}.tsx`
+  const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
   if (!repoUrl) {
     throw new Error("REPO_URL environment variable is not set")
   }
@@ -8,7 +31,7 @@ export const getRepoUrlForComponent = (componentName: string) => {
 
 // Getting the classes.ts file from the Justd repository
 export const getClassesTsRepoUrl = (): string => {
-  const utils = `https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts`
+  const utils = `${REPO}/refs/heads/${BRANCH}/utils/classes.ts`
   if (!utils) {
     throw new Error("REPO_URL environment variable is not set")
   }

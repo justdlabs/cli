@@ -15,9 +15,9 @@ npx justd-cli@latest add <component-name>
 ```
 
 ### Change Theme
-You can change the theme by running the following command.
+You can change the base gray by running the following command.
 ```bash
-npx justd-cli@latest theme
+npx justd-cli@latest gray <'zinc' | 'gray' | 'slate' | 'neutral' | 'stone'>
 ```
 
 ### Diff
