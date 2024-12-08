@@ -36,11 +36,11 @@ program
 //  Theme: this command useful when you want to switch your current theme
 //  You can see the full theme list here: https://getjustd.com/themes
 program
-  .command("theme [name]")
-  .description("Change the current theme")
+  .command("gray [name]")
+  .description("Change the current gray")
   .option("-y, --yes", "Skip confirmation prompt")
-  .action(async (themeName, options) => {
-    await setGray(options.yes, themeName)
+  .action(async (grayName, options) => {
+    await setGray(options.yes, grayName)
   })
 
 // Diff: this command will show differences between local and remote components (justd repo)
