@@ -9,6 +9,7 @@ import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
 import { getAliasFromConfig, getUIPathFromConfig, isNextJs } from "@/utils/helpers"
+import { grayText, highlight, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -46,7 +47,7 @@ export async function add(options: any) {
   const { component, override } = options
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    spinner.fail(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
+    spinner.fail(`${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
     return
   }
 
@@ -110,7 +111,7 @@ export async function add(options: any) {
       try {
         const targetComponent = components.find((comp) => comp.name === componentName)
         if (!targetComponent) {
-          console.log(chalk.red(`Component '${componentName}' not found in local resources.`))
+          warn(`Component '${highlight(componentName)}' not found in local resources.`)
           continue
         }
 
@@ -130,7 +131,7 @@ export async function add(options: any) {
 
         await updateIndexFile(componentName)
       } catch (error) {
-        console.error(chalk.red(`Error processing '${componentName}'.`))
+        console.error(warningText(`Error processing '${componentName}'.`))
       }
     }
 

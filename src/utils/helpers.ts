@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs"
 import { existsSync } from "node:fs"
-import chalk from "chalk"
+import { error, highlight, warningText } from "@/utils/logging"
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
@@ -89,6 +89,19 @@ export function isRemix(): boolean {
   return false
 }
 
+export function isTailwindInstalled(): boolean {
+  const packageJsonPath = path.join(process.cwd(), "package.json")
+
+  if (existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
+    const { dependencies = {}, devDependencies = {} } = packageJson
+
+    return "tailwindcss" in dependencies || "tailwindcss" in devDependencies
+  }
+
+  return false
+}
+
 export function isLaravel(): boolean {
   return fs.existsSync(path.resolve(process.cwd(), "artisan"))
 }
@@ -96,7 +109,7 @@ export function isLaravel(): boolean {
 export function getUIPathFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    console.error(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
+    error(`${warningText("justd.json not found")}. Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)
     return
   }
 

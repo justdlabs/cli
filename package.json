@@ -15,12 +15,12 @@
   "scripts": {
     "dev": "tsup --watch",
     "prepare": "npx husky",
-    "rp": "npm uninstall justd-icons clsx cmdk embla-carousel-react framer-motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
+    "rp": "npm uninstall tailwindcss && npm uninstall justd-icons clsx cmdk embla-carousel-react framer-motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
     "clean": "rimraf justd.json && rimraf src/utils/classes.ts && rimraf src/styles && rimraf src/index.css &&  rimraf src/app && rimraf styles/app.css && rimraf src/app/globals.css && rimraf app/globals.css && rimraf src/components && rimraf styles && rimraf resources && rimraf src/components && rimraf components && npm run rp",
     "build": "tsup && npm run format",
     "start": "tsc && npm link",
     "format": "prettier --write \"src/**/*.ts\"",
-    "p": "rm -rf justd.json && rm -rf src/components/ui && npm run build && npm link && npx justd-cli init",
+    "p": "rm -rf justd.json && rm -rf src/components/ui && npm run build && npm link && npx justd-cli init --force",
     "preview": "npm run clean && npm run build && npm link",
     "pr": "rimraf tailwind.config.js && rimraf tailwind.config.ts && npm run clean && npm run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
@@ -58,12 +58,12 @@
     "@babel/parser": "^7.24.8",
     "@babel/plugin-transform-typescript": "^7.24.8",
     "@inquirer/prompts": "^5.1.2",
-    "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "diff": "^5.2.0",
     "figlet": "^1.8.0",
     "open": "^10.1.0",
-    "ora": "^8.0.1"
+    "ora": "^8.0.1",
+    "strip-json-comments": "^5.0.1"
   },
   "release-it": {
     "git": {
