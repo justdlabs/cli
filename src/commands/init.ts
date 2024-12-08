@@ -147,12 +147,12 @@ export async function init(flags: { force?: boolean }) {
 
   const currentAlias = await getUserAlias()
 
-  const selectedTheme = await gray(cssLocation)
+  const selectedGray = await gray(cssLocation)
   const config = {
     $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
     classes: utilsFolder,
-    theme: selectedTheme?.replace(".css", "")!,
+    gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
     alias: currentAlias,
   }

@@ -1,21 +1,24 @@
 import { availablesGrays } from "@/commands/gray"
+import { error } from "@/utils/logging"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
-const BRANCH = "main"
+const BRANCH = "tailwind-v4"
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
-export const getThemesRepoUrl = (theme: string): string => {
-  if (!availablesGrays.includes(theme)) {
-    throw new Error("Invalid theme provided")
+export const getThemesRepoUrl = (gray: string): string => {
+  if (!availablesGrays.includes(gray)) {
+    error(`Invalid gray provided: ${gray}`)
+    process.exit(1)
   }
 
-  const selectedTheme = `${THEMES_URL}/${theme}.css`
+  const selectedGray = `${THEMES_URL}/${gray}.css`
 
-  if (!selectedTheme) {
-    throw new Error("REPO_URL environment variable is not set")
+  if (!selectedGray) {
+    error("Failed to get the gray url")
+    process.exit(1)
   }
 
-  return selectedTheme
+  return selectedGray
 }
 
 export const getRepoUrlForComponent = (componentName: string) => {
