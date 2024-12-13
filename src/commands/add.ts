@@ -8,10 +8,16 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, isNextJs } from "@/utils/helpers"
+import { getAliasFromConfig, getUIPathFromConfig, isNextJs, isTailwind } from "@/utils/helpers"
+import { grayText, highlight, info, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
+/**
+ *  This function is used to update the index.ts file
+ *  @param componentName string
+ *  @param processed Set<string>
+ */
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
   if (processed.has(componentName) || exceptions.includes(componentName)) {
     return
@@ -41,14 +47,20 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   }
 }
 
+/**
+ *  This function is used to add new components to the project
+ *  @param options any
+ */
 export async function add(options: any) {
   const spinner = ora("Checking.").start()
   const { component, override } = options
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    spinner.fail(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
+    spinner.fail(`${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
     return
   }
+
+  console.info(isTailwind(3) ? "yes" : "no")
 
   spinner.stop()
   const exclude = ["primitive"]
@@ -110,7 +122,7 @@ export async function add(options: any) {
       try {
         const targetComponent = components.find((comp) => comp.name === componentName)
         if (!targetComponent) {
-          console.log(chalk.red(`Component '${componentName}' not found in local resources.`))
+          warn(`Component '${highlight(componentName)}' not found in local resources.`)
           continue
         }
 
@@ -130,7 +142,7 @@ export async function add(options: any) {
 
         await updateIndexFile(componentName)
       } catch (error) {
-        console.error(chalk.red(`Error processing '${componentName}'.`))
+        console.error(warningText(`Error processing '${componentName}'.`))
       }
     }
 
@@ -146,15 +158,27 @@ export async function add(options: any) {
   if (createdFiles.length > 0) {
     const what = override ? "Overwrite" : "Created"
     spinner.succeed(`${what} ${createdFiles.length} ${fileWord}:`)
-    createdFiles.forEach((file) => console.log(`  - ${file}`))
+    createdFiles.forEach((file) => console.info(`  - ${file}`))
   }
 
   if (existingFiles.size > 0 && !override) {
-    console.log(chalk.yellow(`ℹ ${existingFiles.size} ${fileWord} already existed:`))
-    Array.from(existingFiles).forEach((file) => console.log(`  - ${file}`))
+    console.info(chalk.yellow(`ℹ ${existingFiles.size} ${fileWord} already existed:`))
+    Array.from(existingFiles).forEach((file) => console.info(`  - ${file}`))
   }
 }
 
+/**
+ *  This function is used to process a component
+ *  @param componentName string
+ *  @param packageManager string
+ *  @param action string
+ *  @param processed Set<string>
+ *  @param allComponents any[]
+ *  @param override boolean
+ *  @param isChild boolean
+ *  @param createdFiles string[]
+ *  @param existingFiles Set<string>
+ */
 async function processComponent(componentName: string, packageManager: string, action: string, processed: Set<string>, allComponents: any[], override: boolean, isChild: boolean, createdFiles: string[], existingFiles: Set<string>) {
   if (processed.has(componentName)) return
 
@@ -183,6 +207,10 @@ async function processComponent(componentName: string, packageManager: string, a
   processed.add(componentName)
 }
 
+/**
+ *  This function is used to create a new component
+ *  @param componentName string
+ */
 async function createComponent(componentName: string) {
   const writePath = getWriteComponentPath(componentName)
   const dir = path.dirname(writePath)

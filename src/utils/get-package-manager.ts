@@ -1,8 +1,9 @@
 import { detect } from "@antfu/ni"
 
-// This function is used to get the package manager
-// It returns the package manager based on the detected package manager
-// If the detected package manager is not supported, it returns 'npm'
+/**
+ * This function is used to detect the package manager used by the user
+ * @returns "yarn" | "pnpm" | "bun" | "npm"
+ */
 export async function getPackageManager(): Promise<"yarn" | "pnpm" | "bun" | "npm"> {
   const packageManager = await detect({ programmatic: true })
 

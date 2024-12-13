@@ -1,14 +1,53 @@
+import { availablesGrays } from "@/commands/gray"
+import { error } from "@/utils/logging"
+import { isTailwind } from "@/utils/helpers"
+
+const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
+
+const branchWorkingOn = isTailwind(3) ? "1.x" : "main"
+const BRANCH = branchWorkingOn
+
+const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
+/**
+ *  This function is used to get the URL for the themes repo
+ *  @param gray string
+ *  @returns string
+ */
+export const getThemesRepoUrl = (gray: string): string => {
+  if (!availablesGrays.includes(gray)) {
+    error(`Invalid gray provided: ${gray}`)
+    process.exit(1)
+  }
+
+  const selectedGray = `${THEMES_URL}/${gray}.css`
+
+  if (!selectedGray) {
+    error("Failed to get the gray url")
+    process.exit(1)
+  }
+
+  return selectedGray
+}
+
+/**
+ *  This function is used to get the URL for a component
+ *  @param componentName string
+ *  @returns string
+ */
 export const getRepoUrlForComponent = (componentName: string) => {
-  const repoUrl = `https://raw.githubusercontent.com/justdlabs/justd/main/components/ui/${componentName}.tsx`
+  const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
   if (!repoUrl) {
     throw new Error("REPO_URL environment variable is not set")
   }
   return repoUrl
 }
 
-// Getting the classes.ts file from the Justd repository
+/**
+ *  This function is used to get the URL for the classes.ts file
+ *  @returns string
+ */
 export const getClassesTsRepoUrl = (): string => {
-  const utils = `https://raw.githubusercontent.com/justdlabs/justd/refs/heads/main/utils/classes.ts`
+  const utils = `${REPO}/refs/heads/${BRANCH}/utils/classes.ts`
   if (!utils) {
     throw new Error("REPO_URL environment variable is not set")
   }

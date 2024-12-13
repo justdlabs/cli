@@ -2,21 +2,30 @@ import { confirm, input } from "@inquirer/prompts"
 import fs from "fs"
 import path from "path"
 import { justdConfigFile, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
+import stripJsonComments from "strip-json-comments"
+import { error } from "@/utils/logging"
 
-// This function is used to get the write path for a component
+/**
+ *  This function is used to get the write path for a component
+ *  @param componentName string
+ *  @returns string
+ */
 export function getWriteComponentPath(componentName: string) {
   const uiFolder = getUIFolderPath()
   return path.join(uiFolder, `${componentName}.tsx`)
 }
 
-// Get the path to the UI folder from the justd.json file
+/**
+ *  This function is used to get the path to the UI folder from the justd.json file
+ *  @returns string
+ */
 export function getUIFolderPath() {
   const configFile = "justd.json"
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
     return config.ui
   } else {
-    throw new Error("Configuration file justd.json not found. Please run the init command first.")
+    error("Configuration file justd.json not found. Please run the init command first.")
   }
 }
 
@@ -34,7 +43,7 @@ export function getUtilsFolderPath() {
 
     return config.classes
   } else {
-    throw new Error("Configuration file justd.json not found. Please run the init command first.")
+    error("Configuration file justd.json not found. Please run the init command first.")
   }
 }
 
@@ -43,7 +52,7 @@ export async function getCSSPath() {
   const configFile = justdConfigFile
 
   if (!fs.existsSync(configFile)) {
-    throw new Error("Configuration file justd.json not found. Please run the init command first.")
+    error("Configuration file justd.json not found. Please run the init command first.")
   }
 
   const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
@@ -76,15 +85,26 @@ export async function getCSSPath() {
 }
 
 const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
+
+/**
+ *  This function is used to add the UI path to the tsconfig.json file
+ *  if it doesn't exist
+ *  @returns void
+ */
 export async function addUiPathToTsConfig() {
   try {
     const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
-    const tsConfig = JSON.parse(tsConfigContent)
+    const strippedContent = stripJsonComments(tsConfigContent)
+
+    const tsConfig = JSON.parse(strippedContent)
+
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
     if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
+
     tsConfig.compilerOptions.paths["ui"] = [`./${possibilityComponentsPath()}/ui/index.ts`]
+
     fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-  } catch (error) {
-    console.error("Error updating tsconfig.json:", error)
+  } catch (er) {
+    error("Error updating tsconfig.json:", er!)
   }
 }

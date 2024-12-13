@@ -5,36 +5,47 @@ import figlet from "figlet"
 import { spawn } from "child_process"
 import path from "path"
 import { fileURLToPath } from "url"
-import chalk from "chalk"
 import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { theme } from "@/commands/theme"
-import { capitalize, hasFolder, isLaravel, isNextJs, isRemix, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
+import { gray } from "@/commands/gray"
+import { hasFolder, isLaravel, isNextJs, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
+import { error, highlight, info } from "@/utils/logging"
+import { isRepoDirty } from "@/utils/git"
+import stripJsonComments from "strip-json-comments"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-export const resourceDir = path.resolve(__dirname, "../src/resources")
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
-export async function init() {
-  const twExists = fs.existsSync("tailwind.config.js") || fs.existsSync("tailwind.config.cjs") || fs.existsSync("tailwind.config.mjs") || fs.existsSync("tailwind.config.ts") || fs.existsSync("tailwind.config.mts")
+export async function init(flags: { force?: boolean }) {
+  if (!flags.force) {
+    const checkingGit = ora(`Checking.`).start()
+    if (isRepoDirty()) {
+      checkingGit.stop()
+      error("Git directory is not clean. Please stash or commit your changes before running the init command.")
+      info(`You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`)
+      process.exit(1)
+    }
+  }
 
   const spinner = ora(`Initializing.`).start()
+  const twExists = isTailwindInstalled()
+  if (!twExists) {
+    spinner.fail("The tailwindcss package is not installed. Please install before running the init command.")
+    spinner.stop()
+    return
+  }
   setTimeout(() => {
     spinner.color = "yellow"
     spinner.text = "Loading rainbows"
   }, 1000)
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
-  if (!twExists) {
-    spinner.fail("No Tailwind configuration file found. Please ensure tailwind.config.ts or tailwind.config.js exists in the root directory.")
-    return
-  }
 
-  let componentFolder: string, uiFolder: string, cssLocation: string, configSourcePath: string, themeProvider: string, providers: string, utilsFolder: string
+  let componentFolder: string, uiFolder: string, cssLocation: string, themeProvider: string, providers: string, utilsFolder: string
   spinner.succeed("Initializing.")
   componentFolder = await input({
     message: "Components folder:",
@@ -57,23 +68,18 @@ export async function init() {
   })
 
   if (isNextJs() && hasFolder("src")) {
-    configSourcePath = path.join(stubs, "next/tailwind.config.src.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else if (isNextJs() && !hasFolder("src")) {
-    configSourcePath = path.join(stubs, "next/tailwind.config.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else if (isLaravel()) {
-    configSourcePath = path.join(stubs, "laravel/tailwind.config.laravel.stub")
     themeProvider = path.join(stubs, "laravel/theme-provider.stub")
     providers = path.join(stubs, "laravel/providers.stub")
   } else if (isRemix()) {
-    configSourcePath = path.join(stubs, "next/tailwind.config.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else {
-    configSourcePath = path.join(stubs, "next/tailwind.config.src.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   }
@@ -86,22 +92,23 @@ export async function init() {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
 
-  const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
-
   async function getUserAlias(): Promise<string | null> {
     const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
 
     if (!fs.existsSync(tsConfigPath)) {
-      console.error("tsconfig.json not found.")
-      return null
+      error("tsconfig.json not found.")
+      process.exit(1)
     }
 
     let tsConfig
     try {
-      tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, "utf8"))
-    } catch (error) {
-      console.error("Failed to read tsconfig.json.")
-      return null
+      const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
+      const stripped = stripJsonComments(tsConfigRaw)
+      tsConfig = JSON.parse(stripped)
+    } catch (err) {
+      // @ts-ignore
+      console.error("Error reading tsconfig.json:", err?.message)
+      process.exit(1)
     }
 
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
@@ -118,11 +125,12 @@ export async function init() {
 
       const spinner = ora("Updating tsconfig.json with paths...").start()
       try {
-        fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
+        const updatedTsConfig = JSON.stringify(tsConfig, null, 2)
+        fs.writeFileSync(tsConfigPath, updatedTsConfig) // Tulis ulang tsconfig.json
         spinner.succeed("Paths added to tsconfig.json.")
-      } catch (error) {
+      } catch (e) {
         spinner.fail("Failed to write to tsconfig.json.")
-        return null
+        process.exit(1)
       }
     }
 
@@ -134,49 +142,27 @@ export async function init() {
       return firstAliasKey.replace("/*", "")
     }
 
-    return null
+    process.exit(1)
   }
 
   const currentAlias = await getUserAlias()
 
-  const selectedTheme = await theme(cssLocation)
+  const selectedGray = isTailwind(3) ? "zinc.css" : await gray(cssLocation)
+
   const config = {
-    $schema: "https://getjustd.com",
+    $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
     classes: utilsFolder,
-    theme: capitalize(selectedTheme?.replace(".css", "")!),
+    gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
     alias: currentAlias,
-  }
-
-  const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-
-  try {
-    const tailwindConfigContent = fs.readFileSync(configSourcePath, "utf8")
-    fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
-  } catch (error) {
-    // @ts-ignore
-    spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
-  }
-
-  if (fs.existsSync(tsConfigPath)) {
-    let tsConfig
-    try {
-      const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
-      tsConfig = JSON.parse(tsConfigContent)
-    } catch (error) {
-      spinner.fail("Failed to parse tsconfig.json.")
-      return
-    }
-
-    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
   }
 
   const packageManager = await getPackageManager()
 
   let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
 
-  let devPackages = ["tailwindcss-react-aria-components", "tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+  let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
 
   if (isNextJs()) {
     devPackages += " next-themes"
@@ -233,7 +219,7 @@ export async function init() {
     fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
   } catch (error) {
     // @ts-ignore
-    console.error("Error writing to justd.json:", error?.message)
+    error("Error writing to justd.json:", error?.message)
   }
   spinner.succeed(`Installing dependencies.`)
   spinner.start(`Configuring.`)
@@ -244,24 +230,24 @@ export async function init() {
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
-  spinner.succeed(`UI folder created at ${chalk.blue(`"${uiFolder}"`)}`)
-  spinner.succeed(`Primitive file saved to ${chalk.blue(`"${uiFolder}/primitive.tsx"`)}`)
-  spinner.succeed(`Classes file saved to ${chalk.blue(`"${utilsFolder}/classes.ts"`)}`)
+  spinner.succeed(`UI folder created at ${highlight(`"${uiFolder}"`)}`)
+  spinner.succeed(`Primitive file saved to ${highlight(`"${uiFolder}/primitive.tsx"`)}`)
+  spinner.succeed(`Classes file saved to ${highlight(`"${utilsFolder}/classes.ts"`)}`)
   if (themeProvider) {
-    spinner.succeed(`Theme Provider file saved to ${chalk.blue(`"${componentFolder}/theme-provider.tsx"`)}`)
-    spinner.succeed(`Providers file saved to ${chalk.blue(`"${componentFolder}/providers.tsx"`)}`)
+    spinner.succeed(`Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`)
+    spinner.succeed(`Providers file saved to ${highlight(`"${componentFolder}/providers.tsx"`)}`)
   }
 
-  spinner.start(`Configuration saved to ${chalk.blue(`"justd.json"`)}`)
+  spinner.start(`Configuration saved to ${highlight(`"justd.json"`)}`)
   await new Promise((resolve) => setTimeout(resolve, 500))
-  spinner.succeed(`Configuration saved to ${chalk.blue("justd.json")}`)
+  spinner.succeed(`Configuration saved to ${highlight("justd.json")}`)
   spinner.succeed(`Installation complete.`)
 
-  console.log("\n\nNot sure what to do next?")
-  console.log(`Visit our documentation at: ${chalk.blueBright("https://getjustd.com")}`)
+  console.info("\n\nNot sure what to do next?")
+  console.info(`Visit our documentation at: ${highlight("https://getjustd.com")}`)
 
-  console.log("\nNow try to add some components to your project")
-  console.log(`by running: ${chalk.blueBright("npx justd-cli@latest add\n")}`)
+  console.info("\nNow try to add some components to your project")
+  console.info(`by running: ${highlight("npx justd-cli@latest add")}`)
 
   // @ts-ignore
   figlet.text(
@@ -273,7 +259,7 @@ export async function init() {
       verticalLayout: "default",
     },
     (_: any, data: string) => {
-      console.log(chalk.blue(data))
+      console.info(highlight(data))
     },
   )
   spinner.stop()

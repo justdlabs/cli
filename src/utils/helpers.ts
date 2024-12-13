@@ -1,17 +1,18 @@
 import path from "path"
 import fs from "fs"
 import { existsSync } from "node:fs"
-import chalk from "chalk"
+import { error, highlight, warningText } from "@/utils/logging"
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
   return fs.existsSync(folderPath)
 }
 
-export function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
+/**
+ *  This function is used to get the CSS path from the justd.json file
+ *  or the default CSS path for the project
+ *  @returns string
+ */
 export function possibilityCssPath(): string {
   if (isLaravel()) {
     return "resources/css/app.css"
@@ -89,14 +90,59 @@ export function isRemix(): boolean {
   return false
 }
 
+export function isTailwind(version: number): boolean {
+  const packageJsonPath = path.join(process.cwd(), "package.json")
+
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
+    const { dependencies = {}, devDependencies = {} } = packageJson
+
+    const tailwindVersion = dependencies["tailwindcss"] || devDependencies["tailwindcss"]
+
+    if (tailwindVersion) {
+      // Remove any non-numeric prefix (e.g., ^ or ~)
+      const cleanVersion = tailwindVersion.replace(/^\D*/, "")
+      const majorVersion = parseInt(cleanVersion.split(".")[0], 10)
+      return majorVersion === version
+    }
+  }
+
+  return false
+}
+
+/**
+ *  This function is used to check if Tailwind is installed in the project
+ *  @returns boolean
+ */
+export function isTailwindInstalled(): boolean {
+  const packageJsonPath = path.join(process.cwd(), "package.json")
+
+  if (existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
+    const { dependencies = {}, devDependencies = {} } = packageJson
+
+    return "tailwindcss" in dependencies || "tailwindcss" in devDependencies
+  }
+
+  return false
+}
+
+/**
+ *  This function is used to check if Laravel is installed in the project
+ *  @returns boolean
+ */
 export function isLaravel(): boolean {
   return fs.existsSync(path.resolve(process.cwd(), "artisan"))
 }
 
+/**
+ *  This function is used to get the UI path from the justd.json file
+ *  @returns string
+ */
 export function getUIPathFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    console.error(`${chalk.red("justd.json not found")}. ${chalk.gray(`Please run ${chalk.blue("npx justd-cli@latest init")} to initialize the project.`)}`)
+    error(`${warningText("justd.json not found")}. Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)
     return
   }
 
@@ -104,6 +150,10 @@ export function getUIPathFromConfig() {
   return config.ui || possibilityComponentsPath() + "/ui"
 }
 
+/**
+ *  This function is used to get the alias from the justd.json file
+ *  @returns string
+ */
 export function getAliasFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {

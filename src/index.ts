@@ -5,26 +5,41 @@ import { add } from "./commands/add"
 import { init } from "./commands/init"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
-import { setTheme } from "./commands/theme"
+import { setGray } from "./commands/gray"
 import packageJson from "../package.json"
 
 const version = packageJson.version
 
+/**
+ *  This function is used to check if the CLI is being run with the --version or -v flag
+ */
 const args = process.argv.slice(2)
 if (args.includes("--version") || args.includes("-v")) {
   console.log(packageJson.version)
   process.exit(0)
 }
 
-//  Version: this command is used to display the version number of the CLI
+/**
+ *  This command is used to display the version number of the CLI
+ *  @param version string
+ *  @param force boolean
+ *  @param description string
+ */
 program.version(version, "-v, --version", "Output the version number").description("CLI Tool Description")
 
-//  Init: this command is used to initialize your project, it will assume you have installed tailwindcss, and your main framework or library.
-program.command("init").option("--skip <type>", "Skip a specific step").action(init)
+/**
+ *  This command is used to initialize your project, it will assume you have installed tailwindcss, and your main framework or library.
+ *  @param force boolean
+ */
+program.command("init").option("--force", "Force initialization without checking Git").action(init)
 
-//  Add: this command is used to add new components to your project
-//  You can also add multiple components at once by separating them with a space (npx justd-cli@latest add aside avatar button)
-//  You can also all by using (npx justd-cli@latest add) then just press `a` and then `enter`
+/**
+ *  This command is used to add new components to your project
+ *  You can also add multiple components at once by separating them with a space (npx justd-cli@latest add aside avatar button)
+ *  You can also all by using (npx justd-cli@latest add) then just press `a` and then `enter`
+ *  @param components string
+ *  @param options any
+ */
 program
   .command("add [components...]")
   .option("--skip <type>", "Skip")
@@ -33,17 +48,24 @@ program
     await add({ component: components.join(" "), ...options })
   })
 
-//  Theme: this command useful when you want to switch your current theme
-//  You can see the full theme list here: https://getjustd.com/themes
+/**
+ *  This command is used to change the current gray
+ *  You can see the full theme list here: https://getjustd.com/themes
+ *  @param grayName string
+ *  @param options any
+ */
 program
-  .command("theme [name]")
-  .description("Change the current theme")
+  .command("gray [name]")
+  .description("Change the current gray")
   .option("-y, --yes", "Skip confirmation prompt")
-  .action(async (themeName, options) => {
-    await setTheme(options.yes, themeName)
+  .action(async (grayName, options) => {
+    await setGray(options.yes, grayName)
   })
 
-// Diff: this command will show differences between local and remote components (justd repo)
+/**
+ *  This command will show differences between local and remote components (justd repo)
+ *  @param components string[]
+ */
 program
   .command("diff [components...]")
   .description("Show differences between local and remote components")
@@ -51,6 +73,10 @@ program
     await diff(...components)
   })
 
+/**
+ *  This function is used to display the help information for the CLI
+ *  @param program Command
+ */
 help(program)
 
 program.parse(process.argv)
