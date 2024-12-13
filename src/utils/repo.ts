@@ -2,7 +2,7 @@ import { availablesGrays } from "@/commands/gray"
 import { error } from "@/utils/logging"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
-const BRANCH = "main"
+const BRANCH = "tailwind-v4"
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
 export const getThemesRepoUrl = (gray: string): string => {

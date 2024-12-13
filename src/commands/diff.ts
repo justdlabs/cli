@@ -4,6 +4,7 @@ import { diffLines } from "diff"
 import { checkbox } from "@inquirer/prompts"
 import { getRepoUrlForComponent } from "@/utils/repo"
 import chalk from "chalk"
+import { error, info } from "@/utils/logging"
 
 const getLocalComponentPath = (configPath: string, componentName: string) => {
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
@@ -58,7 +59,7 @@ export const diff = async (...args: string[]) => {
         const diffs = compareComponents(localContent, remoteContent)
 
         if (diffs.length > 0) {
-          console.log(`Differences found in ${componentName}:`)
+          console.info(`Differences found in ${componentName}:`)
           diffs.forEach((part) => {
             const symbol = part.added ? "+" : "-"
             const colorFn = part.added ? chalk.green : chalk.red
@@ -72,7 +73,7 @@ export const diff = async (...args: string[]) => {
           console.log("\n")
           changedComponents.push(componentName)
         } else {
-          console.log(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
+          console.info(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
         }
       } catch (error: any) {
         // Skip the component if it's not found
@@ -93,7 +94,7 @@ export const diff = async (...args: string[]) => {
       })
 
       if (selectedComponents.includes("none") || selectedComponents.length === 0) {
-        console.log("No components selected for update.")
+        info("No components selected for update.")
         return
       }
 
@@ -102,15 +103,15 @@ export const diff = async (...args: string[]) => {
           const remoteContent = await fetchRemoteComponent(componentName)
           const localComponentPath = getLocalComponentPath(configPath, componentName)
           fs.writeFileSync(localComponentPath, remoteContent)
-          console.log(`${chalk.green(`✔ ${componentName} is updated.`)}`)
-        } catch (error: any) {
-          console.error(`Error updating ${componentName}: ${error.message}`)
+          console.info(`${chalk.green(`✔ ${componentName} is updated.`)}`)
+        } catch (e: any) {
+          error(`Error updating ${componentName}: ${e.message}`)
         }
       }
     } else {
       console.log(chalk.green("✔ All components are up to date."))
     }
   } catch (error: any) {
-    console.error("Error checking differences:", error.message)
+    error("Error checking differences:", error.message)
   }
 }

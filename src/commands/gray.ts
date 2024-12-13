@@ -14,13 +14,13 @@ export async function gray(cssLocation: string): Promise<string | undefined> {
 
   spinner.stop()
   const selectedTheme = await select({
-    message: "Select a gray:",
+    message: "Pick your desired base gray:",
     choices: grays.map((theme) => ({ name: theme, value: theme })),
     pageSize: 15,
   })
 
   const response = await fetch(getThemesRepoUrl(selectedTheme))
-  if (!response.ok) throw new Error(`Failed to fetch gray: ${response.statusText}`)
+  if (!response.ok) throw new Error(`Failed to fetch color: ${response.statusText}`)
   let content = await response.text()
   writeFileSync(cssLocation, content, { flag: "w" })
 
@@ -51,7 +51,7 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
     })
 
     if (!confirmOverride) {
-      console.log("Theme change canceled.")
+      console.info("Theme change canceled.")
       return
     }
   }
@@ -68,8 +68,8 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
 
     userConfig.css = cssPath
     writeFileSync(userConfigPath, JSON.stringify(userConfig, null, 2))
-    console.log(`✅ The gray changed to '${highlight(newTheme)}'`)
+    console.info(`✅ The gray changed to '${highlight(newTheme)}'`)
   } else {
-    console.log("No gray selected.")
+    console.info("No gray selected.")
   }
 }

@@ -147,12 +147,12 @@ export async function add(options: any) {
   if (createdFiles.length > 0) {
     const what = override ? "Overwrite" : "Created"
     spinner.succeed(`${what} ${createdFiles.length} ${fileWord}:`)
-    createdFiles.forEach((file) => console.log(`  - ${file}`))
+    createdFiles.forEach((file) => console.info(`  - ${file}`))
   }
 
   if (existingFiles.size > 0 && !override) {
-    console.log(chalk.yellow(`ℹ ${existingFiles.size} ${fileWord} already existed:`))
-    Array.from(existingFiles).forEach((file) => console.log(`  - ${file}`))
+    console.info(chalk.yellow(`ℹ ${existingFiles.size} ${fileWord} already existed:`))
+    Array.from(existingFiles).forEach((file) => console.info(`  - ${file}`))
   }
 }
 

@@ -242,11 +242,11 @@ export async function init(flags: { force?: boolean }) {
   spinner.succeed(`Configuration saved to ${highlight("justd.json")}`)
   spinner.succeed(`Installation complete.`)
 
-  console.log("\n\nNot sure what to do next?")
-  console.log(`Visit our documentation at: ${highlight("https://getjustd.com")}`)
+  console.info("\n\nNot sure what to do next?")
+  console.info(`Visit our documentation at: ${highlight("https://getjustd.com")}`)
 
-  console.log("\nNow try to add some components to your project")
-  console.log(`by running: ${highlight("npx justd-cli@latest add\n")}`)
+  console.info("\nNow try to add some components to your project")
+  console.info(`by running: ${highlight("npx justd-cli@latest add")}`)
 
   // @ts-ignore
   figlet.text(
@@ -258,7 +258,7 @@ export async function init(flags: { force?: boolean }) {
       verticalLayout: "default",
     },
     (_: any, data: string) => {
-      console.log(highlight(data))
+      console.info(highlight(data))
     },
   )
   spinner.stop()
