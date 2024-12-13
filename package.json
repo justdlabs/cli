@@ -1,7 +1,7 @@
 {
   "name": "justd-cli",
   "type": "module",
-  "version": "1.3.0",
+  "version": "1.2.49",
   "description": "The command line interface for Justd.",
   "main": "dist/index.js",
   "bin": {
@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "tsup --watch",
     "prepare": "npx husky",
-    "rp": "npm uninstall tailwindcss && npm uninstall justd-icons clsx cmdk embla-carousel-react framer-motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
+    "rp": "npm uninstall tailwindcss && npm uninstall justd-icons clsx cmdk embla-carousel-react motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
     "clean": "rimraf justd.json && rimraf src/utils/classes.ts && rimraf src/styles && rimraf src/index.css &&  rimraf src/app && rimraf styles/app.css && rimraf src/app/globals.css && rimraf app/globals.css && rimraf src/components && rimraf styles && rimraf resources && rimraf src/components && rimraf components && npm run rp",
     "build": "tsup && npm run format",
     "start": "tsc && npm link",
