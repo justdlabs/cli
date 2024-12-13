@@ -8,8 +8,8 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, isNextJs } from "@/utils/helpers"
-import { grayText, highlight, warn, warningText } from "@/utils/logging"
+import { getAliasFromConfig, getUIPathFromConfig, isNextJs, isTailwind } from "@/utils/helpers"
+import { grayText, highlight, info, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -59,6 +59,8 @@ export async function add(options: any) {
     spinner.fail(`${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
     return
   }
+
+  console.info(isTailwind(3) ? "yes" : "no")
 
   spinner.stop()
   const exclude = ["primitive"]

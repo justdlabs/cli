@@ -90,6 +90,26 @@ export function isRemix(): boolean {
   return false
 }
 
+export function isTailwind(version: number): boolean {
+  const packageJsonPath = path.join(process.cwd(), "package.json")
+
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
+    const { dependencies = {}, devDependencies = {} } = packageJson
+
+    const tailwindVersion = dependencies["tailwindcss"] || devDependencies["tailwindcss"]
+
+    if (tailwindVersion) {
+      // Remove any non-numeric prefix (e.g., ^ or ~)
+      const cleanVersion = tailwindVersion.replace(/^\D*/, "")
+      const majorVersion = parseInt(cleanVersion.split(".")[0], 10)
+      return majorVersion === version
+    }
+  }
+
+  return false
+}
+
 /**
  *  This function is used to check if Tailwind is installed in the project
  *  @returns boolean

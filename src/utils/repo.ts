@@ -1,8 +1,11 @@
 import { availablesGrays } from "@/commands/gray"
 import { error } from "@/utils/logging"
+import { isTailwind } from "@/utils/helpers"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
-const BRANCH = "main"
+
+const branchWorkingOn = isTailwind(3) ? "1.x" : "main"
+const BRANCH = branchWorkingOn
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
 /**

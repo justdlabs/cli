@@ -9,7 +9,7 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
 import { gray } from "@/commands/gray"
-import { hasFolder, isLaravel, isNextJs, isRemix, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
+import { hasFolder, isLaravel, isNextJs, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
 import { error, highlight, info } from "@/utils/logging"
 import { isRepoDirty } from "@/utils/git"
@@ -147,7 +147,8 @@ export async function init(flags: { force?: boolean }) {
 
   const currentAlias = await getUserAlias()
 
-  const selectedGray = await gray(cssLocation)
+  const selectedGray = isTailwind(3) ? "zinc.css" : await gray(cssLocation)
+
   const config = {
     $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
