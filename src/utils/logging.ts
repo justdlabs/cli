@@ -6,37 +6,36 @@ export const UI = {
   indent: 2,
 }
 
+/**
+ * Wraps a string in backticks and adds a blue color to
+ * @param text
+ */
 export function highlight(text: string) {
   return `${pc.dim(pc.blue("`"))}${pc.blue(text)}${pc.dim(pc.blue("`"))}`
 }
 
+/**
+ * Wraps a string in backticks and adds a gray color to
+ * @param text
+ */
 export function grayText(text: string) {
   return `${pc.dim(pc.gray("`"))}${pc.gray(text)}${pc.dim(pc.blue("`"))}`
 }
 
+/**
+ * Wraps a string in backticks and adds a green color to
+ * @param text
+ */
 export function errorText(text: string) {
   return `${pc.dim(pc.red("`"))}${pc.red(text)}${pc.dim(pc.blue("`"))}`
 }
 
+/**
+ * Wraps a string in backticks and adds a red color to
+ * @param text
+ */
 export function warningText(text: string) {
   return `${pc.dim(pc.yellow("`"))}${pc.yellow(text)}${pc.dim(pc.blue("`"))}`
-}
-
-/**
- * Convert an `absolute` path to a `relative` path from the current working
- * directory.
- */
-export function relative(to: string, from = process.cwd(), { preferAbsoluteIfShorter = true } = {}) {
-  let result = path.relative(from, to)
-  if (!result.startsWith("..")) {
-    result = `.${path.sep}${result}`
-  }
-
-  if (preferAbsoluteIfShorter && result.length > to.length) {
-    return to
-  }
-
-  return result
 }
 
 /**

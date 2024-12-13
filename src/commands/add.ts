@@ -13,6 +13,11 @@ import { grayText, highlight, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
+/**
+ *  This function is used to update the index.ts file
+ *  @param componentName string
+ *  @param processed Set<string>
+ */
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
   if (processed.has(componentName) || exceptions.includes(componentName)) {
     return
@@ -42,6 +47,10 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   }
 }
 
+/**
+ *  This function is used to add new components to the project
+ *  @param options any
+ */
 export async function add(options: any) {
   const spinner = ora("Checking.").start()
   const { component, override } = options
@@ -156,6 +165,18 @@ export async function add(options: any) {
   }
 }
 
+/**
+ *  This function is used to process a component
+ *  @param componentName string
+ *  @param packageManager string
+ *  @param action string
+ *  @param processed Set<string>
+ *  @param allComponents any[]
+ *  @param override boolean
+ *  @param isChild boolean
+ *  @param createdFiles string[]
+ *  @param existingFiles Set<string>
+ */
 async function processComponent(componentName: string, packageManager: string, action: string, processed: Set<string>, allComponents: any[], override: boolean, isChild: boolean, createdFiles: string[], existingFiles: Set<string>) {
   if (processed.has(componentName)) return
 
@@ -184,6 +205,10 @@ async function processComponent(componentName: string, packageManager: string, a
   processed.add(componentName)
 }
 
+/**
+ *  This function is used to create a new component
+ *  @param componentName string
+ */
 async function createComponent(componentName: string) {
   const writePath = getWriteComponentPath(componentName)
   const dir = path.dirname(writePath)

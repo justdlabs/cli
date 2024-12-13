@@ -5,6 +5,11 @@ const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
 const BRANCH = "main"
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
+/**
+ *  This function is used to get the URL for the themes repo
+ *  @param gray string
+ *  @returns string
+ */
 export const getThemesRepoUrl = (gray: string): string => {
   if (!availablesGrays.includes(gray)) {
     error(`Invalid gray provided: ${gray}`)
@@ -21,6 +26,11 @@ export const getThemesRepoUrl = (gray: string): string => {
   return selectedGray
 }
 
+/**
+ *  This function is used to get the URL for a component
+ *  @param componentName string
+ *  @returns string
+ */
 export const getRepoUrlForComponent = (componentName: string) => {
   const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
   if (!repoUrl) {
@@ -29,7 +39,10 @@ export const getRepoUrlForComponent = (componentName: string) => {
   return repoUrl
 }
 
-// Getting the classes.ts file from the Justd repository
+/**
+ *  This function is used to get the URL for the classes.ts file
+ *  @returns string
+ */
 export const getClassesTsRepoUrl = (): string => {
   const utils = `${REPO}/refs/heads/${BRANCH}/utils/classes.ts`
   if (!utils) {

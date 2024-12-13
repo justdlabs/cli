@@ -1,16 +1,21 @@
 import { spawn } from "child_process"
 import ora from "ora"
 
-// This function is used to install additional dependencies for components
+/**
+ * This function is used to install additional dependencies for some components
+ * @param componentName
+ * @param packageManager
+ * @param action
+ */
 export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
   const dependencies: Record<string, string> = {
     toast: "sonner",
-    drawer: "framer-motion",
+    drawer: "motion",
     disclosure: "justd-icons",
-    tabs: "framer-motion",
-    "progress-bar": "framer-motion",
-    navbar: "framer-motion",
-    meter: "framer-motion",
+    tabs: "motion",
+    "progress-bar": "motion",
+    navbar: "motion",
+    meter: "motion",
     chart: "recharts",
     "input-otp": "input-otp",
     carousel: "embla-carousel-react",

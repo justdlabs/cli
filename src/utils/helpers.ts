@@ -8,10 +8,11 @@ export function hasFolder(folderName: string): boolean {
   return fs.existsSync(folderPath)
 }
 
-export function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
+/**
+ *  This function is used to get the CSS path from the justd.json file
+ *  or the default CSS path for the project
+ *  @returns string
+ */
 export function possibilityCssPath(): string {
   if (isLaravel()) {
     return "resources/css/app.css"
@@ -89,6 +90,10 @@ export function isRemix(): boolean {
   return false
 }
 
+/**
+ *  This function is used to check if Tailwind is installed in the project
+ *  @returns boolean
+ */
 export function isTailwindInstalled(): boolean {
   const packageJsonPath = path.join(process.cwd(), "package.json")
 
@@ -102,10 +107,18 @@ export function isTailwindInstalled(): boolean {
   return false
 }
 
+/**
+ *  This function is used to check if Laravel is installed in the project
+ *  @returns boolean
+ */
 export function isLaravel(): boolean {
   return fs.existsSync(path.resolve(process.cwd(), "artisan"))
 }
 
+/**
+ *  This function is used to get the UI path from the justd.json file
+ *  @returns string
+ */
 export function getUIPathFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
@@ -117,6 +130,10 @@ export function getUIPathFromConfig() {
   return config.ui || possibilityComponentsPath() + "/ui"
 }
 
+/**
+ *  This function is used to get the alias from the justd.json file
+ *  @returns string
+ */
 export function getAliasFromConfig() {
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
