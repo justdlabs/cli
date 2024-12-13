@@ -1,5 +1,21 @@
 
 
+## [1.3.0](https://github.com/justdlabs/cli/compare/v1.2.49...v1.3.0) (2024-12-13)
+
+
+### Features
+
+* support for justd 2.x ([b9d5c30](https://github.com/justdlabs/cli/commit/b9d5c3069c41822e628f229ed18725cf22ff4708))
+* upgrade to tailwind4 ([3af24ba](https://github.com/justdlabs/cli/commit/3af24ba8acb4fd94638ee0bd8cc0be3f7104eced))
+
+
+### Bug Fixes
+
+* 'fix some hikkups' ([0a0b2e8](https://github.com/justdlabs/cli/commit/0a0b2e8e1172830d1c15ee8a41cf6248c9ac3a29))
+* fix some log ([90bd57f](https://github.com/justdlabs/cli/commit/90bd57f514d52beb5c2ac42c61fc1ef69c363fab))
+* replace with gray ([f7547a8](https://github.com/justdlabs/cli/commit/f7547a8d18e02fa7e19c3337de5c94e293dc0506))
+* wip ([adc34c4](https://github.com/justdlabs/cli/commit/adc34c49c5fdc36e8735982e264bb188b71db184))
+
 ## [1.2.49](https://github.com/justdlabs/cli/compare/v1.2.48...v1.2.49) (2024-12-01)
 
 
