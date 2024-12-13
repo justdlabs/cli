@@ -1,5 +1,12 @@
 
 
+## [1.2.50](https://github.com/justdlabs/cli/compare/v1.3.0...v1.2.50) (2024-12-13)
+
+
+### Bug Fixes
+
+* clean ([08158f1](https://github.com/justdlabs/cli/commit/08158f126dfec21329e90f41cfd73ae24fab15fe))
+
 ## [1.3.0](https://github.com/justdlabs/cli/compare/v1.2.49...v1.3.0) (2024-12-13)
 
 
