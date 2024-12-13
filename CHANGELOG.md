@@ -1,5 +1,12 @@
 
 
+## [1.3.1](https://github.com/justdlabs/cli/compare/v1.2.50...v1.3.1) (2024-12-13)
+
+
+### Bug Fixes
+
+* republish ([f9e227c](https://github.com/justdlabs/cli/commit/f9e227cea6d3341efb93498a7941682c4e921511))
+
 ## [1.2.50](https://github.com/justdlabs/cli/compare/v1.3.0...v1.2.50) (2024-12-13)
 
 
