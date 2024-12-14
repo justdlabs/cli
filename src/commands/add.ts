@@ -9,7 +9,7 @@ import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
 import { getAliasFromConfig, getUIPathFromConfig, isNextJs, isTailwind } from "@/utils/helpers"
-import { grayText, highlight, info, warn, warningText } from "@/utils/logging"
+import { error, grayText, highlight, info, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -184,9 +184,16 @@ async function processComponent(componentName: string, packageManager: string, a
 
   const componentPath = getWriteComponentPath(componentName)
 
+  /**
+   * If the component already exists, and the override flag is not set, we will skip the component
+   * and move on to the next one.
+   * If the override flag is set, we will delete the existing component and create a new one.
+   * We will also add the new component to the createdFiles array.
+   */
   if (fs.existsSync(componentPath)) {
     if (override && !isChild) {
       fs.rmSync(componentPath, { recursive: true, force: true })
+      await createComponent(componentName)
       createdFiles.push(`${getUIFolderPath()}/${componentName}.tsx`)
     } else {
       existingFiles.add(`${getUIFolderPath()}/${componentName}.tsx`)
@@ -221,7 +228,10 @@ async function createComponent(componentName: string) {
   const url = getRepoUrlForComponent(componentName)
   try {
     const response = await fetch(url)
-    if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
+    if (!response.ok) {
+      error(`Failed to fetch component: ${response.statusText}`)
+      process.exit(1)
+    }
     let content = await response.text()
 
     if (!isNextJs()) {
