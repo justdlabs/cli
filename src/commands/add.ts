@@ -60,8 +60,6 @@ export async function add(options: any) {
     return
   }
 
-  console.info(isTailwind(3) ? "yes" : "no")
-
   spinner.stop()
   const exclude = ["primitive"]
   let selectedComponents = component ? component.split(" ") : []
