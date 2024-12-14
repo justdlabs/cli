@@ -1,5 +1,12 @@
 
 
+## [1.3.3](https://github.com/justdlabs/cli/compare/v1.3.2...v1.3.3) (2024-12-14)
+
+
+### Bug Fixes
+
+* fix override flag ([5200b75](https://github.com/justdlabs/cli/commit/5200b758529196a5f506597b8755a3ce18a619ae))
+
 ## [1.3.2](https://github.com/justdlabs/cli/compare/v1.3.1...v1.3.2) (2024-12-13)
 
 ## [1.3.1](https://github.com/justdlabs/cli/compare/v1.2.50...v1.3.1) (2024-12-13)
