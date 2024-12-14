@@ -1,5 +1,12 @@
 
 
+## [1.3.4](https://github.com/justdlabs/cli/compare/v1.3.3...v1.3.4) (2024-12-14)
+
+
+### Bug Fixes
+
+* fix unused log ([0290fbe](https://github.com/justdlabs/cli/commit/0290fbe50d012db7a1fac507c880943b5a471463))
+
 ## [1.3.3](https://github.com/justdlabs/cli/compare/v1.3.2...v1.3.3) (2024-12-14)
 
 
