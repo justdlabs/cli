@@ -105,9 +105,8 @@ export async function init(flags: { force?: boolean }) {
       const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
       const stripped = stripJsonComments(tsConfigRaw)
       tsConfig = JSON.parse(stripped)
-    } catch (err) {
-      // @ts-ignore
-      console.error("Error reading tsconfig.json:", err?.message)
+    } catch {
+      error("Error reading tsconfig.json file. Please check if it exists and is valid JSON.")
       process.exit(1)
     }
 
@@ -126,7 +125,7 @@ export async function init(flags: { force?: boolean }) {
       const spinner = ora("Updating tsconfig.json with paths...").start()
       try {
         const updatedTsConfig = JSON.stringify(tsConfig, null, 2)
-        fs.writeFileSync(tsConfigPath, updatedTsConfig) // Tulis ulang tsconfig.json
+        fs.writeFileSync(tsConfigPath, updatedTsConfig)
         spinner.succeed("Paths added to tsconfig.json.")
       } catch (e) {
         spinner.fail("Failed to write to tsconfig.json.")
