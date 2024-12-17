@@ -29,6 +29,7 @@ export async function init(flags: { force?: boolean }) {
       info(`You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`)
       process.exit(1)
     }
+    checkingGit.stop() // stop spinner
   }
 
   const spinner = ora(`Initializing.`).start()
