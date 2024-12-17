@@ -1,5 +1,12 @@
 
 
+## [1.3.8](https://github.com/justdlabs/cli/compare/v1.3.7...v1.3.8) (2024-12-17)
+
+
+### Bug Fixes
+
+* stop git check spinner ([fa985a9](https://github.com/justdlabs/cli/commit/fa985a96c6fe379b316722db2c7613743f4bc14a))
+
 ## [1.3.7](https://github.com/justdlabs/cli/compare/v1.3.6...v1.3.7) (2024-12-17)
 
 
