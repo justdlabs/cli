@@ -92,7 +92,8 @@ export async function add(options: any) {
       const repoUrl = getRepoUrlForComponent(componentName)
       const response = await fetch(repoUrl)
       if (!response.ok) {
-        throw new Error(`Component '${componentName}' not found at ${repoUrl}`)
+        error(`Component '${componentName}' not found at ${repoUrl}`)
+        process.exit(1)
       }
     }
     spinner.succeed("Checking.")
