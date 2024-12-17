@@ -1,5 +1,12 @@
 
 
+## [2.0.3](https://github.com/justdlabs/cli/compare/v2.0.2...v2.0.3) (2024-12-17)
+
+
+### Bug Fixes
+
+* remove `clsx` from default installation ([da12f81](https://github.com/justdlabs/cli/commit/da12f817fde325cb0d5a842c0fb17228fcf1276b))
+
 ## [2.0.2](https://github.com/justdlabs/cli/compare/v2.0.1...v2.0.2) (2024-12-17)
 
 
