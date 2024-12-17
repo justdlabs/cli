@@ -1,5 +1,12 @@
 
 
+## [1.3.6](https://github.com/justdlabs/cli/compare/v1.3.5...v1.3.6) (2024-12-17)
+
+
+### Bug Fixes
+
+* change gray to change-gray ([99c0e01](https://github.com/justdlabs/cli/commit/99c0e011675ae8abf7436a20e107d5f7c0bdfe65))
+
 ## [1.3.5](https://github.com/justdlabs/cli/compare/v1.3.4...v1.3.5) (2024-12-15)
 
 
