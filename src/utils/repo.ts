@@ -4,7 +4,7 @@ import { isTailwind } from "@/utils/helpers"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
 
-const branchWorkingOn = isTailwind(3) ? "1.x" : "main"
+const branchWorkingOn = isTailwind(3) ? "1.x" : "2.x"
 const BRANCH = branchWorkingOn
 
 const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
