@@ -13,18 +13,18 @@ export async function changeGray(cssLocation: string): Promise<string | undefine
   const grays = availablesGrays
 
   spinner.stop()
-  const selectedTheme = await select({
+  const selectedGray = await select({
     message: "Pick your desired base gray:",
-    choices: grays.map((theme) => ({ name: theme, value: theme })),
+    choices: grays.map((gray) => ({ name: gray, value: gray })),
     pageSize: 15,
   })
 
-  const response = await fetch(getThemesRepoUrl(selectedTheme))
+  const response = await fetch(getThemesRepoUrl(selectedGray))
   if (!response.ok) throw new Error(`Failed to fetch color: ${response.statusText}`)
   let content = await response.text()
   writeFileSync(cssLocation, content, { flag: "w" })
 
-  return selectedTheme
+  return selectedGray
 }
 
 export async function setGray(overrideConfirmation: boolean, selectedTheme?: string) {
@@ -36,7 +36,7 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
 
   const userConfig = JSON.parse(readFileSync(userConfigPath, "utf8"))
 
-  const currentTheme = userConfig.theme || "default"
+  const currentGray = userConfig.gray || "zinc"
   const config = JSON.parse(fs.readFileSync(justdConfigFile, "utf8"))
   let cssPath = config.css || possibilityCssPath()
   if (!overrideConfirmation) {
@@ -47,7 +47,7 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
 
   if (!overrideConfirmation) {
     confirmOverride = await confirm({
-      message: `You will override the current theme "${highlight(currentTheme)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
+      message: `You will override the current theme "${highlight(currentGray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
     })
 
     if (!confirmOverride) {
@@ -56,11 +56,11 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
     }
   }
 
-  let _newTheme = selectedTheme || (await changeGray(cssPath))
+  let _newGray = selectedTheme || (await changeGray(cssPath))
 
-  if (_newTheme) {
-    const newTheme = _newTheme.replace(".css", "")
-    userConfig.theme = newTheme
+  if (_newGray) {
+    const newTheme = _newGray.replace(".css", "")
+    userConfig.gray = newTheme
 
     const cssContent = await fetch(getThemesRepoUrl(newTheme))
     const content = await cssContent.text()
