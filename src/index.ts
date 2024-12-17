@@ -55,7 +55,7 @@ program
  *  @param options any
  */
 program
-  .command("gray [name]")
+  .command("change-gray [name]")
   .description("Change the current gray")
   .option("-y, --yes", "Skip confirmation prompt")
   .action(async (grayName, options) => {
