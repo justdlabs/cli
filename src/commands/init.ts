@@ -162,7 +162,7 @@ export async function init(flags: { force?: boolean }) {
 
   let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
 
-  let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+  let devPackages = ["tailwind-variants", "tailwind-merge", "tailwindcss-animate"].join(" ")
 
   if (isNextJs()) {
     devPackages += " next-themes"
