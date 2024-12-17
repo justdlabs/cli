@@ -1,5 +1,13 @@
 
 
+## [1.3.9](https://github.com/justdlabs/cli/compare/v1.3.8...v1.3.9) (2024-12-17)
+
+
+### Bug Fixes
+
+* fix add-deps ([727e440](https://github.com/justdlabs/cli/commit/727e440cd2fc3009daee026477392904c8c006f6))
+* remove unused ([bfae763](https://github.com/justdlabs/cli/commit/bfae7637ab14a31b22540fcf74281b4a95331e38))
+
 ## [1.3.8](https://github.com/justdlabs/cli/compare/v1.3.7...v1.3.8) (2024-12-17)
 
 
