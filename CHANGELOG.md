@@ -1,5 +1,13 @@
 
 
+## [2.0.2](https://github.com/justdlabs/cli/compare/v2.0.1...v2.0.2) (2024-12-17)
+
+
+### Bug Fixes
+
+* carousel display twice ([e73607d](https://github.com/justdlabs/cli/commit/e73607d7627be34401227241cf71cf21a12f7ba6))
+* fix carousel show twice by [#7](https://github.com/justdlabs/cli/issues/7) by [@phucto2001](https://github.com/phucto2001) ([e533fd8](https://github.com/justdlabs/cli/commit/e533fd8a173fa392701ff942aa22a5212e4e072c))
+
 ## [2.0.1](https://github.com/justdlabs/cli/compare/v2.0.0...v2.0.1) (2024-12-17)
 
 
