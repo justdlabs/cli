@@ -1,5 +1,5 @@
 import { spawn } from "child_process"
-import ora from "ora"
+import { error, highlight } from "@/utils/logging"
 
 /**
  * This function is used to install additional dependencies for some components
@@ -26,17 +26,25 @@ export const additionalDeps = async (componentName: string, packageManager: stri
   const dependency = dependencies[componentName]
 
   if (dependency) {
-    const spinner = ora().start()
-    const installCommand = `${packageManager} ${action} ${dependency}`
+    const installCommand = `${packageManager} ${action} ${dependency} --silent`
     const child = spawn(installCommand, {
-      stdio: ["ignore", "ignore", "ignore"],
+      stdio: "ignore",
       shell: true,
     })
 
-    await new Promise<void>((resolve) => {
-      child.on("close", () => {
-        spinner.stop()
-        resolve()
+    await new Promise<void>((resolve, reject) => {
+      child.on("close", (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          error(`Failed to install ${highlight(dependency)}. Exit code: ${code}`)
+          reject(new Error(`Installation failed for ${dependency} with code ${code}`))
+        }
+      })
+
+      child.on("error", (err) => {
+        error(`Error while executing: ${highlight(installCommand)}`)
+        reject(err)
       })
     })
   }

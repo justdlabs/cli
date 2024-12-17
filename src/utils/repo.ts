@@ -1,4 +1,4 @@
-import { availablesGrays } from "@/commands/gray"
+import { availablesGrays } from "@/commands/change-gray"
 import { error } from "@/utils/logging"
 import { isTailwind } from "@/utils/helpers"
 
@@ -43,11 +43,12 @@ export const getRepoUrlForComponent = (componentName: string) => {
 }
 
 /**
- *  This function is used to get the URL for the classes.ts file
+ *  This function is used to get the URL for the classes file
+ *  @param file
  *  @returns string
  */
-export const getClassesTsRepoUrl = (): string => {
-  const utils = `${REPO}/refs/heads/${BRANCH}/utils/classes.ts`
+export const getUtilsFolder = (file: string): string => {
+  const utils = `${REPO}/refs/heads/${BRANCH}/utils/${file}`
   if (!utils) {
     throw new Error("REPO_URL environment variable is not set")
   }

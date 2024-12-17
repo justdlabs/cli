@@ -7,8 +7,8 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
-import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { gray } from "@/commands/gray"
+import { getUtilsFolder, getRepoUrlForComponent } from "@/utils/repo"
+import { changeGray } from "@/commands/change-gray"
 import { hasFolder, isLaravel, isNextJs, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
 import { error, highlight, info } from "@/utils/logging"
@@ -147,12 +147,12 @@ export async function init(flags: { force?: boolean }) {
 
   const currentAlias = await getUserAlias()
 
-  const selectedGray = isTailwind(3) ? "zinc.css" : await gray(cssLocation)
+  const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation)
 
   const config = {
     $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
-    classes: utilsFolder,
+    utils: utilsFolder,
     gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
     alias: currentAlias,
@@ -201,7 +201,7 @@ export async function init(flags: { force?: boolean }) {
   fs.writeFileSync(path.join(uiFolder, "primitive.tsx"), fileContent, { flag: "w" })
   fs.writeFileSync(path.join(uiFolder, "index.ts"), `export * from './primitive';`, { flag: "w" })
 
-  const responseClasses = await fetch(getClassesTsRepoUrl())
+  const responseClasses = await fetch(getUtilsFolder("classes.ts"))
   const fileContentClasses = await responseClasses.text()
   fs.writeFileSync(path.join(utilsFolder, "classes.ts"), fileContentClasses, { flag: "w" })
 

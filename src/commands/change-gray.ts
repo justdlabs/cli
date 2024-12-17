@@ -8,7 +8,7 @@ import { errorText, grayText, highlight } from "@/utils/logging"
 
 export const availablesGrays = ["zinc", "gray", "slate", "neutral", "stone"]
 
-export async function gray(cssLocation: string): Promise<string | undefined> {
+export async function changeGray(cssLocation: string): Promise<string | undefined> {
   const spinner = ora("Looking up possibilities...").start()
   const grays = availablesGrays
 
@@ -56,7 +56,7 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
     }
   }
 
-  let _newTheme = selectedTheme || (await gray(cssPath))
+  let _newTheme = selectedTheme || (await changeGray(cssPath))
 
   if (_newTheme) {
     const newTheme = _newTheme.replace(".css", "")

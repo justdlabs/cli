@@ -7,9 +7,9 @@ import chalk from "chalk"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
-import { getClassesTsRepoUrl, getRepoUrlForComponent } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, isNextJs, isTailwind } from "@/utils/helpers"
-import { error, grayText, highlight, info, warn, warningText } from "@/utils/logging"
+import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
+import { getAliasFromConfig, getUIPathFromConfig, isNextJs } from "@/utils/helpers"
+import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -102,6 +102,7 @@ export async function add(options: any) {
   }
 
   spinner.start("Installing dependencies.")
+
   try {
     const utilsFolder = getUtilsFolderPath()
     const classesFile = path.join(utilsFolder, "classes.ts")
@@ -110,10 +111,21 @@ export async function add(options: any) {
       if (!fs.existsSync(utilsFolder)) {
         fs.mkdirSync(utilsFolder, { recursive: true })
       }
-      const responseClasses = await fetch(getClassesTsRepoUrl())
+      const responseClasses = await fetch(getUtilsFolder("classes.ts"))
       const fileContentClasses = await responseClasses.text()
       fs.writeFileSync(classesFile, fileContentClasses, { flag: "w" })
       createdFiles.push(classesFile)
+    }
+
+    if (await Promise.resolve(selectedComponents.some((component: string) => ["popover", "sidebar", "navbar", "command-menu", "number-field"].includes(component)))) {
+      const mediaQueryFile = path.join(utilsFolder, "use-media-query.ts")
+
+      if (!fs.existsSync(mediaQueryFile)) {
+        const responseMediaQuery = await fetch(getUtilsFolder("use-media-query.ts"))
+        const fileContentMediaQuery = await responseMediaQuery.text()
+        fs.writeFileSync(mediaQueryFile, fileContentMediaQuery, { flag: "w" })
+        createdFiles.push(mediaQueryFile)
+      }
     }
 
     for (const componentName of selectedComponents) {

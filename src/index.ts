@@ -5,7 +5,7 @@ import { add } from "./commands/add"
 import { init } from "./commands/init"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
-import { setGray } from "./commands/gray"
+import { setGray } from "./commands/change-gray"
 import packageJson from "../package.json"
 
 const version = packageJson.version
