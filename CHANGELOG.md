@@ -1,5 +1,12 @@
 
 
+## [1.3.7](https://github.com/justdlabs/cli/compare/v1.3.6...v1.3.7) (2024-12-17)
+
+
+### Bug Fixes
+
+* change repo latest from main to 2.x ([b8267ea](https://github.com/justdlabs/cli/commit/b8267eab87d939663ed0f0215aec2ce54ef832f9))
+
 ## [1.3.6](https://github.com/justdlabs/cli/compare/v1.3.5...v1.3.6) (2024-12-17)
 
 
