@@ -85,7 +85,6 @@ const components: any[] = [
     name: "menu",
     children: [{ name: "dropdown" }, { name: "keyboard" }, { name: "popover" }],
   },
-  { name: "carousel", children: [{ name: "button" }] },
   { name: "list-box", children: [{ name: "dropdown" }, { name: "field" }] },
   { name: "tabs" },
   { name: "tag-group", children: [{ name: "field" }, { name: "badge" }] },
@@ -155,7 +154,7 @@ const components: any[] = [
   // ⌘ The children of Media
   // ------------------------------------------------------------------------------------- //
   { name: "avatar", children: [{ name: "visually-hidden" }] },
-  { name: "carousel" },
+  { name: "carousel", children: [{ name: "button" }] },
 
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Overlays
