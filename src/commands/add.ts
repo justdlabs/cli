@@ -156,7 +156,19 @@ export async function add(options: any) {
       }
     }
 
-    await additionalDeps(selectedComponents.join(" "), packageManager, action)
+    const allComponentNames = components.filter((comp) => !exclude.includes(comp.name) && !namespaces.includes(comp.name)).map((comp) => comp.name)
+
+    const isAllSelected = selectedComponents.length === allComponentNames.length
+
+    if (isAllSelected) {
+      for (const componentName of Object.keys(additionalDeps)) {
+        await additionalDeps(componentName, packageManager, action)
+      }
+    } else {
+      for (const componentName of selectedComponents) {
+        await additionalDeps(componentName, packageManager, action)
+      }
+    }
 
     spinner.succeed()
   } catch (error) {

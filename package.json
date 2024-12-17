@@ -63,6 +63,7 @@
     "figlet": "^1.8.0",
     "open": "^10.1.0",
     "ora": "^8.0.1",
+    "recharts": "^2.15.0",
     "strip-json-comments": "^5.0.1"
   },
   "release-it": {
