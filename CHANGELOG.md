@@ -1,5 +1,19 @@
 
 
+## [2.0.0](https://github.com/justdlabs/cli/compare/v1.3.9...v2.0.0) (2024-12-17)
+
+
+### Features
+
+* done ([b994c68](https://github.com/justdlabs/cli/commit/b994c68de627838edc046495c00441b0e4ce47a5))
+* upgrade v2 ([ac5776a](https://github.com/justdlabs/cli/commit/ac5776a2256c895288614b6683058ccb76aba64a))
+
+
+### Bug Fixes
+
+* fix v ([b2933f4](https://github.com/justdlabs/cli/commit/b2933f4ca2b1db601526350e30311639f85499e7))
+* mark as v2 ([1d84f1e](https://github.com/justdlabs/cli/commit/1d84f1e798abbcf64ed5e581ca8680802ad64dff))
+
 ## [1.3.9](https://github.com/justdlabs/cli/compare/v1.3.8...v1.3.9) (2024-12-17)
 
 
