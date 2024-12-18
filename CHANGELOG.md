@@ -1,5 +1,12 @@
 
 
+## [2.1.4](https://github.com/justdlabs/cli/compare/v2.1.3...v2.1.4) (2024-12-18)
+
+
+### Bug Fixes
+
+* include `tailwindcss-react-aria-components` on the v3 ([616fab6](https://github.com/justdlabs/cli/commit/616fab616523b9a4585f17009e2992228cffc2ad))
+
 ## [2.1.3](https://github.com/justdlabs/cli/compare/v2.1.2...v2.1.3) (2024-12-18)
 
 ## [2.1.2](https://github.com/justdlabs/cli/compare/v2.1.1...v2.1.2) (2024-12-18)
