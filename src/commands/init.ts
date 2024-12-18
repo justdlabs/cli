@@ -193,6 +193,10 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   let devPackages = ["tailwind-variants", "tailwind-merge", "tailwindcss-animate"].join(" ")
 
+  if (isTailwind(3)) {
+    devPackages += " tailwindcss-react-aria-components"
+  }
+
   if (isNextJs()) {
     devPackages += " next-themes"
   }
