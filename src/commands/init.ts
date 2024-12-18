@@ -1,5 +1,5 @@
 import { input } from "@inquirer/prompts"
-import fs from "fs"
+import fs, { writeFileSync } from "fs"
 import figlet from "figlet"
 
 import { spawn } from "child_process"
@@ -7,7 +7,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
-import { getUtilsFolder, getRepoUrlForComponent } from "@/utils/repo"
+import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import { changeGray } from "@/commands/change-gray"
 import { hasFolder, isLaravel, isNextJs, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
@@ -46,7 +46,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  let componentFolder: string, uiFolder: string, cssLocation: string, themeProvider: string, providers: string, utilsFolder: string
+  let componentFolder: string, twConfigStub: string, uiFolder: string, cssLocation: string, themeProvider: string, providers: string, utilsFolder: string
   spinner.succeed("Initializing.")
 
   if (flags.yes) {
@@ -77,20 +77,36 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   if (isNextJs() && hasFolder("src")) {
+    twConfigStub = path.join(stubs, "1.x/tailwind.config.src.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else if (isNextJs() && !hasFolder("src")) {
+    twConfigStub = path.join(stubs, "1.x/tailwind.config.next.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else if (isLaravel()) {
+    twConfigStub = path.join(stubs, "1.x/tailwind.config.laravel.stub")
     themeProvider = path.join(stubs, "laravel/theme-provider.stub")
     providers = path.join(stubs, "laravel/providers.stub")
   } else if (isRemix()) {
+    twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
   } else {
+    twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")
     providers = path.join(stubs, "next/providers.stub")
+  }
+
+  if (isTailwind(3)) {
+    const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
+    try {
+      const tailwindConfigContent = fs.readFileSync(twConfigStub, "utf8")
+      fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
+    } catch (error) {
+      // @ts-ignore
+      spinner.fail(`Failed to write Tailwind config to ${tailwindConfigTarget}: ${error.message}`)
+    }
   }
 
   if (!fs.existsSync(utilsFolder)) {
@@ -154,6 +170,11 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   const currentAlias = await getUserAlias()
+
+  if (isTailwind(3)) {
+    const content = fs.readFileSync(path.join(stubs, "1.x/zinc.css"), "utf8")
+    writeFileSync(cssLocation, content, { flag: "w" })
+  }
 
   const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation)
 

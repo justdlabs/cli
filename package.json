@@ -20,7 +20,7 @@
     "build": "tsup && npm run format",
     "start": "tsc && npm link",
     "format": "prettier --write \"src/**/*.ts\"",
-    "p": "rm -rf justd.json && rm -rf src/components/ui && npm run build && npm link && npx justd-cli init --force",
+    "p": "rm -rf justd.json && rm -rf src/components/ui && npm run build && npm link && npx justd-cli init --force -y",
     "preview": "npm run clean && npm run build && npm link",
     "pr": "rimraf tailwind.config.js && rimraf tailwind.config.ts && npm run clean && npm run build && git commit -a",
     "pre": "chmod a+x dist/index.js",

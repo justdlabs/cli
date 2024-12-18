@@ -90,6 +90,10 @@ export function isRemix(): boolean {
   return false
 }
 
+/**
+ * Check Tailwind version installed in the project
+ * @param version
+ */
 export function isTailwind(version: number): boolean {
   const packageJsonPath = path.join(process.cwd(), "package.json")
 
