@@ -1,5 +1,12 @@
 
 
+## [2.1.0](https://github.com/justdlabs/cli/compare/v2.0.4...v2.1.0) (2024-12-18)
+
+
+### Features
+
+* add command `theme` and flag `-y | --yes` to skip questions ([649649d](https://github.com/justdlabs/cli/commit/649649d2432163e1f8af46043405042c491e5e67))
+
 ## [2.0.4](https://github.com/justdlabs/cli/compare/v2.0.3...v2.0.4) (2024-12-17)
 
 
