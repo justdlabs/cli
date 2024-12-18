@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename)
 
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
-export async function init(flags: { force?: boolean }) {
+export async function init(flags: { force?: boolean; yes?: boolean }) {
   if (!flags.force) {
     const checkingGit = ora(`Checking.`).start()
     if (isRepoDirty()) {
@@ -48,25 +48,33 @@ export async function init(flags: { force?: boolean }) {
 
   let componentFolder: string, uiFolder: string, cssLocation: string, themeProvider: string, providers: string, utilsFolder: string
   spinner.succeed("Initializing.")
-  componentFolder = await input({
-    message: "Components folder:",
-    default: possibilityComponentsPath(),
-    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
-  })
 
-  uiFolder = path.join(componentFolder, "ui")
+  if (flags.yes) {
+    componentFolder = possibilityComponentsPath()
+    uiFolder = path.join(componentFolder, "ui")
+    utilsFolder = possibilityUtilsPath()
+    cssLocation = possibilityCssPath()
+  } else {
+    componentFolder = await input({
+      message: "Components folder:",
+      default: possibilityComponentsPath(),
+      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+    })
 
-  utilsFolder = await input({
-    message: "Utils folder:",
-    default: possibilityUtilsPath(),
-    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
-  })
+    uiFolder = path.join(componentFolder, "ui")
 
-  cssLocation = await input({
-    message: "Where would you like to place the CSS file?",
-    default: possibilityCssPath(),
-    validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
-  })
+    utilsFolder = await input({
+      message: "Utils folder:",
+      default: possibilityUtilsPath(),
+      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+    })
+
+    cssLocation = await input({
+      message: "Where would you like to place the CSS file?",
+      default: possibilityCssPath(),
+      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+    })
+  }
 
   if (isNextJs() && hasFolder("src")) {
     themeProvider = path.join(stubs, "next/theme-provider.stub")
@@ -230,9 +238,9 @@ export async function init(flags: { force?: boolean }) {
   if (!fs.existsSync(uiFolder)) {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
-  spinner.succeed(`UI folder created at ${highlight(`"${uiFolder}"`)}`)
-  spinner.succeed(`Primitive file saved to ${highlight(`"${uiFolder}/primitive.tsx"`)}`)
-  spinner.succeed(`Classes file saved to ${highlight(`"${utilsFolder}/classes.ts"`)}`)
+  spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
+  spinner.succeed(`Primitive file saved to ${highlight(`${uiFolder}/primitive.tsx`)}`)
+  spinner.succeed(`Classes file saved to ${highlight(`${utilsFolder}/classes.ts`)}`)
   if (themeProvider) {
     spinner.succeed(`Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`)
     spinner.succeed(`Providers file saved to ${highlight(`"${componentFolder}/providers.tsx"`)}`)

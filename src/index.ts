@@ -7,6 +7,7 @@ import { diff } from "./commands/diff"
 import { help } from "./commands/help"
 import { setGray } from "./commands/change-gray"
 import packageJson from "../package.json"
+import open from "open"
 
 const version = packageJson.version
 
@@ -31,7 +32,7 @@ program.version(version, "-v, --version", "Output the version number").descripti
  *  This command is used to initialize your project, it will assume you have installed tailwindcss, and your main framework or library.
  *  @param force boolean
  */
-program.command("init").option("--force", "Force initialization without checking Git").action(init)
+program.command("init").option("--force", "Force initialization without checking Git").option("-y, --yes", "Skip prompts and use default values").action(init)
 
 /**
  *  This command is used to add new components to your project
@@ -60,6 +61,13 @@ program
   .option("-y, --yes", "Skip confirmation prompt")
   .action(async (grayName, options) => {
     await setGray(options.yes, grayName)
+  })
+
+program
+  .command("theme")
+  .description("Open theme customization page")
+  .action(async () => {
+    await open("https://getjustd.com/themes")
   })
 
 /**
