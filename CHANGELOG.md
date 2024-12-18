@@ -1,5 +1,12 @@
 
 
+## [2.1.2](https://github.com/justdlabs/cli/compare/v2.1.1...v2.1.2) (2024-12-18)
+
+
+### Bug Fixes
+
+* fix for v1 ([7ea02d6](https://github.com/justdlabs/cli/commit/7ea02d6469e489b587bc8f2773d3e41298e9ae6c))
+
 ## [2.1.1](https://github.com/justdlabs/cli/compare/v2.1.0...v2.1.1) (2024-12-18)
 
 
