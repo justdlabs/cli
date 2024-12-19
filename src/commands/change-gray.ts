@@ -8,16 +8,18 @@ import { errorText, grayText, highlight } from "@/utils/logging"
 
 export const availablesGrays = ["zinc", "gray", "slate", "neutral", "stone"]
 
-export async function changeGray(cssLocation: string): Promise<string | undefined> {
+export async function changeGray(cssLocation: string, flags: { yes?: boolean }): Promise<string | undefined> {
   const spinner = ora("Looking up possibilities...").start()
   const grays = availablesGrays
-
   spinner.stop()
-  const selectedGray = await select({
-    message: "Pick your desired base gray:",
-    choices: grays.map((gray) => ({ name: gray, value: gray })),
-    pageSize: 15,
-  })
+
+  const selectedGray = flags.yes
+    ? "zinc"
+    : await select({
+        message: "Pick your desired base gray:",
+        choices: grays.map((gray) => ({ name: gray, value: gray })),
+        pageSize: 15,
+      })
 
   const response = await fetch(getThemesRepoUrl(selectedGray))
   if (!response.ok) throw new Error(`Failed to fetch color: ${response.statusText}`)

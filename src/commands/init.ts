@@ -176,7 +176,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     writeFileSync(cssLocation, content, { flag: "w" })
   }
 
-  const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation)
+  const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation, flags)
 
   const config = {
     $schema: "https://getjustd.com/schema.json",
