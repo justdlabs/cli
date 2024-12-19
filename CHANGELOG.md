@@ -1,5 +1,12 @@
 
 
+## [2.1.5](https://github.com/justdlabs/cli/compare/v2.1.4...v2.1.5) (2024-12-19)
+
+
+### Bug Fixes
+
+* skip gray question if there's a -y flag ([3f78e4c](https://github.com/justdlabs/cli/commit/3f78e4c12fd29de0bbcfcf52bb820b080582dfec))
+
 ## [2.1.4](https://github.com/justdlabs/cli/compare/v2.1.3...v2.1.4) (2024-12-18)
 
 
