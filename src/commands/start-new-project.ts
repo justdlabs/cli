@@ -3,6 +3,9 @@ import { spawn } from "child_process"
 import process from "process"
 import { highlight, success } from "@/utils/logging"
 
+const isProduction = process.env.NODE_ENV === "production"
+const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
+
 type FrameworkKey = "laravel" | "next" | "remix" | "vite"
 
 interface Framework {
@@ -125,7 +128,7 @@ export async function startNewProject() {
       await executeCommand(upgradeTailwindCommand)
     }
 
-    const initJustdCommand = ["npx", "justd-cli", "init", "--force", "--yes"]
+    const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
     await executeCommand(initJustdCommand)
     success(`\nProject setup complete!`)
     console.info(`To get started, run: ${highlight(`cd ${projectName} && npm run dev`)}\n`)
