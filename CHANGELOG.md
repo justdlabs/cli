@@ -1,5 +1,12 @@
 
 
+## [2.2.4](https://github.com/justdlabs/cli/compare/v2.2.3...v2.2.4) (2024-12-20)
+
+
+### Bug Fixes
+
+* make it clean ([5c06abd](https://github.com/justdlabs/cli/commit/5c06abd54eadae65a9bdb8c06e0403cba875432d))
+
 ## [2.2.3](https://github.com/justdlabs/cli/compare/v2.2.2...v2.2.3) (2024-12-20)
 
 
