@@ -118,7 +118,7 @@ export async function startNewProject() {
 
     const createAppCommand = frameworks[framework].createCommand(packageManager, projectName)
 
-    await executeCommand(createAppCommand, `Creating ${frameworks[framework].name} project...`)
+    await executeCommand(createAppCommand, `Creating ${frameworks[framework].name} project.`)
 
     process.chdir(projectName)
     if (framework === "vite") {
@@ -131,8 +131,8 @@ export async function startNewProject() {
               ? ["pnpm", "add", "-D", "tailwindcss", "postcss", "autoprefixer"]
               : ["npm", "install", "-D", "tailwindcss", "postcss", "autoprefixer"]
 
-      await executeCommand(setupTailwindCommand, "Setting up Tailwind CSS...")
-      await executeCommand(["npx", "tailwindcss", "init", "-p"], "Initializing Tailwind CSS...")
+      await executeCommand(setupTailwindCommand, "Setting up Tailwind CSS.")
+      await executeCommand(["npx", "tailwindcss", "init", "-p"], "Initializing Tailwind CSS.")
     }
 
     /**
@@ -140,11 +140,11 @@ export async function startNewProject() {
      */
     if (tailwindVersion === "4") {
       const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
-      await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4...")
+      await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4.")
     }
 
     const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
-    await executeCommand(initJustdCommand, "Initializing Justd")
+    await executeCommand(initJustdCommand, "Initializing Justd.")
 
     console.info("\nProject setup is now complete.")
     console.info(`Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`)
@@ -179,7 +179,7 @@ async function executeCommand(command: string[], message: string) {
         spinner.fail(`Command failed: ${command.join(" ")}`)
         reject(new Error(`Command failed: ${command.join(" ")}`))
       } else {
-        spinner.succeed(`Success: ${message}`)
+        spinner.succeed(message)
         resolve()
       }
     })
