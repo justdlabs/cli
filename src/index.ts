@@ -63,6 +63,9 @@ program
     await setGray(options.yes, grayName)
   })
 
+/**
+ * This command will open the theme customization page
+ */
 program
   .command("theme")
   .description("Open theme customization page")

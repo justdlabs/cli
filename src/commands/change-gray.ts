@@ -2,9 +2,9 @@ import fs, { readFileSync, writeFileSync } from "fs"
 import ora from "ora"
 import { confirm, select } from "@inquirer/prompts"
 import { getCSSPath } from "@/utils"
-import { justdConfigFile, possibilityCssPath } from "@/utils/helpers"
+import { isTailwind, justdConfigFile, possibilityCssPath } from "@/utils/helpers"
 import { getThemesRepoUrl } from "@/utils/repo"
-import { errorText, grayText, highlight } from "@/utils/logging"
+import { error, errorText, grayText, highlight } from "@/utils/logging"
 
 export const availablesGrays = ["zinc", "gray", "slate", "neutral", "stone"]
 
@@ -30,6 +30,10 @@ export async function changeGray(cssLocation: string, flags: { yes?: boolean }):
 }
 
 export async function setGray(overrideConfirmation: boolean, selectedTheme?: string) {
+  if (isTailwind(3)) {
+    error(`This CLI supports ${highlight("Justd 2.x")}, built with ${highlight("Tailwind v4")}. However, you're currently using ${highlight("Tailwind v3")}.`)
+    process.exit(1)
+  }
   const userConfigPath = "./justd.json"
   if (!fs.existsSync(userConfigPath)) {
     console.error(`${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
@@ -58,7 +62,7 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
     }
   }
 
-  let _newGray = selectedTheme || (await changeGray(cssPath))
+  let _newGray = selectedTheme || (await changeGray(cssPath, { yes: false }))
 
   if (_newGray) {
     const newTheme = _newGray.replace(".css", "")
