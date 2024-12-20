@@ -169,3 +169,8 @@ export function getAliasFromConfig() {
 }
 
 export const justdConfigFile = path.resolve(process.cwd(), "justd.json")
+
+export const isProjectExists = (): boolean => {
+  const hasPackageJson = fs.existsSync("package.json")
+  return hasPackageJson || isNextJs() || isLaravel() || isRemix() || isTailwindInstalled()
+}

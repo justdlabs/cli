@@ -9,11 +9,12 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import ora from "ora"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import { changeGray } from "@/commands/change-gray"
-import { hasFolder, isLaravel, isNextJs, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
+import { hasFolder, isLaravel, isNextJs, isProjectExists, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
 import { addUiPathToTsConfig } from "@/utils"
 import { error, highlight, info } from "@/utils/logging"
 import { isRepoDirty } from "@/utils/git"
 import stripJsonComments from "strip-json-comments"
+import { startNewProject } from "@/commands/start-new-project"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -21,6 +22,11 @@ const __dirname = path.dirname(__filename)
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
 export async function init(flags: { force?: boolean; yes?: boolean }) {
+  if (!isProjectExists()) {
+    await startNewProject()
+    return
+  }
+
   if (!flags.force) {
     const checkingGit = ora(`Checking.`).start()
     if (isRepoDirty()) {
@@ -90,8 +96,8 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     providers = path.join(stubs, "laravel/providers.stub")
   } else if (isRemix()) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
-    themeProvider = path.join(stubs, "next/theme-provider.stub")
-    providers = path.join(stubs, "next/providers.stub")
+    themeProvider = path.join(stubs, "remix/theme-provider.stub")
+    providers = path.join(stubs, "remix/providers.stub")
   } else {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
     themeProvider = path.join(stubs, "next/theme-provider.stub")

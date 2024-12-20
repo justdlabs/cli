@@ -15,14 +15,11 @@
   "scripts": {
     "dev": "tsup --watch",
     "prepare": "npx husky",
-    "rp": "npm uninstall tailwindcss && npm uninstall justd-icons clsx cmdk embla-carousel-react motion input-otp react-aria-components sonner tailwind-merge tailwind-variants tailwindcss-animate tailwindcss-react-aria-components",
-    "clean": "rimraf justd.json && rimraf src/utils/use-media-query.ts && rimraf src/utils/classes.ts && rimraf src/styles && rimraf src/index.css &&  rimraf src/app && rimraf styles/app.css && rimraf src/app/globals.css && rimraf app/globals.css && rimraf src/components && rimraf styles && rimraf resources && rimraf src/components && rimraf components && npm run rp",
     "build": "tsup && npm run format",
-    "start": "tsc && npm link",
     "format": "prettier --write \"src/**/*.ts\"",
-    "p": "rm -rf justd.json && rm -rf src/components/ui && npm run build && npm link && npx justd-cli init --force -y",
+    "test": "npm run build && npm link",
     "preview": "npm run clean && npm run build && npm link",
-    "pr": "rimraf tailwind.config.js && rimraf tailwind.config.ts && npm run clean && npm run build && git commit -a",
+    "pr": "npm run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
     "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it"
   },
