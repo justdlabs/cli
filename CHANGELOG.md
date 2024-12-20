@@ -1,5 +1,12 @@
 
 
+## [2.2.2](https://github.com/justdlabs/cli/compare/v2.2.1...v2.2.2) (2024-12-20)
+
+
+### Bug Fixes
+
+* fix `changeGray` command ([f821a26](https://github.com/justdlabs/cli/commit/f821a26f12afe49a36df9411e1f5592013ac5fcd))
+
 ## [2.2.1](https://github.com/justdlabs/cli/compare/v2.2.0...v2.2.1) (2024-12-20)
 
 
