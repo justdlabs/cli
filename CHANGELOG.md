@@ -1,5 +1,12 @@
 
 
+## [2.2.0](https://github.com/justdlabs/cli/compare/v2.1.5...v2.2.0) (2024-12-20)
+
+
+### Features
+
+* can create project if not setup ([3cc7498](https://github.com/justdlabs/cli/commit/3cc7498e2ee0ba71257296c45e840ef60a7f2d73))
+
 ## [2.1.5](https://github.com/justdlabs/cli/compare/v2.1.4...v2.1.5) (2024-12-19)
 
 
