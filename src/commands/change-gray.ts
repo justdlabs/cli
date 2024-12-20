@@ -36,8 +36,8 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
   }
   const userConfigPath = "./justd.json"
   if (!fs.existsSync(userConfigPath)) {
-    console.error(`${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
-    return
+    error(`${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
+    process.exit(1)
   }
 
   const userConfig = JSON.parse(readFileSync(userConfigPath, "utf8"))

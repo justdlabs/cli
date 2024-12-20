@@ -1,7 +1,8 @@
 import { input, select } from "@inquirer/prompts"
 import { spawn } from "child_process"
 import process from "process"
-import { highlight, success } from "@/utils/logging"
+import { highlight } from "@/utils/logging"
+import ora from "ora"
 
 const isProduction = process.env.NODE_ENV === "production"
 const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
@@ -13,15 +14,30 @@ interface Framework {
   createCommand: (packageManager: string, projectName: string) => string[]
 }
 
+/**
+ * This function is used to create a Next.js project
+ * @param packageManager
+ * @param projectName
+ */
 const createNextCommand = (packageManager: string, projectName: string): string[] => {
   const packageManagerFlag = packageManager === "bun" ? "--use-bun" : packageManager === "yarn" ? "--use-yarn" : packageManager === "pnpm" ? "--use-pnpm" : "--use-npm"
   return ["npx", "create-next-app@latest", "--yes", packageManagerFlag, projectName]
 }
 
+/**
+ * This function is used to create a Remix project
+ * @param packageManager
+ * @param projectName
+ */
 const createRemixCommand = (packageManager: string, projectName: string): string[] => {
   return ["npx", "create-remix@latest", "--yes", `--package-manager=${packageManager}`, projectName]
 }
 
+/**
+ * This function is used to create a Vite project
+ * @param packageManager
+ * @param projectName
+ */
 const createViteCommand = (packageManager: string, projectName: string): string[] => {
   switch (packageManager) {
     case "bun":
@@ -36,7 +52,7 @@ const createViteCommand = (packageManager: string, projectName: string): string[
 }
 
 const createLaravelCommand = (_: string, projectName: string): string[] => {
-  return ["laravel", "new", projectName, "--breeze", "--pest", "--stack=react", "--typescript", "--eslint", "--no-interaction", "-q"]
+  return ["laravel", "new", projectName, "--breeze", "--pest", "--stack=react", "--typescript", "--eslint", "--no-interaction"]
 }
 
 const frameworks: Record<FrameworkKey, Framework> = {
@@ -95,17 +111,16 @@ export async function startNewProject() {
      * This question will be removed when Tailwind v4 is released as stable.
      */
     const tailwindVersion = await input({
-      message: "Which Tailwind version do you want to use? (3/4)",
+      message: "Which Tailwind version do you want to use? (3 or 4)",
       default: "4",
       validate: (value) => ["3", "4"].includes(value.trim().toLowerCase()) || "Please choose 3 or 4.",
     })
 
     const createAppCommand = frameworks[framework].createCommand(packageManager, projectName)
 
-    await executeCommand(createAppCommand)
+    await executeCommand(createAppCommand, `Creating ${frameworks[framework].name} project...`)
 
     process.chdir(projectName)
-
     if (framework === "vite") {
       const setupTailwindCommand =
         packageManager === "bun"
@@ -116,42 +131,55 @@ export async function startNewProject() {
               ? ["pnpm", "add", "-D", "tailwindcss", "postcss", "autoprefixer"]
               : ["npm", "install", "-D", "tailwindcss", "postcss", "autoprefixer"]
 
-      await executeCommand(setupTailwindCommand)
-      await executeCommand(["npx", "tailwindcss", "init", "-p"])
+      await executeCommand(setupTailwindCommand, "Setting up Tailwind CSS...")
+      await executeCommand(["npx", "tailwindcss", "init", "-p"], "Initializing Tailwind CSS...")
     }
 
     /**
      * This condition will be removed when Tailwind v4 is released as stable.
      */
     if (tailwindVersion === "4") {
-      const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force", "--silent"]
-      await executeCommand(upgradeTailwindCommand)
+      const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
+      await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4...")
     }
 
     const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
-    await executeCommand(initJustdCommand)
-    success(`\nProject setup complete!`)
-    console.info(`To get started, run: ${highlight(`cd ${projectName} && npm run dev`)}\n`)
+    await executeCommand(initJustdCommand, "Initializing Justd")
+
+    console.info("\nProject setup is now complete.")
+    console.info(`Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`)
+
+    console.info("Ready to customize your project?")
+    console.info(`Add new components by running: ${highlight("npx justd-cli@latest add")}`)
   } else {
     process.exit(0)
   }
 }
 
-async function executeCommand(command: string[]) {
+/**
+ * This function is used to execute a command
+ * @param command
+ * @param message
+ */
+async function executeCommand(command: string[], message: string) {
+  const spinner = ora(message).start()
   return new Promise<void>((resolve, reject) => {
     const child = spawn(command[0], command.slice(1), {
-      stdio: "inherit",
+      stdio: "ignore",
       shell: true,
     })
 
     child.on("error", (err) => {
+      spinner.fail(`Error: ${err.message}`)
       reject(err)
     })
 
     child.on("close", (code) => {
       if (code !== 0) {
+        spinner.fail(`Command failed: ${command.join(" ")}`)
         reject(new Error(`Command failed: ${command.join(" ")}`))
       } else {
+        spinner.succeed(`Success: ${message}`)
         resolve()
       }
     })
