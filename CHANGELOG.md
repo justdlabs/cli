@@ -1,5 +1,12 @@
 
 
+## [2.2.7](https://github.com/justdlabs/cli/compare/v2.2.6...v2.2.7) (2024-12-21)
+
+
+### Bug Fixes
+
+* make sure primitive file always on the first place ([6b38134](https://github.com/justdlabs/cli/commit/6b38134d4097083bf8f618c9e7e09c4abc99425c))
+
 ## [2.2.6](https://github.com/justdlabs/cli/compare/v2.2.5...v2.2.6) (2024-12-21)
 
 
