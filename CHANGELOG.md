@@ -1,5 +1,12 @@
 
 
+## [2.2.6](https://github.com/justdlabs/cli/compare/v2.2.5...v2.2.6) (2024-12-21)
+
+
+### Bug Fixes
+
+* fix duplicate when adding overriwrite ([c025337](https://github.com/justdlabs/cli/commit/c025337e702d35e7957d9d8939f87ef32d8c23c5))
+
 ## [2.2.5](https://github.com/justdlabs/cli/compare/v2.2.4...v2.2.5) (2024-12-21)
 
 
