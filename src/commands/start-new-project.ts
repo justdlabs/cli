@@ -76,12 +76,15 @@ const frameworks: Record<FrameworkKey, Framework> = {
 
 export async function startNewProject() {
   const startNewProject = await input({
-    message: "No setup project detected. Do you want to start a new project? (yes/no)",
-    default: "yes",
-    validate: (value) => ["yes", "no"].includes(value.trim().toLowerCase()) || "Please answer yes or no.",
+    message: "No setup project detected. Do you want to start a new project? (Y/n)",
+    default: "Y",
+    validate: (value) => {
+      const normalizedValue = value.trim().toLowerCase()
+      return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+    },
   })
 
-  if (startNewProject.toLowerCase() === "yes") {
+  if (["y", "yes"].includes(startNewProject.trim().toLowerCase())) {
     const framework = await select<FrameworkKey>({
       message: "Which framework do you want to use?",
       choices: Object.keys(frameworks).map((key) => ({
@@ -111,9 +114,18 @@ export async function startNewProject() {
      * This question will be removed when Tailwind v4 is released as stable.
      */
     const tailwindVersion = await input({
-      message: "Which Tailwind version do you want to use? (3 or 4)",
+      message: "Which Tailwind version do you want to use? (3/4)",
       default: "4",
       validate: (value) => ["3", "4"].includes(value.trim().toLowerCase()) || "Please choose 3 or 4.",
+    })
+
+    const usePrettier = await input({
+      message: "Do you want to use Prettier for this project? (Y/n)",
+      default: "Y",
+      validate: (value) => {
+        const normalizedValue = value.trim().toLowerCase()
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+      },
     })
 
     const createAppCommand = frameworks[framework].createCommand(packageManager, projectName)
@@ -141,6 +153,9 @@ export async function startNewProject() {
     if (tailwindVersion === "4") {
       const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
       await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4.")
+    }
+    if (["y", "yes"].includes(usePrettier.trim().toLowerCase())) {
+      await setupPrettier(packageManager)
     }
 
     const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
@@ -184,4 +199,37 @@ async function executeCommand(command: string[], message: string) {
       }
     })
   })
+}
+
+/**
+ * This function is used to set up Prettier
+ * @param packageManager
+ */
+async function setupPrettier(packageManager: string) {
+  const prettierInstallCommand =
+    packageManager === "bun"
+      ? ["bun", "add", "-d", "prettier", "prettier-plugin-tailwindcss"]
+      : packageManager === "yarn"
+        ? ["yarn", "add", "-D", "prettier", "prettier-plugin-tailwindcss"]
+        : packageManager === "pnpm"
+          ? ["pnpm", "add", "-D", "prettier", "prettier-plugin-tailwindcss"]
+          : ["npm", "install", "-D", "prettier", "prettier-plugin-tailwindcss"]
+
+  await executeCommand(prettierInstallCommand, "Setting up Prettier.")
+
+  const prettierConfig = `
+{
+  "tailwindFunctions": ["twJoin", "tv", "cn", "twMerge"],
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "printWidth": 100,
+  "singleQuote": false,
+  "trailingComma": "none",
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true
+}
+`
+
+  const fs = await import("fs/promises")
+  await fs.writeFile(".prettierrc", prettierConfig.trim(), "utf8")
 }

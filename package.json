@@ -19,7 +19,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "npm run build && npm link",
     "preview": "npm run clean && npm run build && npm link",
-    "pr": "npm run build && git commit -a",
+    "pr": "npm unlink -g && npm run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
     "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it"
   },
