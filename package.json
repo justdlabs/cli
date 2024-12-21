@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/justdlabs/cli.git"
   },
-  "homepage": "https://getjustd.com",
+  "homepage": "https://getjustd.com/cli",
   "scripts": {
     "dev": "tsup --watch",
     "prepare": "npx husky",
