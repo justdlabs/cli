@@ -19,7 +19,7 @@ const exceptions = ["field", "dropdown", "dialog"]
  *  @param processed Set<string>
  */
 async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
-  if (processed.has(componentName) || exceptions.includes(componentName)) {
+  if (processed.has(componentName)) {
     return
   }
 
@@ -27,15 +27,17 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   const indexPath = path.join(process.cwd(), uiPath, "index.ts")
   const componentExport = `export * from './${componentName}';`
 
-  let existingExports = ""
+  let existingExports: string[] = []
   if (fs.existsSync(indexPath)) {
-    existingExports = fs.readFileSync(indexPath, "utf-8")
+    existingExports = fs
+      .readFileSync(indexPath, "utf-8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line !== "")
   }
 
-  if (!namespaces.includes(componentName) && !existingExports.includes(componentExport)) {
-    const newContent = existingExports.trim() + (existingExports.trim() ? "\n" : "") + componentExport + "\n"
-    fs.writeFileSync(indexPath, newContent)
-  }
+  existingExports = Array.from(new Set([...existingExports, componentExport])).sort()
+  fs.writeFileSync(indexPath, existingExports.join("\n") + "\n")
 
   processed.add(componentName)
 
