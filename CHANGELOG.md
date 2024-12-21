@@ -1,5 +1,12 @@
 
 
+## [2.2.8](https://github.com/justdlabs/cli/compare/v2.2.7...v2.2.8) (2024-12-21)
+
+
+### Refactors
+
+* add question for prettier ([1d3b359](https://github.com/justdlabs/cli/commit/1d3b359b85de9cf26c9a5580e55f15d8c1141df1))
+
 ## [2.2.7](https://github.com/justdlabs/cli/compare/v2.2.6...v2.2.7) (2024-12-21)
 
 
