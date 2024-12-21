@@ -25,6 +25,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
 
   const uiPath = getUIPathFromConfig()
   const indexPath = path.join(process.cwd(), uiPath, "index.ts")
+  const primitiveExport = `export * from './primitive';`
   const componentExport = `export * from './${componentName}';`
 
   let existingExports: string[] = []
@@ -36,7 +37,10 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
       .filter((line) => line !== "")
   }
 
+  existingExports = existingExports.filter((line) => line !== primitiveExport)
   existingExports = Array.from(new Set([...existingExports, componentExport])).sort()
+  existingExports = [primitiveExport, ...existingExports]
+
   fs.writeFileSync(indexPath, existingExports.join("\n") + "\n")
 
   processed.add(componentName)
