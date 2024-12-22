@@ -1,5 +1,12 @@
 
 
+## [2.2.9](https://github.com/justdlabs/cli/compare/v2.2.8...v2.2.9) (2024-12-22)
+
+
+### Refactors
+
+* use `composer` instead of `laravel` and make it safe. ([c9431e8](https://github.com/justdlabs/cli/commit/c9431e8d848c2906f47f413b69f8422130b52038))
+
 ## [2.2.8](https://github.com/justdlabs/cli/compare/v2.2.7...v2.2.8) (2024-12-21)
 
 
