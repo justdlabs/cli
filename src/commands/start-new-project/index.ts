@@ -85,10 +85,13 @@ export async function startNewProject() {
     /**
      * This question will be removed when Tailwind v4 is released as stable.
      */
-    const tailwindVersion = await input({
-      message: `Which Tailwind version do you want to use? (${grayText("3")}/4)`,
-      default: "4",
-      validate: (value) => ["3", "4"].includes(value.trim().toLowerCase()) || "Please choose 3 or 4.",
+    const areYouWantToUseTailwind4 = await input({
+      message: `Do you want to use Tailwind version 4? (Y/${grayText("n")})`,
+      default: "Y",
+      validate: (value) => {
+        const normalizedValue = value.trim().toLowerCase()
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+      },
     })
 
     const usePrettier = await input({
@@ -133,7 +136,7 @@ export async function startNewProject() {
     /**
      * This condition will be removed when Tailwind v4 is released as stable.
      */
-    if (tailwindVersion === "4") {
+    if (areYouWantToUseTailwind4) {
       const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
       await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4.")
     }
