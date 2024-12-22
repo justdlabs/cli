@@ -1,5 +1,12 @@
 
 
+## [2.2.10](https://github.com/justdlabs/cli/compare/v2.2.9...v2.2.10) (2024-12-22)
+
+
+### Refactors
+
+* just asking for tailwind 4 ([249106a](https://github.com/justdlabs/cli/commit/249106a68cc977db32539e23bb6ccb80d949181d))
+
 ## [2.2.9](https://github.com/justdlabs/cli/compare/v2.2.8...v2.2.9) (2024-12-22)
 
 
