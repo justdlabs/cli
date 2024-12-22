@@ -1,5 +1,12 @@
 
 
+## [2.2.12](https://github.com/justdlabs/cli/compare/v2.2.11...v2.2.12) (2024-12-22)
+
+
+### Refactors
+
+* hey ([618f098](https://github.com/justdlabs/cli/commit/618f0983d631242b2b40333a32461bf1c8c54002))
+
 ## [2.2.11](https://github.com/justdlabs/cli/compare/v2.2.10...v2.2.11) (2024-12-22)
 
 
