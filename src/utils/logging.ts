@@ -19,7 +19,7 @@ export function highlight(text: string) {
  * @param text
  */
 export function grayText(text: string) {
-  return `${pc.dim(pc.gray("`"))}${pc.gray(text)}${pc.dim(pc.blue("`"))}`
+  return `${pc.gray(text)}`
 }
 
 /**
