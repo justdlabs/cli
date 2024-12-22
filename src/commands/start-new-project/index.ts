@@ -32,10 +32,10 @@ const frameworks: Record<FrameworkKey, Framework> = {
 export async function startNewProject() {
   const startNewProject = await input({
     message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
-    default: "Y",
+    default: "Yes",
     validate: (value) => {
       const normalizedValue = value.trim().toLowerCase()
-      return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+      return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
     },
   })
 
@@ -87,19 +87,19 @@ export async function startNewProject() {
      */
     const areYouWantToUseTailwind4 = await input({
       message: `Do you want to use Tailwind version 4? (Y/${grayText("n")})`,
-      default: "Y",
+      default: "Yes",
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
-        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+        return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
       },
     })
 
     const usePrettier = await input({
       message: `Do you want to use Prettier for this project? (Y/${grayText("n")})`,
-      default: "Y",
+      default: "Yes",
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
-        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes, no, Y, or n."
+        return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
       },
     })
 
