@@ -1,5 +1,12 @@
 
 
+## [2.2.13](https://github.com/justdlabs/cli/compare/v2.2.12...v2.2.13) (2024-12-22)
+
+
+### Refactors
+
+* don't ask anything if flag -y used ([5af397f](https://github.com/justdlabs/cli/commit/5af397fbd60a0378723aa2b4f64132ca1b6a49f8))
+
 ## [2.2.12](https://github.com/justdlabs/cli/compare/v2.2.11...v2.2.12) (2024-12-22)
 
 
