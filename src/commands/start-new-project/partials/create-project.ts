@@ -27,10 +27,13 @@ export const createLaravelApp = async (packageManager: string, projectName: stri
 export const createNextApp = async (packageManager: string, projectName: string, options?: FrameworkOptions): Promise<string[]> => {
   const packageManagerFlag = packageManager === "bun" ? "--use-bun" : packageManager === "yarn" ? "--use-yarn" : packageManager === "pnpm" ? "--use-pnpm" : "--use-npm"
 
-  const commands = ["npx create-next-app@latest", "--yes", packageManagerFlag, projectName]
+  const commands = ["npx create-next-app@latest", projectName, "--ts", "--tailwind", "--turbopack", "--eslint", "--app", "--import-alias='@/*'", packageManagerFlag]
 
-  commands.push(projectName)
-
+  if (options?.useSrc) {
+    commands.push("--src-dir")
+  } else {
+    commands.push("--no-src-dir")
+  }
   return commands
 }
 

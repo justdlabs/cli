@@ -92,6 +92,14 @@ const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
  *  @returns void
  */
 export async function addUiPathToTsConfig() {
+  const tsConfigPaths = [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+
+  let tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
+  if (!tsConfigPath) {
+    error("Neither tsconfig.app.json nor tsconfig.json was found.")
+    process.exit(1)
+  }
+
   try {
     const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
     const strippedContent = stripJsonComments(tsConfigContent)
@@ -105,6 +113,6 @@ export async function addUiPathToTsConfig() {
 
     fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
   } catch (er) {
-    error("Error updating tsconfig.json:", er!)
+    error(`Error updating ${path.basename(tsConfigPath)}:`, er!)
   }
 }

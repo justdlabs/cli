@@ -35,7 +35,7 @@ export async function startNewProject() {
     default: "Yes",
     validate: (value) => {
       const normalizedValue = value.trim().toLowerCase()
-      return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
+      return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
     },
   })
 
@@ -49,7 +49,7 @@ export async function startNewProject() {
     })
 
     const projectName = await input({
-      message: "Enter the name of your new project:",
+      message: "What is your project named?",
       default: "app",
       validate: (value) => value.trim() !== "" || "Project name cannot be empty.",
     })
@@ -72,7 +72,6 @@ export async function startNewProject() {
       })
 
       options.usePest = testFramework === "pest"
-
       const composerExists = await checkIfCommandExists("composer")
 
       if (!composerExists) {
@@ -80,6 +79,18 @@ export async function startNewProject() {
         error("Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup.")
         process.exit(1)
       }
+    }
+
+    if (framework === "next") {
+      const wantSrcFolder = await input({
+        message: `Do you want to have a src folder? (Y/${grayText("n")})`,
+        default: "Yes",
+        validate: (value) => {
+          const normalizedValue = value.trim().toLowerCase()
+          return ["y", "n", "yes", "no", "Yes", "No"].includes(normalizedValue) || "Please answer yes or no."
+        },
+      })
+      options.useSrc = ["y", "yes"].includes(wantSrcFolder.trim().toLowerCase())
     }
 
     /**
@@ -90,7 +101,7 @@ export async function startNewProject() {
       default: "Yes",
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
-        return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
       },
     })
 
@@ -99,7 +110,7 @@ export async function startNewProject() {
       default: "Yes",
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
-        return ["y", "n", "Yes", "No", "no", "yes"].includes(normalizedValue) || "Please answer yes or no."
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
       },
     })
 
