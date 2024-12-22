@@ -27,7 +27,7 @@ export const createLaravelApp = async (packageManager: string, projectName: stri
 export const createNextApp = async (packageManager: string, projectName: string, options?: FrameworkOptions): Promise<string[]> => {
   const packageManagerFlag = packageManager === "bun" ? "--use-bun" : packageManager === "yarn" ? "--use-yarn" : packageManager === "pnpm" ? "--use-pnpm" : "--use-npm"
 
-  const commands = ["npx create-next-app@latest", "--yes", packageManagerFlag]
+  const commands = ["npx create-next-app@latest", "--yes", packageManagerFlag, projectName]
 
   commands.push(projectName)
 
