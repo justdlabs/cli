@@ -44,7 +44,7 @@ program.command("init").option("--force", "Force initialization without checking
 program
   .command("add [components...]")
   .option("--skip <type>", "Skip")
-  .option("-o, --override", "Override existing components")
+  .option("-o, --overwrite", "Override existing components")
   .action(async (components, options) => {
     await add({ component: components.join(" "), ...options })
   })

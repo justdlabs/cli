@@ -5,6 +5,7 @@ import { checkbox } from "@inquirer/prompts"
 import { getRepoUrlForComponent } from "@/utils/repo"
 import chalk from "chalk"
 import { error, info } from "@/utils/logging"
+import { add } from "@/commands/add"
 
 const getLocalComponentPath = (configPath: string, componentName: string) => {
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
@@ -92,22 +93,7 @@ export const diff = async (...args: string[]) => {
         // @ts-ignore - initial is not a valid option for checkbox
         initial: changedComponents,
       })
-
-      if (selectedComponents.includes("none") || selectedComponents.length === 0) {
-        info("No components selected for update.")
-        return
-      }
-
-      for (const componentName of selectedComponents) {
-        try {
-          const remoteContent = await fetchRemoteComponent(componentName)
-          const localComponentPath = getLocalComponentPath(configPath, componentName)
-          fs.writeFileSync(localComponentPath, remoteContent)
-          console.info(`${chalk.green(`✔ ${componentName} is updated.`)}`)
-        } catch (e: any) {
-          error(`Error updating ${componentName}: ${e.message}`)
-        }
-      }
+      await add({ component: selectedComponents.join(" "), overwrite: true, successMessage: "Updating components..." })
     } else {
       console.log(chalk.green("✔ All components are up to date."))
     }

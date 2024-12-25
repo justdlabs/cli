@@ -29,7 +29,7 @@ export async function changeGray(cssLocation: string, flags: { yes?: boolean }):
   return selectedGray
 }
 
-export async function setGray(overrideConfirmation: boolean, selectedTheme?: string) {
+export async function setGray(overwriteConfirmation: boolean, selectedTheme?: string) {
   if (isTailwind(3)) {
     error(`This CLI supports ${highlight("Justd 2.x")}, built with ${highlight("Tailwind v4")}. However, you're currently using ${highlight("Tailwind v3")}.`)
     process.exit(1)
@@ -45,15 +45,15 @@ export async function setGray(overrideConfirmation: boolean, selectedTheme?: str
   const currentGray = userConfig.gray || "zinc"
   const config = JSON.parse(fs.readFileSync(justdConfigFile, "utf8"))
   let cssPath = config.css || possibilityCssPath()
-  if (!overrideConfirmation) {
+  if (!overwriteConfirmation) {
     cssPath = await getCSSPath()
   }
 
   let confirmOverride = true
 
-  if (!overrideConfirmation) {
+  if (!overwriteConfirmation) {
     confirmOverride = await confirm({
-      message: `You will override the current theme "${highlight(currentGray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
+      message: `You will overwrite the current theme "${highlight(currentGray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
     })
 
     if (!confirmOverride) {

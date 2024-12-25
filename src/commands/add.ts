@@ -59,7 +59,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
  */
 export async function add(options: any) {
   const spinner = ora("Checking.").start()
-  const { component, override } = options
+  const { component, overwrite, successMessage } = options
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
     spinner.fail(`${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
@@ -144,17 +144,17 @@ export async function add(options: any) {
         }
 
         const componentPath = getWriteComponentPath(componentName)
-        if (fs.existsSync(componentPath) && !override) {
+        if (fs.existsSync(componentPath) && !overwrite) {
           existingFiles.add(`${getUIFolderPath()}/${componentName}.tsx`)
           continue
         }
 
         if (namespaces.includes(componentName) && targetComponent.children) {
           for (const child of targetComponent.children) {
-            await processComponent(child.name, packageManager, action, processed, components, override, true, createdFiles, existingFiles)
+            await processComponent(child.name, packageManager, action, processed, components, overwrite, true, createdFiles, existingFiles)
           }
         } else {
-          await processComponent(componentName, packageManager, action, processed, components, override, false, createdFiles, existingFiles)
+          await processComponent(componentName, packageManager, action, processed, components, overwrite, false, createdFiles, existingFiles)
         }
 
         await updateIndexFile(componentName)
@@ -185,12 +185,16 @@ export async function add(options: any) {
 
   const fileWord = createdFiles.length === 1 ? "file" : "files"
   if (createdFiles.length > 0) {
-    const what = override ? "Overwrite" : "Created"
-    spinner.succeed(`${what} ${createdFiles.length} ${fileWord}:`)
+    const what = overwrite ? "Overwrite" : "Created"
+    if (successMessage) {
+      spinner.succeed(`Updated ${createdFiles.length} ${fileWord}:`)
+    } else {
+      spinner.succeed(`${what} ${createdFiles.length} ${fileWord}:`)
+    }
     createdFiles.forEach((file) => console.info(`  - ${file}`))
   }
 
-  if (existingFiles.size > 0 && !override) {
+  if (existingFiles.size > 0 && !overwrite) {
     console.info(chalk.yellow(`ℹ ${existingFiles.size} ${fileWord} already existed:`))
     Array.from(existingFiles).forEach((file) => console.info(`  - ${file}`))
   }
@@ -203,24 +207,24 @@ export async function add(options: any) {
  *  @param action string
  *  @param processed Set<string>
  *  @param allComponents any[]
- *  @param override boolean
+ *  @param overwrite boolean
  *  @param isChild boolean
  *  @param createdFiles string[]
  *  @param existingFiles Set<string>
  */
-async function processComponent(componentName: string, packageManager: string, action: string, processed: Set<string>, allComponents: any[], override: boolean, isChild: boolean, createdFiles: string[], existingFiles: Set<string>) {
+async function processComponent(componentName: string, packageManager: string, action: string, processed: Set<string>, allComponents: any[], overwrite: boolean, isChild: boolean, createdFiles: string[], existingFiles: Set<string>) {
   if (processed.has(componentName)) return
 
   const componentPath = getWriteComponentPath(componentName)
 
   /**
-   * If the component already exists, and the override flag is not set, we will skip the component
+   * If the component already exists, and the overwrite flag is not set, we will skip the component
    * and move on to the next one.
-   * If the override flag is set, we will delete the existing component and create a new one.
+   * If the overwrite flag is set, we will delete the existing component and create a new one.
    * We will also add the new component to the createdFiles array.
    */
   if (fs.existsSync(componentPath)) {
-    if (override && !isChild) {
+    if (overwrite && !isChild) {
       fs.rmSync(componentPath, { recursive: true, force: true })
       await createComponent(componentName)
       createdFiles.push(`${getUIFolderPath()}/${componentName}.tsx`)
