@@ -1,5 +1,12 @@
 
 
+## [2.2.14](https://github.com/justdlabs/cli/compare/v2.2.13...v2.2.14) (2024-12-25)
+
+
+### Bug Fixes
+
+* update diff command to use add ([15609dd](https://github.com/justdlabs/cli/commit/15609dd898b9dbe46eb837a0215e105b8ffc89c1))
+
 ## [2.2.13](https://github.com/justdlabs/cli/compare/v2.2.12...v2.2.13) (2024-12-22)
 
 
