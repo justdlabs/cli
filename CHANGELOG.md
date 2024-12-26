@@ -1,5 +1,12 @@
 
 
+## [2.2.15](https://github.com/justdlabs/cli/compare/v2.2.14...v2.2.15) (2024-12-26)
+
+
+### Bug Fixes
+
+* prevent `index.ts` to install a namespaces ([3f2fcd7](https://github.com/justdlabs/cli/commit/3f2fcd7376da2409bfae30a70892c559250cde90))
+
 ## [2.2.14](https://github.com/justdlabs/cli/compare/v2.2.13...v2.2.14) (2024-12-25)
 
 
