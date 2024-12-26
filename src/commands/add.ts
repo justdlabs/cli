@@ -8,7 +8,7 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, isNextJs } from "@/utils/helpers"
+import { getAliasFromConfig, getUIPathFromConfig, hasFolder, isLaravel, isNextJs, possibilityUtilsPath } from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
@@ -147,13 +147,17 @@ export async function add(options: any) {
       createdFiles.push(classesFile)
     }
 
-    if (await Promise.resolve(selectedComponents.some((component: string) => ["popover", "sidebar", "navbar", "command-menu", "number-field"].includes(component)))) {
+    if (await Promise.resolve(selectedComponents.some((component: string) => ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(component)))) {
       const mediaQueryFile = path.join(utilsFolder, "use-media-query.ts")
 
       if (!fs.existsSync(mediaQueryFile)) {
         const responseMediaQuery = await fetch(getUtilsFolder("use-media-query.ts"))
         const fileContentMediaQuery = await responseMediaQuery.text()
-        fs.writeFileSync(mediaQueryFile, fileContentMediaQuery, { flag: "w" })
+        let content = fileContentMediaQuery
+        if (!isNextJs()) {
+          content = fileContentMediaQuery.replace(/['"]use client['"];/g, "")
+        }
+        fs.writeFileSync(mediaQueryFile, content, { flag: "w" })
         createdFiles.push(mediaQueryFile)
       }
     }
@@ -294,6 +298,17 @@ async function createComponent(componentName: string) {
       content = content.replace(/['"]use client['"]\s*\n?/g, "")
     }
 
+    let utils: string
+    if (isLaravel()) {
+      utils = getUtilsFolderPath().replace(/^resources\/js\//, "")
+    } else if (hasFolder("src")) {
+      utils = getUtilsFolderPath().replace(/^src\//, "")
+    } else {
+      utils = getUtilsFolderPath()
+    }
+
+    content = content.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
+
     const alias = getAliasFromConfig()
     const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
     content = content.replace(aliasRegex, (match) => {
@@ -301,7 +316,8 @@ async function createComponent(componentName: string) {
     })
 
     fs.writeFileSync(writePath, content)
-  } catch (error) {
-    throw new Error(`Error writing component: ${componentName}`)
+  } catch {
+    error(`Error writing component: ${componentName}`)
+    process.exit(1)
   }
 }

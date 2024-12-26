@@ -29,19 +29,16 @@ export function getUIFolderPath() {
   }
 }
 
-// Get the path to the utils folder from the justd.json file
+/**
+ *  This function is used to get the path to the utils folder from the justd.json file
+ *  @returns string
+ */
 export function getUtilsFolderPath() {
   const configFile = "justd.json"
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
 
-    if (!config.classes) {
-      config.classes = possibilityUtilsPath()
-
-      fs.writeFileSync(configFile, JSON.stringify(config, null, 2), "utf8")
-    }
-
-    return config.classes
+    return config.utils || possibilityUtilsPath()
   } else {
     error("Configuration file justd.json not found. Please run the init command first.")
   }
@@ -83,8 +80,6 @@ export async function getCSSPath() {
 
   return cssPath
 }
-
-const tsConfigPath = path.join(process.cwd(), "tsconfig.json")
 
 /**
  *  This function is used to add the UI path to the tsconfig.json file

@@ -156,7 +156,7 @@ export async function startNewProject() {
     }
 
     const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
-    await executeCommand(initJustdCommand, "Initializing Justd.")
+    await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")
     if (framework === "laravel") {
