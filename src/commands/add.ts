@@ -37,14 +37,37 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
       .filter((line) => line !== "")
   }
 
-  existingExports = existingExports.filter((line) => line !== primitiveExport)
-  existingExports = Array.from(new Set([...existingExports, componentExport])).sort()
-  existingExports = [primitiveExport, ...existingExports]
+  /**
+   * Filter out the existing exports that are not related to the component being added.
+   * This ensures that only the necessary exports are included in the index file.
+   */
+  existingExports = existingExports.filter((line) => {
+    const match = line.match(/export \* from '\.\/(.+)';/)
+    const matchedComponent = match?.[1]
+    return matchedComponent !== "primitive" && !namespaces.includes(matchedComponent ?? "")
+  })
+
+  /**
+   * If the component is not already exported, add it to the existing exports.
+   * This ensures that the component is properly exported and included in the index file.
+   */
+  if (!existingExports.includes(componentExport)) {
+    existingExports.push(componentExport)
+  }
+
+  /**
+   * Sort the existing exports and add the primitive export at the beginning.
+   * This ensures that the primitive export is always included first in the index file.
+   */
+  existingExports = [primitiveExport, ...existingExports.sort()]
 
   fs.writeFileSync(indexPath, existingExports.join("\n") + "\n")
 
   processed.add(componentName)
 
+  /**
+   * If the component has child components, recursively update the index file for each child component.
+   */
   const component = components.find((c) => c.name === componentName)
   if (component && component.children) {
     for (const child of component.children) {
