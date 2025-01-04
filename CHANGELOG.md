@@ -1,5 +1,12 @@
 
 
+## [2.2.17](https://github.com/justdlabs/cli/compare/v2.2.16...v2.2.17) (2025-01-04)
+
+
+### Bug Fixes
+
+* include loader to command-menu ([e2b30d7](https://github.com/justdlabs/cli/commit/e2b30d775d53cd7ce4e5546401f36350cba6d2a2))
+
 ## [2.2.16](https://github.com/justdlabs/cli/compare/v2.2.15...v2.2.16) (2024-12-26)
 
 
