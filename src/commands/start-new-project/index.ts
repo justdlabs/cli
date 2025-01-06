@@ -6,6 +6,7 @@ import { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/typ
 import { setupPrettier, setupTailwind } from "@/commands/start-new-project/partials/setup"
 import { createLaravelApp, createNextApp, createRemixApp, createViteApp } from "@/commands/start-new-project/partials/create-project"
 import { checkIfCommandExists, checkIfDirectoryExists } from "@/commands/start-new-project/partials/checker"
+import fs from "fs"
 
 const isProduction = process.env.NODE_ENV === "production"
 const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
@@ -137,7 +138,7 @@ export async function startNewProject() {
     const startCreatingApp = await frameworks[framework].createCommand(packageManager, projectName, options)
 
     await executeCommand(startCreatingApp, `Creating ${frameworks[framework].name} project.`)
-
+    fs.mkdirSync(projectName, { recursive: true })
     process.chdir(projectName)
     if (framework === "vite") {
       await executeCommand(setupTailwind(packageManager), "Setting up Tailwind CSS.")
