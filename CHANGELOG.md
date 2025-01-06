@@ -1,5 +1,12 @@
 
 
+## [2.2.18](https://github.com/justdlabs/cli/compare/v2.2.17...v2.2.18) (2025-01-06)
+
+
+### Bug Fixes
+
+* No such file or directory, chdir ([d021152](https://github.com/justdlabs/cli/commit/d0211525f7c20a1ad0f68665e81b371e596976f3))
+
 ## [2.2.17](https://github.com/justdlabs/cli/compare/v2.2.16...v2.2.17) (2025-01-04)
 
 
