@@ -1,17 +1,26 @@
 import fs from "fs"
 import path from "path"
-import { diffLines } from "diff"
+import { type Change, diffLines } from "diff"
 import { checkbox } from "@inquirer/prompts"
 import { getRepoUrlForComponent } from "@/utils/repo"
 import chalk from "chalk"
-import { error, info } from "@/utils/logging"
 import { add } from "@/commands/add"
 
+/**
+ * This function is used to sanitize the content of a component.
+ * It removes unnecessary characters and formats the content for better readability.
+ * @param configPath
+ * @param componentName
+ */
 const getLocalComponentPath = (configPath: string, componentName: string) => {
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
   return path.join(config.ui, `${componentName}.tsx`)
 }
 
+/**
+ * This function is used to fetch the content of a remote component.
+ * @param componentName
+ */
 const fetchRemoteComponent = async (componentName: string): Promise<string> => {
   const url = getRepoUrlForComponent(componentName)
   const response = await fetch(url)
@@ -19,18 +28,91 @@ const fetchRemoteComponent = async (componentName: string): Promise<string> => {
   return response.text()
 }
 
-const compareComponents = (localContent: string, remoteContent: string) => {
-  const sanitizeContent = (content: string) =>
-    content
-      .replace(/['"]use client['"];/g, "")
-      .replace(/['"]use client['"]\n/g, "")
-      .replace(/"/g, "'")
-      .trim()
+/**
+ * This function is used to compare the content of two components.
+ * It removes unnecessary characters and formats the content for better readability.
+ * @param content
+ */
+const sanitizeContent = (content: string): string => {
+  return content
+    .replace(/['"]use client['"];/g, "")
+    .replace(/['"]use client['"]\n/g, "")
+    .replace(/"/g, "'")
+    .replace(/,\s*([\]}])/g, "$1")
+    .replace(/\s*;\s*$/gm, "")
+    .replace(/\r?\n/g, "\n")
+    .replace(/\s*\n\s*/g, "\n")
+    .replace(/\t/g, "  ")
+    .replace(/\s*{\s*/g, "{")
+    .replace(/\s*}\s*/g, "}")
+    .replace(/\s*\(\s*/g, "(")
+    .replace(/\s*\)\s*/g, ")")
+    .replace(/(\w+):\s*'([^']*)'/g, (match, key, classNames) => {
+      const sortedClassNames = classNames.split(" ").sort().join(" ")
+      return `${key}: '${sortedClassNames}'`
+    })
+    .replace(/(\d+):\s*'([^']*)'/g, (_match, key, classNames) => {
+      const sortedClassNames = classNames.split(" ").sort().join(" ")
+      return `${key}: '${sortedClassNames}'`
+    })
+    .replace(/,\s*}/g, "}")
+    .replace(/>\s*\n\s*</g, "><")
+    .replace(/<([^>]+)\s*\n\s*([^>]+)>/g, (_, firstPart, secondPart) => `<${firstPart} ${secondPart}>`)
+    .replace(/(\w+)<\s*\n\s*/g, (_, word) => `${word}<`)
+    .replace(/\(([^)]+)\)\s*=>/g, (_match, params) => {
+      const normalizedParams = params.replace(/\s*\n\s*/g, " ").trim()
+      return `(${normalizedParams}) =>`
+    })
+    .replace(/className:\s*'([^']+)'/g, (match, classNames) => {
+      const sortedClassNames = classNames.split(" ").sort().join(" ")
+      return `className: '${sortedClassNames}'`
+    })
+    .replace(/(<[^>]+)\s+([a-zA-Z-]+)=/g, "$1 $2=")
+    .trim()
+}
 
-  const diff = diffLines(sanitizeContent(localContent), sanitizeContent(remoteContent))
+/**
+ * This function is used to format the output of a diff.
+ * @param diff
+ */
+const formatDiffOutput = (diff: Change[]): string => {
+  return diff
+    .map((part) => {
+      const symbol = part.added ? "+" : part.removed ? "-" : " "
+      const colorFn = part.added ? chalk.green : part.removed ? chalk.red : chalk.reset
+
+      if (!part.value) return ""
+
+      return part.value
+        .split("\n")
+        .map((line: string) => {
+          const formattedLine = `${symbol} ${line.trim()}`
+          return colorFn(formattedLine)
+        })
+        .join("\n")
+    })
+    .join("\n")
+}
+
+/**
+ * This function is used to compare the content of two components.
+ * It removes unnecessary characters and formats the content for better readability.
+ * @param localContent
+ * @param remoteContent
+ */
+const compareComponents = (localContent: string, remoteContent: string) => {
+  const sanitizedLocal = sanitizeContent(localContent)
+  const sanitizedRemote = sanitizeContent(remoteContent)
+
+  const diff = diffLines(sanitizedLocal, sanitizedRemote)
   return diff.filter((part) => part.added || part.removed)
 }
 
+/**
+ * This function is used to compare the content of two components.
+ * It removes unnecessary characters and formats the content for better readability.
+ * @param args
+ */
 export const diff = async (...args: string[]) => {
   try {
     const configPath = path.resolve(process.cwd(), "justd.json")
@@ -61,17 +143,8 @@ export const diff = async (...args: string[]) => {
 
         if (diffs.length > 0) {
           console.info(`Differences found in ${componentName}:`)
-          diffs.forEach((part) => {
-            const symbol = part.added ? "+" : "-"
-            const colorFn = part.added ? chalk.green : chalk.red
-            process.stdout.write(
-              part.value
-                .split("\n")
-                .map((line) => colorFn(`${symbol} ${line}`))
-                .join("\n"),
-            )
-          })
-          console.log("\n")
+          const formattedDiff = formatDiffOutput(diffs)
+          process.stdout.write(formattedDiff + "\n\n")
           changedComponents.push(componentName)
         } else {
           console.info(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
@@ -90,7 +163,7 @@ export const diff = async (...args: string[]) => {
             value: componentName,
           })),
         ],
-        // @ts-ignore - initial is not a valid option for checkbox
+        // @ts-ignore - initial is not a valid option for checkbox, but it's not used anyway
         initial: changedComponents,
       })
       await add({ component: selectedComponents.join(" "), overwrite: true, successMessage: "Updating components..." })
@@ -98,6 +171,6 @@ export const diff = async (...args: string[]) => {
       console.log(chalk.green("✔ All components are up to date."))
     }
   } catch (error: any) {
-    error("Error checking differences:", error.message)
+    console.error(chalk.red("Error checking differences:"), error.message)
   }
 }
