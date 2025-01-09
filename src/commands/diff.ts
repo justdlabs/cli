@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import ora from "ora"
 import { type Change, diffLines } from "diff"
 import { checkbox } from "@inquirer/prompts"
 import { getRepoUrlForComponent } from "@/utils/repo"
@@ -113,8 +114,11 @@ const compareComponents = (localContent: string, remoteContent: string) => {
  * It removes unnecessary characters and formats the content for better readability.
  * @param args
  */
+
 export const diff = async (...args: string[]) => {
   try {
+    const spinner = ora("Checking.").start()
+
     const configPath = path.resolve(process.cwd(), "justd.json")
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
     const componentsDir = config.ui
@@ -132,6 +136,7 @@ export const diff = async (...args: string[]) => {
     }
 
     const changedComponents: string[] = []
+    const upToDateComponents: string[] = []
 
     for (const componentName of componentNames) {
       const localComponentPath = getLocalComponentPath(configPath, componentName)
@@ -142,35 +147,37 @@ export const diff = async (...args: string[]) => {
         const diffs = compareComponents(localContent, remoteContent)
 
         if (diffs.length > 0) {
-          console.info(`Differences found in ${componentName}:`)
-          const formattedDiff = formatDiffOutput(diffs)
-          process.stdout.write(formattedDiff + "\n\n")
           changedComponents.push(componentName)
         } else {
-          console.info(`${chalk.green(`✔ ${componentName}`)} is up to date.`)
+          upToDateComponents.push(componentName)
         }
       } catch (error: any) {
         // Skip the component if it's not found
       }
     }
 
+    spinner.succeed("Checking.")
+
+    console.log(chalk.yellow("Changed components:"))
+    changedComponents.forEach((component) => console.log(chalk.red(`- ${component}`)))
+
+    console.log(chalk.green("\nUp-to-date components:"))
+    upToDateComponents.forEach((component) => console.log(chalk.green(`✔ ${component}`)))
+
     if (changedComponents.length > 0) {
       const selectedComponents = await checkbox({
         message: "Select components to update",
+        pageSize: 15,
         choices: [
           ...changedComponents.map((componentName) => ({
             title: componentName,
             value: componentName,
           })),
         ],
-        // @ts-ignore - initial is not a valid option for checkbox, but it's not used anyway
+        // @ts-ignore - initial is not a valid option for checkbox
         initial: changedComponents,
       })
 
-      /**
-       * Call the add command with the selected components and the overwrite option set to true.
-       * This will update the components in the project.
-       */
       await add({ component: selectedComponents.join(" "), overwrite: true, successMessage: "Updating components..." })
     } else {
       console.log(chalk.green("✔ All components are up to date."))
