@@ -1,4 +1,5 @@
 import { PackageManager } from "@/types"
+import { executeCommand } from "./execute-command"
 
 export function setupTailwind(packageManager: PackageManager) {
   return packageManager === "bun"
@@ -9,8 +10,6 @@ export function setupTailwind(packageManager: PackageManager) {
         ? ["pnpm", "add", "-D", "tailwindcss", "postcss", "autoprefixer"]
         : ["npm", "install", "-D", "tailwindcss", "postcss", "autoprefixer"]
 }
-
-import { executeCommand } from "./execute-command"
 
 /**
  * This function is used to set up Prettier

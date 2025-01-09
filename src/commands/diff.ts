@@ -166,6 +166,11 @@ export const diff = async (...args: string[]) => {
         // @ts-ignore - initial is not a valid option for checkbox, but it's not used anyway
         initial: changedComponents,
       })
+
+      /**
+       * Call the add command with the selected components and the overwrite option set to true.
+       * This will update the components in the project.
+       */
       await add({ component: selectedComponents.join(" "), overwrite: true, successMessage: "Updating components..." })
     } else {
       console.log(chalk.green("✔ All components are up to date."))

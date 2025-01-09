@@ -1,4 +1,3 @@
-import path from "node:path"
 import { stripVTControlCharacters } from "node:util"
 import pc from "picocolors"
 

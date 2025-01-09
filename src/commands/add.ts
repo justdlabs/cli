@@ -8,7 +8,7 @@ import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
 import ora from "ora"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, hasFolder, isLaravel, isNextJs, possibilityUtilsPath } from "@/utils/helpers"
+import { getAliasFromConfig, getUIPathFromConfig, hasFolder, isLaravel, isNextJs } from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 
 const exceptions = ["field", "dropdown", "dialog"]
