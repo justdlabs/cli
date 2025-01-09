@@ -1,5 +1,12 @@
 
 
+## [2.2.19](https://github.com/justdlabs/cli/compare/v2.2.18...v2.2.19) (2025-01-09)
+
+
+### Bug Fixes
+
+* make the diff better ([78331d8](https://github.com/justdlabs/cli/commit/78331d8e87e790793371784230f7a656a7f8f94f))
+
 ## [2.2.18](https://github.com/justdlabs/cli/compare/v2.2.17...v2.2.18) (2025-01-06)
 
 
