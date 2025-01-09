@@ -36,7 +36,6 @@
     "@changesets/cli": "^2.27.7",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@release-it/conventional-changelog": "^8.0.1",
     "@types/babel__core": "^7.20.5",
     "@types/diff": "^5.2.1",
     "@types/figlet": "^1.7.0",
@@ -45,7 +44,7 @@
     "@types/node": "^20.14.10",
     "husky": "^9.1.5",
     "prettier": "^3.3.2",
-    "release-it": "^17.5.0",
+    "release-it": "^18.1.1",
     "rimraf": "^5.0.9",
     "tsup": "^8.1.0",
     "typescript": "^5.5.3"
