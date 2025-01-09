@@ -1,4 +1,9 @@
+# Changelog
 
+## <small>2.2.20 (2025-01-09)</small>
+
+* fix: bump ([a895246](https://github.com/justdlabs/cli/commit/a895246))
+* fix: fix pkg ([f328929](https://github.com/justdlabs/cli/commit/f328929))
 
 ## [2.2.19](https://github.com/justdlabs/cli/compare/v2.2.18...v2.2.19) (2025-01-09)
 
