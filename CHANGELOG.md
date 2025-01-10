@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.2.21 (2025-01-10)</small>
+
+* fix: make diff better ([0b550cf](https://github.com/justdlabs/cli/commit/0b550cf))
+* make the diff better ([8166b9a](https://github.com/justdlabs/cli/commit/8166b9a))
+
 ## <small>2.2.20 (2025-01-09)</small>
 
 * fix: bump ([a895246](https://github.com/justdlabs/cli/commit/a895246))
