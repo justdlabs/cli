@@ -158,11 +158,15 @@ export const diff = async (...args: string[]) => {
 
     spinner.succeed("Checking.")
 
+    console.log(chalk.green("\nUp-to-date components:"))
+    upToDateComponents.forEach((component) => console.log(chalk.green(`✔ ${component}`)))
+
+    console.log("\n")
+
     console.log(chalk.yellow("Changed components:"))
     changedComponents.forEach((component) => console.log(chalk.red(`- ${component}`)))
 
-    console.log(chalk.green("\nUp-to-date components:"))
-    upToDateComponents.forEach((component) => console.log(chalk.green(`✔ ${component}`)))
+    console.log("\n")
 
     if (changedComponents.length > 0) {
       const selectedComponents = await checkbox({
