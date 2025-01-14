@@ -212,7 +212,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const packageManager = await getPackageManager()
 
-  let mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+  const mainPackages = ["react-aria-components", "justd-icons"].join(" ")
 
   let devPackages = ["tailwind-variants", "tailwind-merge", "tailwindcss-animate"].join(" ")
 
@@ -229,7 +229,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   const action = packageManager === "npm" ? "i" : "add"
-  let installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
+  const installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
   spinner.start(`Installing dependencies.`)
 
   const child = spawn(installCommand, {

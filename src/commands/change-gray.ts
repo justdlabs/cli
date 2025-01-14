@@ -23,7 +23,7 @@ export async function changeGray(cssLocation: string, flags: { yes?: boolean }):
 
   const response = await fetch(getThemesRepoUrl(selectedGray))
   if (!response.ok) throw new Error(`Failed to fetch color: ${response.statusText}`)
-  let content = await response.text()
+  const content = await response.text()
   writeFileSync(cssLocation, content, { flag: "w" })
 
   return selectedGray
@@ -62,7 +62,7 @@ export async function setGray(overwriteConfirmation: boolean, selectedTheme?: st
     }
   }
 
-  let _newGray = selectedTheme || (await changeGray(cssPath, { yes: false }))
+  const _newGray = selectedTheme || (await changeGray(cssPath, { yes: false }))
 
   if (_newGray) {
     const newTheme = _newGray.replace(".css", "")

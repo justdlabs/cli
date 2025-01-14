@@ -11,7 +11,7 @@ export function isRepoDirty() {
   }
 
   try {
-    let stdout = execSync("git status --porcelain", { encoding: "utf-8" })
+    const stdout = execSync("git status --porcelain", { encoding: "utf-8" })
     return stdout.trim() !== ""
   } catch (error) {
     return !error?.toString?.().includes("not a git repository")

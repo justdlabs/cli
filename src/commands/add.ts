@@ -1,15 +1,21 @@
-import fs from "fs"
-import path from "path"
-import { checkbox } from "@inquirer/prompts"
+import fs from "node:fs"
+import path from "node:path"
 import { components, namespaces } from "@/resources/components"
 import { getUIFolderPath, getUtilsFolderPath, getWriteComponentPath } from "@/utils"
-import chalk from "chalk"
-import { getPackageManager } from "@/utils/get-package-manager"
 import { additionalDeps } from "@/utils/additional-deps"
-import ora from "ora"
-import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
-import { getAliasFromConfig, getUIPathFromConfig, hasFolder, isLaravel, isNextJs } from "@/utils/helpers"
+import { getPackageManager } from "@/utils/get-package-manager"
+import {
+  getAliasFromConfig,
+  getUIPathFromConfig,
+  hasFolder,
+  isLaravel,
+  isNextJs,
+} from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
+import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
+import { checkbox } from "@inquirer/prompts"
+import chalk from "chalk"
+import ora from "ora"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -61,7 +67,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
    */
   existingExports = [primitiveExport, ...existingExports.sort()]
 
-  fs.writeFileSync(indexPath, existingExports.join("\n") + "\n")
+  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`)
 
   processed.add(componentName)
 
@@ -69,7 +75,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
    * If the component has child components, recursively update the index file for each child component.
    */
   const component = components.find((c) => c.name === componentName)
-  if (component && component.children) {
+  if (component?.children) {
     for (const child of component.children) {
       await updateIndexFile(child.name, processed)
     }
@@ -85,7 +91,9 @@ export async function add(options: any) {
   const { component, overwrite, successMessage } = options
   const configFilePath = path.join(process.cwd(), "justd.json")
   if (!fs.existsSync(configFilePath)) {
-    spinner.fail(`${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
+    spinner.fail(
+      `${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
+    )
     return
   }
 
@@ -147,7 +155,15 @@ export async function add(options: any) {
       createdFiles.push(classesFile)
     }
 
-    if (await Promise.resolve(selectedComponents.some((component: string) => ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(component)))) {
+    if (
+      await Promise.resolve(
+        selectedComponents.some((component: string) =>
+          ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(
+            component,
+          ),
+        ),
+      )
+    ) {
       const mediaQueryFile = path.join(utilsFolder, "use-media-query.ts")
 
       if (!fs.existsSync(mediaQueryFile)) {
@@ -178,10 +194,30 @@ export async function add(options: any) {
 
         if (namespaces.includes(componentName) && targetComponent.children) {
           for (const child of targetComponent.children) {
-            await processComponent(child.name, packageManager, action, processed, components, overwrite, true, createdFiles, existingFiles)
+            await processComponent(
+              child.name,
+              packageManager,
+              action,
+              processed,
+              components,
+              overwrite,
+              true,
+              createdFiles,
+              existingFiles,
+            )
           }
         } else {
-          await processComponent(componentName, packageManager, action, processed, components, overwrite, false, createdFiles, existingFiles)
+          await processComponent(
+            componentName,
+            packageManager,
+            action,
+            processed,
+            components,
+            overwrite,
+            false,
+            createdFiles,
+            existingFiles,
+          )
         }
 
         await updateIndexFile(componentName)
@@ -190,7 +226,9 @@ export async function add(options: any) {
       }
     }
 
-    const allComponentNames = components.filter((comp) => !exclude.includes(comp.name) && !namespaces.includes(comp.name)).map((comp) => comp.name)
+    const allComponentNames = components
+      .filter((comp) => !exclude.includes(comp.name) && !namespaces.includes(comp.name))
+      .map((comp) => comp.name)
 
     const isAllSelected = selectedComponents.length === allComponentNames.length
 
@@ -239,7 +277,17 @@ export async function add(options: any) {
  *  @param createdFiles string[]
  *  @param existingFiles Set<string>
  */
-async function processComponent(componentName: string, packageManager: string, action: string, processed: Set<string>, allComponents: any[], overwrite: boolean, isChild: boolean, createdFiles: string[], existingFiles: Set<string>) {
+async function processComponent(
+  componentName: string,
+  packageManager: string,
+  action: string,
+  processed: Set<string>,
+  allComponents: any[],
+  overwrite: boolean,
+  isChild: boolean,
+  createdFiles: string[],
+  existingFiles: Set<string>,
+) {
   if (processed.has(componentName)) return
 
   const componentPath = getWriteComponentPath(componentName)
@@ -267,7 +315,17 @@ async function processComponent(componentName: string, packageManager: string, a
   const component = allComponents.find((c) => c.name === componentName)
   if (component && component.children) {
     for (const child of component.children) {
-      await processComponent(child.name, packageManager, action, processed, allComponents, false, true, createdFiles, existingFiles)
+      await processComponent(
+        child.name,
+        packageManager,
+        action,
+        processed,
+        allComponents,
+        false,
+        true,
+        createdFiles,
+        existingFiles,
+      )
     }
   }
 

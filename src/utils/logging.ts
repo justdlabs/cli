@@ -47,13 +47,13 @@ export function wordWrap(text: string, width: number): string[] {
     return text.split("\n").flatMap((line) => wordWrap(line, width))
   }
 
-  let words = text.split(" ")
-  let lines = []
+  const words = text.split(" ")
+  const lines = []
 
   let line = ""
   let lineLength = 0
-  for (let word of words) {
-    let wordLength = stripVTControlCharacters(word).length
+  for (const word of words) {
+    const wordLength = stripVTControlCharacters(word).length
 
     if (lineLength + wordLength + 1 > width) {
       lines.push(line)
@@ -77,12 +77,12 @@ export function indent(value: string, offset = 0) {
 }
 
 function log(message: string, { art = pc.gray("\u2502"), prefix = "", print = eprintln }) {
-  let prefixLength = prefix.length
-  let padding = " "
-  let paddingLength = padding.length
-  let artLength = stripVTControlCharacters(art).length
-  let availableWidth = process.stderr.columns
-  let totalWidth = availableWidth - prefixLength - paddingLength * 2 - artLength
+  const prefixLength = prefix.length
+  const padding = " "
+  const paddingLength = padding.length
+  const artLength = stripVTControlCharacters(art).length
+  const availableWidth = process.stderr.columns
+  const totalWidth = availableWidth - prefixLength - paddingLength * 2 - artLength
 
   wordWrap(message, totalWidth).map((line, idx) => {
     return print(`${art}${padding}${idx === 0 ? prefix : " ".repeat(prefixLength)}${line}${padding}`)

@@ -106,7 +106,7 @@ export function isTailwind(version: number): boolean {
     if (tailwindVersion) {
       // Remove any non-numeric prefix (e.g., ^ or ~)
       const cleanVersion = tailwindVersion.replace(/^\D*/, "")
-      const majorVersion = parseInt(cleanVersion.split(".")[0], 10)
+      const majorVersion = Number.parseInt(cleanVersion.split(".")[0], 10)
       return majorVersion === version
     }
   }

@@ -1,4 +1,4 @@
-import { FrameworkOptions } from "@/types"
+import type { FrameworkOptions } from "@/types"
 
 export const createLaravelApp = async (packageManager: string, projectName: string, options?: FrameworkOptions): Promise<string[]> => {
   const commands = ["composer", "create-project", "laravel/laravel", projectName, "&&", "cd", projectName, "&&"]

@@ -89,7 +89,7 @@ export async function getCSSPath() {
 export async function addUiPathToTsConfig() {
   const tsConfigPaths = [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
 
-  let tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
+  const tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
   if (!tsConfigPath) {
     error("Neither tsconfig.app.json nor tsconfig.json was found.")
     process.exit(1)
