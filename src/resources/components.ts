@@ -1,4 +1,19 @@
-const namespaces = ["buttons", "controls", "collections", "date-and-time", "drag-and-drop", "forms", "navigation", "overlays", "pickers", "statuses", "surfaces", "media", "colors", "layouts"]
+const namespaces = [
+  "buttons",
+  "controls",
+  "collections",
+  "date-and-time",
+  "drag-and-drop",
+  "forms",
+  "navigation",
+  "overlays",
+  "pickers",
+  "statuses",
+  "surfaces",
+  "media",
+  "colors",
+  "layouts",
+]
 
 const components: any[] = [
   // ------------------------------------------------------------------------------------- //
@@ -21,23 +36,63 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "forms",
-    children: [{ name: "form" }, { name: "text-field" }, { name: "tag-field" }, { name: "radio" }, { name: "checkbox" }, { name: "textarea" }, { name: "number-field" }, { name: "search-field" }, { name: "input-otp" }, { name: "choicebox" }],
+    children: [
+      { name: "form" },
+      { name: "text-field" },
+      { name: "tag-field" },
+      { name: "radio" },
+      { name: "checkbox" },
+      { name: "textarea" },
+      { name: "number-field" },
+      { name: "search-field" },
+      { name: "input-otp" },
+      { name: "choicebox" },
+    ],
   },
   {
     name: "collections",
-    children: [{ name: "menu" }, { name: "grid-list" }, { name: "list-box" }, { name: "tabs" }, { name: "tag-group" }, { name: "table" }, { name: "choicebox" }, { name: "tree" }],
+    children: [
+      { name: "menu" },
+      { name: "grid-list" },
+      { name: "list-box" },
+      { name: "tabs" },
+      { name: "tag-group" },
+      { name: "table" },
+      { name: "choicebox" },
+      { name: "tree" },
+    ],
   },
   {
     name: "date-and-time",
-    children: [{ name: "date-field" }, { name: "date-picker" }, { name: "date-range-picker" }, { name: "popover" }],
+    children: [
+      { name: "date-field" },
+      { name: "date-picker" },
+      { name: "date-range-picker" },
+      { name: "popover" },
+    ],
   },
   {
     name: "navigation",
-    children: [{ name: "link" }, { name: "breadcrumbs" }, { name: "pagination" }, { name: "button" }, { name: "disclosure" }, { name: "button" }, { name: "separator" }, { name: "field" }],
+    children: [
+      { name: "link" },
+      { name: "breadcrumbs" },
+      { name: "pagination" },
+      { name: "button" },
+      { name: "disclosure" },
+      { name: "button" },
+      { name: "separator" },
+      { name: "field" },
+    ],
   },
   {
     name: "overlays",
-    children: [{ name: "sheet" }, { name: "modal" }, { name: "drawer" }, { name: "popover" }, { name: "tooltip" }],
+    children: [
+      { name: "sheet" },
+      { name: "modal" },
+      { name: "drawer" },
+      { name: "popover" },
+      { name: "tooltip" },
+    ],
   },
   {
     name: "pickers",
@@ -45,11 +100,27 @@ const components: any[] = [
   },
   {
     name: "statuses",
-    children: [{ name: "skeleton" }, { name: "badge" }, { name: "loader" }, { name: "progress-bar" }, { name: "progress-circle" }, { name: "meter" }, { name: "note" }, { name: "toast" }],
+    children: [
+      { name: "skeleton" },
+      { name: "badge" },
+      { name: "loader" },
+      { name: "progress-bar" },
+      { name: "progress-circle" },
+      { name: "meter" },
+      { name: "note" },
+      { name: "toast" },
+    ],
   },
   {
     name: "surfaces",
-    children: [{ name: "card" }, { name: "chart" }, { name: "description-list" }, { name: "grid" }, { name: "separator" }, { name: "show-more" }],
+    children: [
+      { name: "card" },
+      { name: "chart" },
+      { name: "description-list" },
+      { name: "grid" },
+      { name: "separator" },
+      { name: "show-more" },
+    ],
   },
   { name: "media", children: [{ name: "avatar" }, { name: "carousel" }] },
   {
@@ -60,7 +131,13 @@ const components: any[] = [
   { name: "drag-and-drop", children: [{ name: "drop-zone" }] },
   {
     name: "controls",
-    children: [{ name: "toolbar" }, { name: "slider" }, { name: "switch" }, { name: "command-menu" }, { name: "context-menu" }],
+    children: [
+      { name: "toolbar" },
+      { name: "slider" },
+      { name: "switch" },
+      { name: "command-menu" },
+      { name: "context-menu" },
+    ],
   },
   {
     name: "layouts",
@@ -103,7 +180,13 @@ const components: any[] = [
   { name: "date-range-picker", children: [{ name: "date-picker" }] },
   {
     name: "date-picker",
-    children: [{ name: "popover" }, { name: "field" }, { name: "calendar" }, { name: "date-field" }, { name: "range-calendar" }],
+    children: [
+      { name: "popover" },
+      { name: "field" },
+      { name: "calendar" },
+      { name: "date-field" },
+      { name: "range-calendar" },
+    ],
   },
   { name: "time-field", children: [{ name: "field" }, { name: "date-field" }] },
 
@@ -190,7 +273,13 @@ const components: any[] = [
   },
   {
     name: "multiple-select",
-    children: [{ name: "field" }, { name: "list-box" }, { name: "popover" }, { name: "tag-group" }, { name: "visually-hidden" }],
+    children: [
+      { name: "field" },
+      { name: "list-box" },
+      { name: "popover" },
+      { name: "tag-group" },
+      { name: "visually-hidden" },
+    ],
   },
 
   // ------------------------------------------------------------------------------------- //
@@ -211,7 +300,13 @@ const components: any[] = [
 
   {
     name: "color-picker",
-    children: [{ name: "color-area" }, { name: "color-field" }, { name: "color-slider" }, { name: "color-swatch" }, { name: "field" }],
+    children: [
+      { name: "color-area" },
+      { name: "color-field" },
+      { name: "color-slider" },
+      { name: "color-swatch" },
+      { name: "field" },
+    ],
   },
   {
     name: "color-field",
@@ -239,7 +334,10 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   // ⌘ The children of Controls
   // ------------------------------------------------------------------------------------- //
-  { name: "command-menu", children: [{ name: "keyboard" }, { name: "separator" }, { name: "loader" }] },
+  {
+    name: "command-menu",
+    children: [{ name: "keyboard" }, { name: "separator" }, { name: "loader" }],
+  },
   { name: "context-menu", children: [{ name: "menu" }] },
   { name: "slider", children: [{ name: "field" }] },
   { name: "switch" },

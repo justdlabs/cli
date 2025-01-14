@@ -1,11 +1,11 @@
-import fs from "fs"
-import path from "path"
-import ora from "ora"
-import { type Change, diffLines } from "diff"
-import { checkbox } from "@inquirer/prompts"
-import { getRepoUrlForComponent } from "@/utils/repo"
-import chalk from "chalk"
+import fs from "node:fs"
+import path from "node:path"
 import { add } from "@/commands/add"
+import { getRepoUrlForComponent } from "@/utils/repo"
+import { checkbox } from "@inquirer/prompts"
+import chalk from "chalk"
+import { type Change, diffLines } from "diff"
+import ora from "ora"
 
 /**
  * This function is used to sanitize the content of a component.
@@ -58,7 +58,10 @@ const sanitizeContent = (content: string): string => {
     })
     .replace(/,\s*}/g, "}")
     .replace(/>\s*\n\s*</g, "><")
-    .replace(/<([^>]+)\s*\n\s*([^>]+)>/g, (_, firstPart, secondPart) => `<${firstPart} ${secondPart}>`)
+    .replace(
+      /<([^>]+)\s*\n\s*([^>]+)>/g,
+      (_, firstPart, secondPart) => `<${firstPart} ${secondPart}>`,
+    )
     .replace(/(\w+)<\s*\n\s*/g, (_, word) => `${word}<`)
     .replace(/\(([^)]+)\)\s*=>/g, (_match, params) => {
       const normalizedParams = params.replace(/\s*\n\s*/g, " ").trim()
@@ -182,7 +185,11 @@ export const diff = async (...args: string[]) => {
         initial: changedComponents,
       })
 
-      await add({ component: selectedComponents.join(" "), overwrite: true, successMessage: "Updating components..." })
+      await add({
+        component: selectedComponents.join(" "),
+        overwrite: true,
+        successMessage: "Updating components...",
+      })
     } else {
       console.log(chalk.green("✔ All components are up to date."))
     }

@@ -85,7 +85,9 @@ function log(message: string, { art = pc.gray("\u2502"), prefix = "", print = ep
   const totalWidth = availableWidth - prefixLength - paddingLength * 2 - artLength
 
   wordWrap(message, totalWidth).map((line, idx) => {
-    return print(`${art}${padding}${idx === 0 ? prefix : " ".repeat(prefixLength)}${line}${padding}`)
+    return print(
+      `${art}${padding}${idx === 0 ? prefix : " ".repeat(prefixLength)}${line}${padding}`,
+    )
   })
   print()
 }

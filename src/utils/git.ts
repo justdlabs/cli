@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process"
-import fs from "fs"
+import fs from "node:fs"
 
 /**
  * This function is used to check if the current git repository is dirty

@@ -1,20 +1,32 @@
+import fs, { writeFileSync } from "node:fs"
 import { input } from "@inquirer/prompts"
-import fs, { writeFileSync } from "fs"
 import figlet from "figlet"
 
-import { spawn } from "child_process"
-import path from "path"
-import { fileURLToPath } from "url"
-import { getPackageManager } from "@/utils/get-package-manager"
-import ora from "ora"
-import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
+import { spawn } from "node:child_process"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
-import { hasFolder, isLaravel, isNextJs, isProjectExists, isRemix, isTailwind, isTailwindInstalled, possibilityComponentsPath, possibilityCssPath, possibilityRootPath, possibilityUtilsPath } from "@/utils/helpers"
-import { addUiPathToTsConfig } from "@/utils"
-import { error, highlight, info } from "@/utils/logging"
-import { isRepoDirty } from "@/utils/git"
-import stripJsonComments from "strip-json-comments"
 import { startNewProject } from "@/commands/start-new-project"
+import { addUiPathToTsConfig } from "@/utils"
+import { getPackageManager } from "@/utils/get-package-manager"
+import { isRepoDirty } from "@/utils/git"
+import {
+  hasFolder,
+  isLaravel,
+  isNextJs,
+  isProjectExists,
+  isRemix,
+  isTailwind,
+  isTailwindInstalled,
+  possibilityComponentsPath,
+  possibilityCssPath,
+  possibilityRootPath,
+  possibilityUtilsPath,
+} from "@/utils/helpers"
+import { error, highlight, info } from "@/utils/logging"
+import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
+import ora from "ora"
+import stripJsonComments from "strip-json-comments"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -28,20 +40,26 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   if (!flags.force) {
-    const checkingGit = ora(`Checking.`).start()
+    const checkingGit = ora("Checking.").start()
     if (isRepoDirty()) {
       checkingGit.stop()
-      error("Git directory is not clean. Please stash or commit your changes before running the init command.")
-      info(`You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`)
+      error(
+        "Git directory is not clean. Please stash or commit your changes before running the init command.",
+      )
+      info(
+        `You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`,
+      )
       process.exit(1)
     }
     checkingGit.stop() // stop spinner
   }
 
-  const spinner = ora(`Initializing.`).start()
+  const spinner = ora("Initializing.").start()
   const twExists = isTailwindInstalled()
   if (!twExists) {
-    spinner.fail("The tailwindcss package is not installed. Please install before running the init command.")
+    spinner.fail(
+      "The tailwindcss package is not installed. Please install before running the init command.",
+    )
     spinner.stop()
     return
   }
@@ -52,7 +70,13 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
-  let componentFolder: string, twConfigStub: string, uiFolder: string, cssLocation: string, themeProvider: string, providers: string, utilsFolder: string
+  let componentFolder: string
+  let twConfigStub: string
+  let uiFolder: string
+  let cssLocation: string
+  let themeProvider: string
+  let providers: string
+  let utilsFolder: string
   spinner.succeed("Initializing.")
 
   if (flags.yes) {
@@ -64,7 +88,8 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     componentFolder = await input({
       message: "Components folder:",
       default: possibilityComponentsPath(),
-      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+      validate: (value) =>
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
     })
 
     uiFolder = path.join(componentFolder, "ui")
@@ -72,13 +97,15 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     utilsFolder = await input({
       message: "Utils folder:",
       default: possibilityUtilsPath(),
-      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+      validate: (value) =>
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
     })
 
     cssLocation = await input({
       message: "Where would you like to place the CSS file?",
       default: possibilityCssPath(),
-      validate: (value) => value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+      validate: (value) =>
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
     })
   }
 
@@ -105,7 +132,9 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   if (isTailwind(3)) {
-    const tailwindConfigTarget = fs.existsSync("tailwind.config.js") ? "tailwind.config.js" : "tailwind.config.ts"
+    const tailwindConfigTarget = fs.existsSync("tailwind.config.js")
+      ? "tailwind.config.js"
+      : "tailwind.config.ts"
     try {
       const tailwindConfigContent = fs.readFileSync(twConfigStub, "utf8")
       fs.writeFileSync(tailwindConfigTarget, tailwindConfigContent, { flag: "w" })
@@ -124,10 +153,13 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   async function getUserAlias(): Promise<string | null> {
-    const tsConfigPaths = [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+    const tsConfigPaths = [
+      path.join(process.cwd(), "tsconfig.app.json"),
+      path.join(process.cwd(), "tsconfig.json"),
+    ]
 
     let tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
-    let tsConfig
+    let tsConfig: any
 
     if (!tsConfigPath) {
       error("Neither tsconfig.app.json nor tsconfig.json was found.")
@@ -161,10 +193,10 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
     if (!("paths" in tsConfig.compilerOptions)) {
       const rootPath = flags.yes
-        ? "./" + possibilityRootPath()
+        ? `./${possibilityRootPath()}`
         : await input({
             message: `No paths key found in ${path.basename(tsConfigPath)}. Please enter the root directory path for the '@/':`,
-            default: "./" + possibilityRootPath(),
+            default: `./${possibilityRootPath()}`,
           })
 
       tsConfig.compilerOptions.paths = {
@@ -230,7 +262,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const action = packageManager === "npm" ? "i" : "add"
   const installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
-  spinner.start(`Installing dependencies.`)
+  spinner.start("Installing dependencies.")
 
   const child = spawn(installCommand, {
     stdio: ["ignore", "ignore", "ignore"],
@@ -263,7 +295,9 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
-    fs.writeFileSync(path.join(componentFolder, "theme-provider.tsx"), themeProviderContent, { flag: "w" })
+    fs.writeFileSync(path.join(componentFolder, "theme-provider.tsx"), themeProviderContent, {
+      flag: "w",
+    })
 
     if (providers) {
       const providersContent = fs.readFileSync(providers, "utf8")
@@ -277,8 +311,8 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     // @ts-ignore
     error("Error writing to justd.json:", error?.message)
   }
-  spinner.succeed(`Installing dependencies.`)
-  spinner.start(`Configuring.`)
+  spinner.succeed("Installing dependencies.")
+  spinner.start("Configuring.")
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   spinner.succeed("Configuring.")
@@ -290,14 +324,16 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   spinner.succeed(`Primitive file saved to ${highlight(`${uiFolder}/primitive.tsx`)}`)
   spinner.succeed(`Classes file saved to ${highlight(`${utilsFolder}/classes.ts`)}`)
   if (themeProvider) {
-    spinner.succeed(`Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`)
+    spinner.succeed(
+      `Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`,
+    )
     spinner.succeed(`Providers file saved to ${highlight(`"${componentFolder}/providers.tsx"`)}`)
   }
 
   spinner.start(`Configuration saved to ${highlight(`"justd.json"`)}`)
   await new Promise((resolve) => setTimeout(resolve, 500))
   spinner.succeed(`Configuration saved to ${highlight("justd.json")}`)
-  spinner.succeed(`Installation complete.`)
+  spinner.succeed("Installation complete.")
 
   console.info("\n\nNot sure what to do next?")
   console.info(`Visit our documentation at: ${highlight("https://getjustd.com")}`)

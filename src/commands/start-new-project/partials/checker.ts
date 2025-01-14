@@ -1,4 +1,4 @@
-import fs from "fs"
+import fs from "node:fs"
 
 export function checkIfDirectoryExists(dir: string): boolean {
   return fs.existsSync(dir) && fs.lstatSync(dir).isDirectory()
@@ -9,7 +9,7 @@ export function checkIfDirectoryExists(dir: string): boolean {
  * @param command
  */
 export async function checkIfCommandExists(command: string): Promise<boolean> {
-  const { spawnSync } = await import("child_process")
+  const { spawnSync } = await import("node:child_process")
   const result = spawnSync(command, ["--version"], { shell: true, stdio: "ignore" })
   return result.status === 0
 }

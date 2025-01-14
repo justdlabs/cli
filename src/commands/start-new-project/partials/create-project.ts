@@ -1,15 +1,49 @@
 import type { FrameworkOptions } from "@/types"
 
-export const createLaravelApp = async (packageManager: string, projectName: string, options?: FrameworkOptions): Promise<string[]> => {
-  const commands = ["composer", "create-project", "laravel/laravel", projectName, "&&", "cd", projectName, "&&"]
+export const createLaravelApp = async (
+  packageManager: string,
+  projectName: string,
+  options?: FrameworkOptions,
+): Promise<string[]> => {
+  const commands = [
+    "composer",
+    "create-project",
+    "laravel/laravel",
+    projectName,
+    "&&",
+    "cd",
+    projectName,
+    "&&",
+  ]
 
-  const lockFileName = packageManager === "bun" ? "bun.lockb" : packageManager === "pnpm" ? "pnpm-lock.yaml" : packageManager === "yarn" ? "yarn.lock" : null
+  const lockFileName =
+    packageManager === "bun"
+      ? "bun.lockb"
+      : packageManager === "pnpm"
+        ? "pnpm-lock.yaml"
+        : packageManager === "yarn"
+          ? "yarn.lock"
+          : null
 
   if (lockFileName) {
     commands.push(`node -e "require('fs').writeFileSync('${lockFileName}', '')"`, "&&")
   }
 
-  commands.push("composer", "require", "laravel/breeze", "--dev", "&&", "php", "artisan", "breeze:install", "react", "--ssr", "--typescript", "--eslint", "--no-interaction")
+  commands.push(
+    "composer",
+    "require",
+    "laravel/breeze",
+    "--dev",
+    "&&",
+    "php",
+    "artisan",
+    "breeze:install",
+    "react",
+    "--ssr",
+    "--typescript",
+    "--eslint",
+    "--no-interaction",
+  )
 
   if (options?.usePest) {
     commands.push("--pest")
@@ -24,10 +58,31 @@ export const createLaravelApp = async (packageManager: string, projectName: stri
  * @param projectName
  * @param options
  */
-export const createNextApp = async (packageManager: string, projectName: string, options?: FrameworkOptions): Promise<string[]> => {
-  const packageManagerFlag = packageManager === "bun" ? "--use-bun" : packageManager === "yarn" ? "--use-yarn" : packageManager === "pnpm" ? "--use-pnpm" : "--use-npm"
+export const createNextApp = async (
+  packageManager: string,
+  projectName: string,
+  options?: FrameworkOptions,
+): Promise<string[]> => {
+  const packageManagerFlag =
+    packageManager === "bun"
+      ? "--use-bun"
+      : packageManager === "yarn"
+        ? "--use-yarn"
+        : packageManager === "pnpm"
+          ? "--use-pnpm"
+          : "--use-npm"
 
-  const commands = ["npx create-next-app@latest", projectName, "--ts", "--tailwind", "--turbopack", "--eslint", "--app", "--import-alias='@/*'", packageManagerFlag]
+  const commands = [
+    "npx create-next-app@latest",
+    projectName,
+    "--ts",
+    "--tailwind",
+    "--turbopack",
+    "--eslint",
+    "--app",
+    "--import-alias='@/*'",
+    packageManagerFlag,
+  ]
 
   if (options?.useSrc) {
     commands.push("--src-dir")
@@ -42,7 +97,10 @@ export const createNextApp = async (packageManager: string, projectName: string,
  * @param packageManager
  * @param projectName
  */
-export const createRemixApp = async (packageManager: string, projectName: string): Promise<string[]> => {
+export const createRemixApp = async (
+  packageManager: string,
+  projectName: string,
+): Promise<string[]> => {
   return ["npx", "create-remix@latest", "--yes", `--package-manager=${packageManager}`, projectName]
 }
 
@@ -51,7 +109,10 @@ export const createRemixApp = async (packageManager: string, projectName: string
  * @param packageManager
  * @param projectName
  */
-export const createViteApp = async (packageManager: string, projectName: string): Promise<string[]> => {
+export const createViteApp = async (
+  packageManager: string,
+  projectName: string,
+): Promise<string[]> => {
   switch (packageManager) {
     case "bun":
       return ["bun", "create", "vite", "--template", "react-ts", projectName]

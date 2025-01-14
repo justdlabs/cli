@@ -1,14 +1,17 @@
-import fs, { readFileSync, writeFileSync } from "fs"
-import ora from "ora"
-import { confirm, select } from "@inquirer/prompts"
+import fs, { readFileSync, writeFileSync } from "node:fs"
 import { getCSSPath } from "@/utils"
 import { isTailwind, justdConfigFile, possibilityCssPath } from "@/utils/helpers"
-import { getThemesRepoUrl } from "@/utils/repo"
 import { error, errorText, grayText, highlight } from "@/utils/logging"
+import { getThemesRepoUrl } from "@/utils/repo"
+import { confirm, select } from "@inquirer/prompts"
+import ora from "ora"
 
 export const availablesGrays = ["zinc", "gray", "slate", "neutral", "stone"]
 
-export async function changeGray(cssLocation: string, flags: { yes?: boolean }): Promise<string | undefined> {
+export async function changeGray(
+  cssLocation: string,
+  flags: { yes?: boolean },
+): Promise<string | undefined> {
   const spinner = ora("Looking up possibilities...").start()
   const grays = availablesGrays
   spinner.stop()
@@ -31,12 +34,16 @@ export async function changeGray(cssLocation: string, flags: { yes?: boolean }):
 
 export async function setGray(overwriteConfirmation: boolean, selectedTheme?: string) {
   if (isTailwind(3)) {
-    error(`This CLI supports ${highlight("Justd 2.x")}, built with ${highlight("Tailwind v4")}. However, you're currently using ${highlight("Tailwind v3")}.`)
+    error(
+      `This CLI supports ${highlight("Justd 2.x")}, built with ${highlight("Tailwind v4")}. However, you're currently using ${highlight("Tailwind v3")}.`,
+    )
     process.exit(1)
   }
   const userConfigPath = "./justd.json"
   if (!fs.existsSync(userConfigPath)) {
-    error(`${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`)
+    error(
+      `${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
+    )
     process.exit(1)
   }
 

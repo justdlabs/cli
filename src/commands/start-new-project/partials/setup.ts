@@ -40,6 +40,6 @@ export async function setupPrettier(packageManager: string) {
 }
 `
 
-  const fs = await import("fs/promises")
+  const fs = await import("node:fs/promises")
   await fs.writeFile(".prettierrc", prettierConfig.trim(), "utf8")
 }

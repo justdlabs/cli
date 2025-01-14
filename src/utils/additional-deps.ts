@@ -1,4 +1,4 @@
-import { spawn } from "child_process"
+import { spawn } from "node:child_process"
 import { error, highlight } from "@/utils/logging"
 
 /**
@@ -7,7 +7,11 @@ import { error, highlight } from "@/utils/logging"
  * @param packageManager
  * @param action
  */
-export const additionalDeps = async (componentName: string, packageManager: string, action: string) => {
+export const additionalDeps = async (
+  componentName: string,
+  packageManager: string,
+  action: string,
+) => {
   const dependencies: Record<string, string> = {
     toast: "sonner",
     drawer: "motion",

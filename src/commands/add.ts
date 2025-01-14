@@ -135,7 +135,7 @@ export async function add(options: any) {
     }
     spinner.succeed("Checking.")
   } catch (error) {
-    spinner.fail(`Error looking up the component.`)
+    spinner.fail("Error looking up the component.")
     return
   }
 
@@ -313,7 +313,7 @@ async function processComponent(
   }
 
   const component = allComponents.find((c) => c.name === componentName)
-  if (component && component.children) {
+  if (component?.children) {
     for (const child of component.children) {
       await processComponent(
         child.name,

@@ -1,9 +1,14 @@
-import { confirm, input } from "@inquirer/prompts"
-import fs from "fs"
-import path from "path"
-import { justdConfigFile, possibilityComponentsPath, possibilityCssPath, possibilityUtilsPath } from "@/utils/helpers"
-import stripJsonComments from "strip-json-comments"
+import fs from "node:fs"
+import path from "node:path"
+import {
+  justdConfigFile,
+  possibilityComponentsPath,
+  possibilityCssPath,
+  possibilityUtilsPath,
+} from "@/utils/helpers"
 import { error } from "@/utils/logging"
+import { confirm, input } from "@inquirer/prompts"
+import stripJsonComments from "strip-json-comments"
 
 /**
  *  This function is used to get the write path for a component
@@ -24,9 +29,8 @@ export function getUIFolderPath() {
   if (fs.existsSync(configFile)) {
     const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
     return config.ui
-  } else {
-    error("Configuration file justd.json not found. Please run the init command first.")
   }
+  error("Configuration file justd.json not found. Please run the init command first.")
 }
 
 /**
@@ -39,9 +43,9 @@ export function getUtilsFolderPath() {
     const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
 
     return config.utils || possibilityUtilsPath()
-  } else {
-    error("Configuration file justd.json not found. Please run the init command first.")
   }
+
+  error("Configuration file justd.json not found. Please run the init command first.")
 }
 
 // Get the path to the CSS file from the justd.json file
@@ -87,7 +91,10 @@ export async function getCSSPath() {
  *  @returns void
  */
 export async function addUiPathToTsConfig() {
-  const tsConfigPaths = [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+  const tsConfigPaths = [
+    path.join(process.cwd(), "tsconfig.app.json"),
+    path.join(process.cwd(), "tsconfig.json"),
+  ]
 
   const tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
   if (!tsConfigPath) {
@@ -104,7 +111,7 @@ export async function addUiPathToTsConfig() {
     if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
     if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
 
-    tsConfig.compilerOptions.paths["ui"] = [`./${possibilityComponentsPath()}/ui/index.ts`]
+    tsConfig.compilerOptions.paths.ui = [`./${possibilityComponentsPath()}/ui/index.ts`]
 
     fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
   } catch (er) {
