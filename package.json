@@ -13,10 +13,10 @@
   },
   "homepage": "https://getjustd.com/cli",
   "scripts": {
-    "dev": "tsup --watch",
+    "dev": "bun build ./src/index.ts --outdir ./dist --watch --target node",
     "start": "bun ./src/index.ts",
     "prepare": "bunx husky",
-    "build": "tsup && bun run format",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node",
     "format": "biome lint --fix && biome check --write",
     "test": "bun run build && bun link",
     "preview": "bun run clean && bun run build && bun link",
@@ -42,7 +42,6 @@
     "husky": "^9.1.5",
     "release-it": "^18.1.1",
     "rimraf": "^6.0.1",
-    "tsup": "^8.3.5",
     "typescript": "^5.7.3"
   },
   "dependencies": {
@@ -56,7 +55,6 @@
     "figlet": "^1.8.0",
     "open": "^10.1.0",
     "ora": "^8.1.1",
-    "recharts": "^2.15.0",
     "strip-json-comments": "^5.0.1"
   },
   "release-it": {
