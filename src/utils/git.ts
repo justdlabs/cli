@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process"
-import fs from "fs"
+import fs from "node:fs"
 
 /**
  * This function is used to check if the current git repository is dirty
@@ -11,7 +11,7 @@ export function isRepoDirty() {
   }
 
   try {
-    let stdout = execSync("git status --porcelain", { encoding: "utf-8" })
+    const stdout = execSync("git status --porcelain", { encoding: "utf-8" })
     return stdout.trim() !== ""
   } catch (error) {
     return !error?.toString?.().includes("not a git repository")

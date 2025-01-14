@@ -1,12 +1,20 @@
-import { input, select } from "@inquirer/prompts"
-import process from "process"
-import { error, grayText, highlight } from "@/utils/logging"
-import { executeCommand } from "./partials/execute-command"
-import { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/types"
+import fs from "node:fs"
+import process from "node:process"
+import {
+  checkIfCommandExists,
+  checkIfDirectoryExists,
+} from "@/commands/start-new-project/partials/checker"
+import {
+  createLaravelApp,
+  createNextApp,
+  createRemixApp,
+  createViteApp,
+} from "@/commands/start-new-project/partials/create-project"
 import { setupPrettier, setupTailwind } from "@/commands/start-new-project/partials/setup"
-import { createLaravelApp, createNextApp, createRemixApp, createViteApp } from "@/commands/start-new-project/partials/create-project"
-import { checkIfCommandExists, checkIfDirectoryExists } from "@/commands/start-new-project/partials/checker"
-import fs from "fs"
+import type { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/types"
+import { error, grayText, highlight } from "@/utils/logging"
+import { input, select } from "@inquirer/prompts"
+import { executeCommand } from "./partials/execute-command"
 
 const isProduction = process.env.NODE_ENV === "production"
 const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
@@ -14,11 +22,13 @@ const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
 const frameworks: Record<FrameworkKey, Framework> = {
   laravel: {
     name: "Laravel",
-    createCommand: (packageManager, projectName, options) => createLaravelApp(packageManager, projectName, options),
+    createCommand: (packageManager, projectName, options) =>
+      createLaravelApp(packageManager, projectName, options),
   },
   next: {
     name: "Next.js",
-    createCommand: (packageManager, projectName, options) => createNextApp(packageManager, projectName, options),
+    createCommand: (packageManager, projectName, options) =>
+      createNextApp(packageManager, projectName, options),
   },
   remix: {
     name: "Remix",
@@ -57,7 +67,9 @@ export async function startNewProject() {
 
     if (checkIfDirectoryExists(projectName)) {
       console.info("")
-      error(`The directory '${projectName}' already exists. Please choose a different name or remove the existing directory.`)
+      error(
+        `The directory '${projectName}' already exists. Please choose a different name or remove the existing directory.`,
+      )
       process.exit(1)
     }
 
@@ -77,7 +89,9 @@ export async function startNewProject() {
 
       if (!composerExists) {
         console.info("")
-        error("Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup.")
+        error(
+          "Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup.",
+        )
         process.exit(1)
       }
     }
@@ -88,7 +102,10 @@ export async function startNewProject() {
         default: "Yes",
         validate: (value) => {
           const normalizedValue = value.trim().toLowerCase()
-          return ["y", "n", "yes", "no", "Yes", "No"].includes(normalizedValue) || "Please answer yes or no."
+          return (
+            ["y", "n", "yes", "no", "Yes", "No"].includes(normalizedValue) ||
+            "Please answer yes or no."
+          )
         },
       })
       options.useSrc = ["y", "yes"].includes(wantSrcFolder.trim().toLowerCase())
@@ -130,12 +147,18 @@ export async function startNewProject() {
       const packageManagerExists = await checkIfCommandExists(packageManager)
 
       if (!packageManagerExists) {
-        error(`${packageManager} is not installed on your system. Please install ${packageManager} to proceed.`)
+        error(
+          `${packageManager} is not installed on your system. Please install ${packageManager} to proceed.`,
+        )
         process.exit(1)
       }
     }
 
-    const startCreatingApp = await frameworks[framework].createCommand(packageManager, projectName, options)
+    const startCreatingApp = await frameworks[framework].createCommand(
+      packageManager,
+      projectName,
+      options,
+    )
 
     await executeCommand(startCreatingApp, `Creating ${frameworks[framework].name} project.`)
     fs.mkdirSync(projectName, { recursive: true })
@@ -161,9 +184,13 @@ export async function startNewProject() {
 
     console.info("\nProject setup is now complete.")
     if (framework === "laravel") {
-      console.info(`Start your development server by running: ${highlight(`cd ${projectName} && composer run dev`)}\n`)
+      console.info(
+        `Start your development server by running: ${highlight(`cd ${projectName} && composer run dev`)}\n`,
+      )
     } else {
-      console.info(`Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`)
+      console.info(
+        `Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`,
+      )
     }
 
     console.info("Ready to customize your project?")

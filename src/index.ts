@@ -1,13 +1,13 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { program } from "commander"
+import open from "open"
+import packageJson from "../package.json"
 import { add } from "./commands/add"
-import { init } from "./commands/init"
+import { setGray } from "./commands/change-gray"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
-import { setGray } from "./commands/change-gray"
-import packageJson from "../package.json"
-import open from "open"
+import { init } from "./commands/init"
 
 const version = packageJson.version
 
@@ -26,13 +26,19 @@ if (args.includes("--version") || args.includes("-v")) {
  *  @param force boolean
  *  @param description string
  */
-program.version(version, "-v, --version", "Output the version number").description("CLI Tool Description")
+program
+  .version(version, "-v, --version", "Output the version number")
+  .description("CLI Tool Description")
 
 /**
  *  This command is used to initialize your project, it will assume you have installed tailwindcss, and your main framework or library.
  *  @param force boolean
  */
-program.command("init").option("--force", "Force initialization without checking Git").option("-y, --yes", "Skip prompts and use default values").action(init)
+program
+  .command("init")
+  .option("--force", "Force initialization without checking Git")
+  .option("-y, --yes", "Skip prompts and use default values")
+  .action(init)
 
 /**
  *  This command is used to add new components to your project

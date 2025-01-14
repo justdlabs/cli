@@ -1,6 +1,6 @@
 import { availablesGrays } from "@/commands/change-gray"
-import { error } from "@/utils/logging"
 import { isTailwind } from "@/utils/helpers"
+import { error } from "@/utils/logging"
 
 const REPO = "https://raw.githubusercontent.com/irsyadadl/justd"
 

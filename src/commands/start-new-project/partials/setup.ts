@@ -1,4 +1,4 @@
-import { PackageManager } from "@/types"
+import type { PackageManager } from "@/types"
 import { executeCommand } from "./execute-command"
 
 export function setupTailwind(packageManager: PackageManager) {
@@ -40,6 +40,6 @@ export async function setupPrettier(packageManager: string) {
 }
 `
 
-  const fs = await import("fs/promises")
+  const fs = await import("node:fs/promises")
   await fs.writeFile(".prettierrc", prettierConfig.trim(), "utf8")
 }

@@ -1,5 +1,5 @@
+import { spawn } from "node:child_process"
 import ora from "ora"
-import { spawn } from "child_process"
 
 /**
  * This function is used to execute a command
