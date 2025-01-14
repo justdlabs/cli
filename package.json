@@ -50,6 +50,7 @@
     "@babel/parser": "^7.26.5",
     "@babel/plugin-transform-typescript": "^7.26.5",
     "@inquirer/prompts": "^7.2.3",
+    "c12": "^2.0.1",
     "commander": "^13.0.0",
     "diff": "^5.2.0",
     "figlet": "^1.8.0",

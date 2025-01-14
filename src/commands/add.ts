@@ -87,6 +87,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
  *  @param options any
  */
 export async function add(options: any) {
+  // console.log(getConfig())
   const spinner = ora("Checking.").start()
   const { component, overwrite, successMessage } = options
   const configFilePath = path.join(process.cwd(), "justd.json")
@@ -105,6 +106,7 @@ export async function add(options: any) {
       .filter((comp) => !exclude.includes(comp.name))
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((comp) => ({ name: comp.name, value: comp.name }))
+
     selectedComponents = await checkbox({
       required: true,
       message: "Select components to add:",
