@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.2 (2025-01-15)</small>
+
+* Update release.yaml ([92cbf63](https://github.com/justdlabs/cli/commit/92cbf63))
+* wip ([3fd30ea](https://github.com/justdlabs/cli/commit/3fd30ea))
+
 ## <small>2.3.1 (2025-01-15)</small>
 
 * Update release.yaml ([92cbf63](https://github.com/justdlabs/cli/commit/92cbf63))
