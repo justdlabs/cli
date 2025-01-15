@@ -7,7 +7,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
-import { addUiPathToTsConfig, writeCodeFile } from "@/utils"
+import { addUiPathToLangConfig, writeCodeFile } from "@/utils"
 import { type Config, type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
@@ -20,12 +20,12 @@ import {
   isRemix,
   isTailwind,
   isTailwindInstalled,
+  isTypescriptProject,
   possibilityComponentsPath,
   possibilityCssPath,
-  possibilityRootPath,
   possibilityUtilsPath,
 } from "@/utils/helpers"
-import { error, highlight, info } from "@/utils/logging"
+import { error, grayText, highlight, info } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import ora from "ora"
 import stripJsonComments from "strip-json-comments"
@@ -42,17 +42,38 @@ export async function init(flags: {
 }) {
   let language: Config["language"] = flags.language || "typescript"
 
-  if (!flags.yes) {
-    language = await select({
-      message: "What language do you want to use?",
-      choices: ["typescript", "javascript"],
+  if (!doesProjectExist()) {
+    const shouldStartNewProject = await input({
+      message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
+      default: "Yes",
+      validate: (value) => {
+        const normalizedValue = value.trim().toLowerCase()
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
+      },
     })
+
+    const normalizedValue = shouldStartNewProject.trim().toLowerCase()
+    if (
+      normalizedValue === "y" ||
+      normalizedValue === "yes" ||
+      normalizedValue === "n" ||
+      normalizedValue === "no"
+    ) {
+      language = await select({
+        message: "What language do you want to use?",
+        choices: [
+          { name: "Typescript", value: "typescript" },
+          { name: "Javascript", value: "javascript" },
+        ],
+        default: "typescript",
+      })
+
+      await startNewProject(normalizedValue as "y" | "n" | "yes" | "no", language)
+      return
+    }
   }
 
-  if (!doesProjectExist()) {
-    await startNewProject(language)
-    return
-  }
+  language = isTypescriptProject() ? "typescript" : "javascript"
 
   if (!flags.force) {
     const checkingGit = ora("Checking.").start()
@@ -66,7 +87,7 @@ export async function init(flags: {
       )
       process.exit(1)
     }
-    checkingGit.stop() // stop spinner
+    checkingGit.stop()
   }
 
   const spinner = ora("Initializing.").start()
@@ -167,70 +188,60 @@ export async function init(flags: {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
 
-  async function getUserAlias(): Promise<string | null> {
-    const tsConfigPaths = [
-      path.join(process.cwd(), "tsconfig.app.json"),
-      path.join(process.cwd(), "tsconfig.json"),
-    ]
+  async function getUserAlias(language: "typescript" | "javascript"): Promise<string | null> {
+    const configFilePaths =
+      language === "typescript"
+        ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+        : [path.join(process.cwd(), "jsconfig.json")]
 
-    let tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
-    let tsConfig: any
+    const configFilePath = configFilePaths.find((configPath) => fs.existsSync(configPath))
+    let config: any
 
-    if (!tsConfigPath) {
-      error("Neither tsconfig.app.json nor tsconfig.json was found.")
+    if (!configFilePath) {
+      console.error(
+        language === "typescript"
+          ? "Neither tsconfig.app.json nor tsconfig.json was found."
+          : "jsconfig.json was not found.",
+      )
       process.exit(1)
     }
 
     try {
-      const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
-      const stripped = stripJsonComments(tsConfigRaw)
-      tsConfig = JSON.parse(stripped)
+      const configRaw = fs.readFileSync(configFilePath, "utf8")
+      const stripped = stripJsonComments(configRaw)
+      config = JSON.parse(stripped)
     } catch {
-      error(`Error reading ${tsConfigPath} file. Please check if it exists and is valid JSON.`)
+      console.error(
+        `Error reading ${configFilePath} file. Please check if it exists and is valid JSON.`,
+      )
       process.exit(1)
     }
 
-    if (!tsConfig.compilerOptions) {
-      if (tsConfigPath.endsWith("tsconfig.app.json")) {
-        tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-        if (!fs.existsSync(tsConfigPath)) {
-          tsConfig = { compilerOptions: {} }
-        } else {
-          const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
-          const stripped = stripJsonComments(tsConfigRaw)
-          tsConfig = JSON.parse(stripped)
-          if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-        }
-      } else {
-        tsConfig.compilerOptions = {}
-      }
+    if (!config.compilerOptions) {
+      config.compilerOptions = {}
     }
 
-    if (!("paths" in tsConfig.compilerOptions)) {
-      const rootPath = flags.yes
-        ? `./${possibilityRootPath()}`
-        : await input({
-            message: `No paths key found in ${path.basename(tsConfigPath)}. Please enter the root directory path for the '@/':`,
-            default: `./${possibilityRootPath()}`,
-          })
+    if (!("paths" in config.compilerOptions)) {
+      const rootPath = "./src"
 
-      tsConfig.compilerOptions.paths = {
-        "@/*": [`${rootPath || "./src"}/*`],
+      config.compilerOptions.paths = {
+        "@/*": [`${rootPath}/*`],
       }
 
-      const spinner = ora(`Updating ${path.basename(tsConfigPath)} with paths...`).start()
+      const spinner = ora(`Updating ${path.basename(configFilePath)} with paths...`).start()
       try {
-        const updatedTsConfig = JSON.stringify(tsConfig, null, 2)
-        fs.writeFileSync(tsConfigPath, updatedTsConfig)
-        spinner.succeed(`Paths added to ${path.basename(tsConfigPath)}.`)
+        const updatedConfig = JSON.stringify(config, null, 2)
+        fs.writeFileSync(configFilePath, updatedConfig)
+        spinner.succeed(`Paths added to ${path.basename(configFilePath)}.`)
       } catch (e) {
-        spinner.fail(`Failed to write to ${path.basename(tsConfigPath)}.`)
+        spinner.fail(`Failed to write to ${path.basename(configFilePath)}.`)
         process.exit(1)
       }
     }
-    await addUiPathToTsConfig()
 
-    const paths = tsConfig.compilerOptions.paths
+    await addUiPathToLangConfig(language)
+
+    const paths = config.compilerOptions.paths
     if (paths) {
       const firstAliasKey = Object.keys(paths)[0]
       return firstAliasKey.replace("/*", "")
@@ -239,7 +250,7 @@ export async function init(flags: {
     process.exit(1)
   }
 
-  const currentAlias = await getUserAlias()
+  const currentAlias = await getUserAlias(language)
 
   if (isTailwind(3)) {
     const content = fs.readFileSync(path.join(stubs, "1.x/zinc.css"), "utf8")

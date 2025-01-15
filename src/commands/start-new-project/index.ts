@@ -18,7 +18,7 @@ import { input, select } from "@inquirer/prompts"
 import { executeCommand } from "./partials/execute-command"
 
 const isProduction = process.env.NODE_ENV === "production"
-const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
+const cliCommand = isProduction ? "justd-cli@latest" : "justd-cli"
 
 const frameworks: Record<FrameworkKey, Framework> = {
   laravel: {
@@ -41,20 +41,19 @@ const frameworks: Record<FrameworkKey, Framework> = {
   },
 }
 
-export async function startNewProject(language: Config["language"]) {
-  const shouldStartNewProject = await input({
-    message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
-    default: "Yes",
-    validate: (value) => {
-      const normalizedValue = value.trim().toLowerCase()
-      return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
-    },
-  })
-
+export async function startNewProject(
+  shouldStartNewProject: "y" | "n" | "yes" | "no",
+  language: Config["language"],
+) {
   if (["y", "yes"].includes(shouldStartNewProject.trim().toLowerCase())) {
+    const filteredFrameworks =
+      language === "javascript"
+        ? Object.keys(frameworks).filter((key) => ["laravel", "next"].includes(key))
+        : Object.keys(frameworks)
+
     const framework = await select<FrameworkKey>({
       message: "Which framework do you want to use?",
-      choices: Object.keys(frameworks).map((key) => ({
+      choices: filteredFrameworks.map((key) => ({
         name: frameworks[key as FrameworkKey].name,
         value: key as FrameworkKey,
       })),
@@ -181,7 +180,8 @@ export async function startNewProject(language: Config["language"]) {
       await setupBiome(packageManager)
     }
 
-    const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
+    const tsOrJs = language === "typescript" ? "--language --ts" : "--language --js"
+    const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")

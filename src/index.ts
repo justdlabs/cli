@@ -43,7 +43,16 @@ program
     "Language of the project (typescript or javascript)",
     "typescript",
   )
-  .action(init)
+  .option("--ts", "Use TypeScript for the project")
+  .option("--js", "Use JavaScript for the project")
+  .action((options) => {
+    let language = options.language
+
+    if (options.ts) language = "typescript"
+    if (options.js) language = "javascript"
+
+    init({ ...options, language })
+  })
 
 /**
  *  This command is used to add new components to your project

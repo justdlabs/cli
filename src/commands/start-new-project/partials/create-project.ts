@@ -58,6 +58,7 @@ export const createLaravelApp = async (
  * This function is used to create a Next.js project
  * @param packageManager
  * @param projectName
+ * @param language
  * @param options
  */
 export const createNextApp = async (
@@ -81,18 +82,11 @@ export const createNextApp = async (
     "--tailwind",
     "--turbopack",
     "--eslint",
-
-    // language === "typescript" ? "--ts" : "--js",
+    language === "typescript" ? "--ts" : "--js",
     "--app",
     "--import-alias='@/*'",
     packageManagerFlag,
   ]
-
-  if (language === "typescript") {
-    commands.push("--ts")
-  } else {
-    commands.push("--js")
-  }
 
   if (options?.useSrc) {
     commands.push("--src-dir")

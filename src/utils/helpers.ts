@@ -98,6 +98,42 @@ export function isNextJs(): boolean {
   )
 }
 
+export function isTypescriptProject(dir: string = process.cwd()): boolean {
+  const ignoredDirs = [
+    "node_modules",
+    "vendor",
+    ".git",
+    ".svn",
+    ".hg",
+    "dist",
+    "build",
+    "out",
+    "target",
+    ".next",
+    ".vercel",
+    ".idea",
+    ".vscode",
+    ".cache",
+    ".npm",
+    ".yarn",
+    "tmp",
+    "logs",
+    "coverage",
+    ".nyc_output",
+  ]
+
+  if (fs.existsSync(path.join(dir, "tsconfig.json"))) {
+    return true
+  }
+
+  const subdirs = fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !ignoredDirs.includes(entry.name))
+    .map((entry) => path.join(dir, entry.name))
+
+  return subdirs.some((subdir) => fs.existsSync(path.join(subdir, "tsconfig.json")))
+}
+
 export function isRemix(): boolean {
   const packageJsonPath = path.join(process.cwd(), "package.json")
 
