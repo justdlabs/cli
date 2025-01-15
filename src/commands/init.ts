@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
 import { addUiPathToTsConfig } from "@/utils"
-import { type Config, configManager } from "@/utils/config"
+import { type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
@@ -234,8 +234,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation, flags)
 
-  const config: Config = {
-    $schema: "https://getjustd.com/schema.json",
+  const config: ConfigInput = {
     ui: uiFolder,
     utils: utilsFolder,
     gray: selectedGray?.replace(".css", "")!,

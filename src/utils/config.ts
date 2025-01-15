@@ -10,9 +10,11 @@ const configType = type({
   gray: "string = 'zinc'",
   css: "string",
   "alias?": "string",
+  language: "'typescript' | 'javascript' = 'typescript'",
 })
 
 export type Config = typeof configType.infer
+export type ConfigInput = typeof configType.inferIn
 
 interface ConfigOptions {
   filePath: string
@@ -26,14 +28,14 @@ export class ConfigManager {
     this.filePath = path.resolve(process.cwd(), options.filePath)
   }
 
-  parseConfig(config: Config): Config {
+  parseConfig(config: ConfigInput): Config {
     const out = configType(config)
 
     if (out instanceof type.errors) {
       throw new Error(`Failed to parse config: ${out.message}`)
     }
 
-    return config
+    return out
   }
 
   async doesConfigExist(): Promise<boolean> {
@@ -65,13 +67,14 @@ export class ConfigManager {
     }
   }
 
-  async createConfig(config: Config): Promise<Config> {
+  async createConfig(config: ConfigInput): Promise<Config> {
     try {
       const parsed = this.parseConfig(config)
       const dirPath = path.dirname(this.filePath)
+
       await fs.mkdir(dirPath, { recursive: true })
       await fs.writeFile(this.filePath, JSON.stringify(parsed, null, 2), "utf-8")
-      return config
+      return parsed
     } catch (error) {
       throw new Error(`Failed to create config: ${error}`)
     }
