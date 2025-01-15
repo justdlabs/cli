@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.9 (2025-01-15)</small>
+
+* fix: fix deps ([8e8ce35](https://github.com/justdlabs/cli/commit/8e8ce35))
+
 ## <small>2.3.8 (2025-01-15)</small>
 
 * fix: npmr ([4b8c65e](https://github.com/justdlabs/cli/commit/4b8c65e))
