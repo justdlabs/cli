@@ -3,13 +3,15 @@ on:
   release:
     types: [published]
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
@@ -19,22 +21,6 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      - uses: oven-sh/setup-bun@v1
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-          scope: "@irsyadadl"
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-
       - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
