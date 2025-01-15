@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.10 (2025-01-15)</small>
+
+* fix actions ([09349a2](https://github.com/justdlabs/cli/commit/09349a2))
+
 ## <small>2.3.9 (2025-01-15)</small>
 
 * fix: fix deps ([8e8ce35](https://github.com/justdlabs/cli/commit/8e8ce35))
