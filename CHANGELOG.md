@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.6 (2025-01-15)</small>
+
+* fix: fix package.json ([a6ec198](https://github.com/justdlabs/cli/commit/a6ec198))
+
 ## <small>2.3.5 (2025-01-15)</small>
 
 * wip ([144b0c3](https://github.com/justdlabs/cli/commit/144b0c3))
