@@ -7,6 +7,7 @@
   "bin": {
     "justd-cli": "dist/index.js"
   },
+  "files": ["dist", "LICENSE", "README.md", "package.json"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/justdlabs/cli.git"
@@ -25,13 +26,7 @@
     "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "cli",
-    "justd cli",
-    "Justd",
-    "design-system",
-    "justd"
-  ],
+  "keywords": ["cli", "justd cli", "Justd", "design-system", "justd"],
   "author": "Irsyad A. Panjaitan",
   "license": "MIT",
   "devDependencies": {
