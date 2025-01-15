@@ -181,7 +181,7 @@ export async function startNewProject(
     }
 
     const tsOrJs = language === "typescript" ? "--language --ts" : "--language --js"
-    const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
+    const initJustdCommand = ["npx", "justd-cli@latest", "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")
