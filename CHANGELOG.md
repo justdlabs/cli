@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.30 (2025-01-15)</small>
+
+* fix: remove figlet ([5b64638](https://github.com/justdlabs/cli/commit/5b64638))
+* fix ([ed20fd3](https://github.com/justdlabs/cli/commit/ed20fd3))
+
 ## <small>2.3.29 (2025-01-15)</small>
 
 * fix: 'fix create-project' ([4fd102d](https://github.com/justdlabs/cli/commit/4fd102d))
