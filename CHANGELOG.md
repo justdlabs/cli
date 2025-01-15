@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.17 (2025-01-15)</small>
+
+* fix: fix cli ([64cf0b8](https://github.com/justdlabs/cli/commit/64cf0b8))
+
 ## <small>2.3.16 (2025-01-15)</small>
 
 * fix actions ([5f1b4f0](https://github.com/justdlabs/cli/commit/5f1b4f0))
