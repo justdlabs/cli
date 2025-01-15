@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
 import { addUiPathToTsConfig } from "@/utils"
+import { type Config, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
@@ -233,13 +234,13 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation, flags)
 
-  const config = {
+  const config: Config = {
     $schema: "https://getjustd.com/schema.json",
     ui: uiFolder,
     utils: utilsFolder,
     gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
-    alias: currentAlias,
+    alias: currentAlias || undefined,
   }
 
   const packageManager = await getPackageManager()
@@ -306,7 +307,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   }
 
   try {
-    fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
+    await configManager.createConfig(config)
   } catch (error) {
     // @ts-ignore
     error("Error writing to justd.json:", error?.message)

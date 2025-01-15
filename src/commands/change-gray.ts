@@ -1,5 +1,6 @@
-import fs, { readFileSync, writeFileSync } from "node:fs"
+import fs, { writeFileSync } from "node:fs"
 import { getCSSPath } from "@/utils"
+import { configManager } from "@/utils/config"
 import { isTailwind, justdConfigFile, possibilityCssPath } from "@/utils/helpers"
 import { error, errorText, grayText, highlight } from "@/utils/logging"
 import { getThemesRepoUrl } from "@/utils/repo"
@@ -39,17 +40,18 @@ export async function setGray(overwriteConfirmation: boolean, selectedTheme?: st
     )
     process.exit(1)
   }
-  const userConfigPath = "./justd.json"
-  if (!fs.existsSync(userConfigPath)) {
+
+  const doesConfigExist = await configManager.doesConfigExist()
+
+  if (!doesConfigExist) {
     error(
       `${errorText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
     )
     process.exit(1)
   }
 
-  const userConfig = JSON.parse(readFileSync(userConfigPath, "utf8"))
+  const userConfig = await configManager.loadConfig()
 
-  const currentGray = userConfig.gray || "zinc"
   const config = JSON.parse(fs.readFileSync(justdConfigFile, "utf8"))
   let cssPath = config.css || possibilityCssPath()
   if (!overwriteConfirmation) {
@@ -60,7 +62,7 @@ export async function setGray(overwriteConfirmation: boolean, selectedTheme?: st
 
   if (!overwriteConfirmation) {
     confirmOverride = await confirm({
-      message: `You will overwrite the current theme "${highlight(currentGray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
+      message: `You will overwrite the current theme "${highlight(userConfig.gray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
     })
 
     if (!confirmOverride) {
@@ -73,14 +75,15 @@ export async function setGray(overwriteConfirmation: boolean, selectedTheme?: st
 
   if (_newGray) {
     const newTheme = _newGray.replace(".css", "")
-    userConfig.gray = newTheme
 
     const cssContent = await fetch(getThemesRepoUrl(newTheme))
     const content = await cssContent.text()
     writeFileSync(cssPath, content, { flag: "w" })
 
-    userConfig.css = cssPath
-    writeFileSync(userConfigPath, JSON.stringify(userConfig, null, 2))
+    await configManager.updateConfig({
+      gray: newTheme,
+      css: cssPath,
+    })
     console.info(`✅ The gray changed to '${highlight(newTheme)}'`)
   } else {
     console.info("No gray selected.")

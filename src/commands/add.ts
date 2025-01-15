@@ -3,7 +3,7 @@ import path from "node:path"
 import { components, namespaces } from "@/resources/components"
 import { getUIFolderPath, getUtilsFolderPath, getWriteComponentPath } from "@/utils"
 import { additionalDeps } from "@/utils/additional-deps"
-import { getConfig } from "@/utils/config"
+import { configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import {
   getAliasFromConfig,
@@ -88,12 +88,12 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
  *  @param options any
  */
 export async function add(options: any) {
-  console.log(await getConfig())
-
   const spinner = ora("Checking.").start()
   const { component, overwrite, successMessage } = options
-  const configFilePath = path.join(process.cwd(), "justd.json")
-  if (!fs.existsSync(configFilePath)) {
+
+  const doesConfigExist = await configManager.doesConfigExist()
+
+  if (!doesConfigExist) {
     spinner.fail(
       `${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
     )
