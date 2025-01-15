@@ -26,6 +26,16 @@ export class ConfigManager {
     this.filePath = path.resolve(process.cwd(), options.filePath)
   }
 
+  parseConfig(config: Config): Config {
+    const out = configType(config)
+
+    if (out instanceof type.errors) {
+      throw new Error(`Failed to parse config: ${out.message}`)
+    }
+
+    return config
+  }
+
   async doesConfigExist(): Promise<boolean> {
     try {
       await fs.access(this.filePath)
@@ -37,11 +47,7 @@ export class ConfigManager {
 
   async loadConfig(): Promise<Config> {
     const data = await fs.readFile(this.filePath, "utf-8")
-    const out = configType(JSON.parse(data))
-
-    if (out instanceof type.errors) {
-      throw new Error(`Failed to parse config: ${out.message}`)
-    }
+    const out = this.parseConfig(JSON.parse(data))
 
     return out
   }
@@ -50,7 +56,9 @@ export class ConfigManager {
     try {
       const currentConfig = await this.loadConfig()
       const updatedConfig = { ...currentConfig, ...updates }
-      await fs.writeFile(this.filePath, JSON.stringify(updatedConfig, null, 2), "utf-8")
+      const parsed = this.parseConfig(updatedConfig)
+
+      await fs.writeFile(this.filePath, JSON.stringify(parsed, null, 2), "utf-8")
       return updatedConfig
     } catch (error) {
       throw new Error(`Failed to update config: ${error}`)
@@ -59,9 +67,10 @@ export class ConfigManager {
 
   async createConfig(config: Config): Promise<Config> {
     try {
+      const parsed = this.parseConfig(config)
       const dirPath = path.dirname(this.filePath)
       await fs.mkdir(dirPath, { recursive: true })
-      await fs.writeFile(this.filePath, JSON.stringify(config, null, 2), "utf-8")
+      await fs.writeFile(this.filePath, JSON.stringify(parsed, null, 2), "utf-8")
       return config
     } catch (error) {
       throw new Error(`Failed to create config: ${error}`)
