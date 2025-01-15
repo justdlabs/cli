@@ -1,5 +1,7 @@
 # Changelog
 
+## <small>2.3.4 (2025-01-15)</small>
+
 ## <small>2.3.3 (2025-01-15)</small>
 
 * wip ([c0d9fdf](https://github.com/justdlabs/cli/commit/c0d9fdf))
