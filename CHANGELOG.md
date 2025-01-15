@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.7 (2025-01-15)</small>
+
+* chore: release 2.3.6 ([dad5119](https://github.com/justdlabs/cli/commit/dad5119))
+* fix ([20a3434](https://github.com/justdlabs/cli/commit/20a3434))
+
 * fix (20a3434)
 
 ## <small>2.3.6 (2025-01-15)</small>
