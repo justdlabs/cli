@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.19 (2025-01-15)</small>
+
+* fix actions ([37a1a09](https://github.com/justdlabs/cli/commit/37a1a09))
+
 ## <small>2.3.18 (2025-01-15)</small>
 
 * fix: fix action ([d9f91ee](https://github.com/justdlabs/cli/commit/d9f91ee))
