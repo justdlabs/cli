@@ -80,10 +80,10 @@ export async function addUiPathToLangConfig(language: "typescript" | "javascript
     config.compilerOptions.paths.ui = [`./${possibilityComponentsPath()}/ui/index.${ext}`]
 
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
-
-    console.log(`Updated ${path.basename(configPath)} with ui path.`)
-  } catch (error) {
-    console.error(`Error updating ${path.basename(configPath)}:`, error)
+  } catch (e) {
+    // @ts-ignore
+    error(`Error updating ${path.basename(configPath)}:`, e?.message)
+    process.exit(1)
   }
 }
 

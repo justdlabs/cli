@@ -1,6 +1,5 @@
 import fs, { writeFileSync } from "node:fs"
 import { input, select } from "@inquirer/prompts"
-import figlet from "figlet"
 
 import { spawn } from "node:child_process"
 import path from "node:path"
@@ -390,19 +389,5 @@ export async function init(flags: {
 
   console.info("\nNow try to add some components to your project")
   console.info(`by running: ${highlight("npx justd-cli@latest add")}`)
-
-  // @ts-ignore
-  figlet.text(
-    "Justd",
-    {
-      font: "Standard",
-      horizontalLayout: "default",
-      width: 80,
-      verticalLayout: "default",
-    },
-    (_: any, data: string) => {
-      console.info(highlight(data))
-    },
-  )
   spinner.stop()
 }
