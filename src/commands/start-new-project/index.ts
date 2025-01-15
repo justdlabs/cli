@@ -18,7 +18,6 @@ import { input, select } from "@inquirer/prompts"
 import { executeCommand } from "./partials/execute-command"
 
 const isProduction = process.env.NODE_ENV === "production"
-const cliCommand = isProduction ? "justd-cli@latest" : "justd-cli"
 
 const frameworks: Record<FrameworkKey, Framework> = {
   laravel: {
@@ -180,7 +179,9 @@ export async function startNewProject(
       await setupBiome(packageManager)
     }
 
-    const tsOrJs = language === "typescript" ? "--language --ts" : "--language --js"
+    // const cliCommand = isProduction ? "justd-cli@latest" : "justd-cli"
+
+    const tsOrJs = language === "typescript" ? "--ts" : "--js"
     const initJustdCommand = ["npx", "justd-cli@latest", "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 

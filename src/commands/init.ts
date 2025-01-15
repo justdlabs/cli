@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
 import { addUiPathToLangConfig, writeCodeFile } from "@/utils"
-import { type Config, type ConfigInput, configManager } from "@/utils/config"
+import { type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
@@ -40,7 +40,7 @@ export async function init(flags: {
   yes?: boolean
   language?: "typescript" | "javascript"
 }) {
-  let language: Config["language"] = flags.language || "typescript"
+  let language = flags.language
 
   if (!doesProjectExist()) {
     const shouldStartNewProject = await input({
@@ -73,7 +73,9 @@ export async function init(flags: {
     }
   }
 
-  language = isTypescriptProject() ? "typescript" : "javascript"
+  if (!language) {
+    language = isTypescriptProject() ? "typescript" : "javascript"
+  }
 
   if (!flags.force) {
     const checkingGit = ora("Checking.").start()
@@ -188,24 +190,23 @@ export async function init(flags: {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
 
-  async function getUserAlias(language: "typescript" | "javascript"): Promise<string | null> {
-    const configFilePaths =
-      language === "typescript"
-        ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
-        : [path.join(process.cwd(), "jsconfig.json")]
+  async function getUserAlias(): Promise<string> {
+    const isTypescript = language === "typescript"
+    const configFilePaths = isTypescript
+      ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+      : [path.join(process.cwd(), "jsconfig.json")]
 
     const configFilePath = configFilePaths.find((configPath) => fs.existsSync(configPath))
-    let config: any
-
     if (!configFilePath) {
       console.error(
-        language === "typescript"
+        isTypescript
           ? "Neither tsconfig.app.json nor tsconfig.json was found."
           : "jsconfig.json was not found.",
       )
       process.exit(1)
     }
 
+    let config: any
     try {
       const configRaw = fs.readFileSync(configFilePath, "utf8")
       const stripped = stripJsonComments(configRaw)
@@ -223,7 +224,6 @@ export async function init(flags: {
 
     if (!("paths" in config.compilerOptions)) {
       const rootPath = "./src"
-
       config.compilerOptions.paths = {
         "@/*": [`${rootPath}/*`],
       }
@@ -239,7 +239,7 @@ export async function init(flags: {
       }
     }
 
-    await addUiPathToLangConfig(language)
+    await addUiPathToLangConfig(isTypescript ? "typescript" : "javascript")
 
     const paths = config.compilerOptions.paths
     if (paths) {
@@ -250,7 +250,7 @@ export async function init(flags: {
     process.exit(1)
   }
 
-  const currentAlias = await getUserAlias(language)
+  const currentAlias = await getUserAlias()
 
   if (isTailwind(3)) {
     const content = fs.readFileSync(path.join(stubs, "1.x/zinc.css"), "utf8")

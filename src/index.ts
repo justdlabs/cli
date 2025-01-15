@@ -38,11 +38,7 @@ program
   .command("init")
   .option("--force", "Force initialization without checking Git")
   .option("-y, --yes", "Skip prompts and use default values")
-  .option(
-    "-l, --language <language>",
-    "Language of the project (typescript or javascript)",
-    "typescript",
-  )
+  .option("-l, --language <language>", "Language of the project (typescript or javascript)")
   .option("--ts", "Use TypeScript for the project")
   .option("--js", "Use JavaScript for the project")
   .action((options) => {
