@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.11 (2025-01-15)</small>
+
+* wip ([576181a](https://github.com/justdlabs/cli/commit/576181a))
+
 ## <small>2.3.10 (2025-01-15)</small>
 
 * fix actions ([09349a2](https://github.com/justdlabs/cli/commit/09349a2))
