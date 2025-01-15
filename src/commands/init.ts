@@ -1,5 +1,5 @@
 import fs, { writeFileSync } from "node:fs"
-import { input } from "@inquirer/prompts"
+import { input, select } from "@inquirer/prompts"
 import figlet from "figlet"
 
 import { spawn } from "node:child_process"
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
 import { addUiPathToTsConfig } from "@/utils"
-import { type ConfigInput, configManager } from "@/utils/config"
+import { type Config, type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
@@ -78,6 +78,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   let themeProvider: string
   let providers: string
   let utilsFolder: string
+  let language: Config["language"] = "typescript"
   spinner.succeed("Initializing.")
 
   if (flags.yes) {
@@ -107,6 +108,12 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
       default: possibilityCssPath(),
       validate: (value) =>
         value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+    })
+
+    language = await select({
+      message: "What language do you want to use?",
+      choices: ["typescript", "javascript"],
+      default: "typescript",
     })
   }
 
@@ -240,6 +247,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
     alias: currentAlias || undefined,
+    language,
   }
 
   const packageManager = await getPackageManager()
