@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.1 (2025-01-15)</small>
+
+* Update release.yaml ([92cbf63](https://github.com/justdlabs/cli/commit/92cbf63))
+
 ## 2.3.0 (2025-01-15)
 
 * feat: add converter to js ([4a88351](https://github.com/justdlabs/cli/commit/4a88351))
