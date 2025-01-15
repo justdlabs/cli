@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.28 (2025-01-15)</small>
+
+* fix: fix create-project ([e08a393](https://github.com/justdlabs/cli/commit/e08a393))
+
 ## <small>2.3.27 (2025-01-15)</small>
 
 * fix actions ([f6c153e](https://github.com/justdlabs/cli/commit/f6c153e))
