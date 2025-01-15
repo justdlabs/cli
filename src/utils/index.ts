@@ -112,7 +112,7 @@ export const writeCodeFile = (
       jsx: "preserve",
     })
 
-    fs.writeFileSync(options.writePath, transformedCode)
+    fs.writeFileSync(options.writePath.replace(".ts", ".js"), transformedCode, { flag: "w" })
 
     return
   }

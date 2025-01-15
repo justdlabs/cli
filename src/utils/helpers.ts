@@ -2,6 +2,7 @@ import fs from "node:fs"
 import { existsSync } from "node:fs"
 import path from "node:path"
 import { error, highlight, warningText } from "@/utils/logging"
+import type { Config } from "./config"
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
@@ -181,4 +182,12 @@ export const justdConfigFile = path.resolve(process.cwd(), "justd.json")
 export const isProjectExists = (): boolean => {
   const hasPackageJson = fs.existsSync("package.json")
   return hasPackageJson || isNextJs() || isLaravel() || isRemix() || isTailwindInstalled()
+}
+
+export const getCorrectFileExtension = (language: Config["language"], fileName: string) => {
+  if (language === "javascript") {
+    return fileName.replace(".ts", ".js")
+  }
+
+  return fileName
 }

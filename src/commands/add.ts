@@ -4,7 +4,7 @@ import { components, namespaces } from "@/resources/components"
 import { additionalDeps } from "@/utils/additional-deps"
 import { type Config, configManager, getWriteComponentPath } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
-import { getUIPathFromConfig, isNextJs } from "@/utils/helpers"
+import { getUIPathFromConfig } from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import { checkbox } from "@inquirer/prompts"
@@ -153,7 +153,10 @@ export async function add(options: any) {
   spinner.start("Installing dependencies.")
 
   try {
-    const classesFile = path.join(config.utils, "classes.ts")
+    const classesFile = path.join(
+      config.utils,
+      `classes.${config.language === "javascript" ? "js" : "ts"}`,
+    )
 
     if (!fs.existsSync(classesFile)) {
       if (!fs.existsSync(config.utils)) {
@@ -161,7 +164,12 @@ export async function add(options: any) {
       }
       const responseClasses = await fetch(getUtilsFolder("classes.ts"))
       const fileContentClasses = await responseClasses.text()
-      fs.writeFileSync(classesFile, fileContentClasses, { flag: "w" })
+
+      writeCodeFile(config, {
+        ogFilename: "classes.ts",
+        writePath: classesFile,
+        content: fileContentClasses,
+      })
       createdFiles.push(classesFile)
     }
 
@@ -174,16 +182,21 @@ export async function add(options: any) {
         ),
       )
     ) {
-      const mediaQueryFile = path.join(config.utils, "use-media-query.ts")
+      const mediaQueryFile = path.join(
+        config.utils,
+        `use-media-query.${config.language === "javascript" ? "js" : "ts"}`,
+      )
 
       if (!fs.existsSync(mediaQueryFile)) {
         const responseMediaQuery = await fetch(getUtilsFolder("use-media-query.ts"))
         const fileContentMediaQuery = await responseMediaQuery.text()
-        let content = fileContentMediaQuery
-        if (!isNextJs()) {
-          content = fileContentMediaQuery.replace(/['"]use client['"];/g, "")
-        }
-        fs.writeFileSync(mediaQueryFile, content, { flag: "w" })
+
+        writeCodeFile(config, {
+          ogFilename: "use-media-query.ts",
+          writePath: mediaQueryFile,
+          content: fileContentMediaQuery,
+        })
+
         createdFiles.push(mediaQueryFile)
       }
     }

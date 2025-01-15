@@ -7,11 +7,12 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
-import { addUiPathToTsConfig } from "@/utils"
+import { addUiPathToTsConfig, writeCodeFile } from "@/utils"
 import { type Config, type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
+  getCorrectFileExtension,
   hasFolder,
   isLaravel,
   isNextJs,
@@ -268,6 +269,12 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     devPackages += " remix-themes"
   }
 
+  const createdConfig = await configManager.createConfig(config).catch((error) => {
+    // @ts-ignore
+    error("Error writing to justd.json:", error?.message)
+    process.exit(1)
+  })
+
   const action = packageManager === "npm" ? "i" : "add"
   const installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
   spinner.start("Installing dependencies.")
@@ -288,37 +295,49 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
 
-  let fileContent = await response.text()
+  const fileContent = await response.text()
 
-  if (isLaravel()) {
-    fileContent = fileContent.replace(/['"]use client['"]\s*\n?/g, "")
-  }
+  writeCodeFile(createdConfig, {
+    writePath: path.join(uiFolder, "primitive.tsx"),
+    ogFilename: "primitive.tsx",
+    content: fileContent,
+  })
 
-  fs.writeFileSync(path.join(uiFolder, "primitive.tsx"), fileContent, { flag: "w" })
-  fs.writeFileSync(path.join(uiFolder, "index.ts"), `export * from './primitive';`, { flag: "w" })
+  fs.writeFileSync(
+    path.join(uiFolder, getCorrectFileExtension(language, "index.ts")),
+    `export * from './primitive';`,
+    { flag: "w" },
+  )
 
   const responseClasses = await fetch(getUtilsFolder("classes.ts"))
   const fileContentClasses = await responseClasses.text()
-  fs.writeFileSync(path.join(utilsFolder, "classes.ts"), fileContentClasses, { flag: "w" })
+
+  writeCodeFile(createdConfig, {
+    writePath: path.join(utilsFolder, "classes.ts"),
+    ogFilename: "classes.ts",
+    content: fileContentClasses,
+  })
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
-    fs.writeFileSync(path.join(componentFolder, "theme-provider.tsx"), themeProviderContent, {
-      flag: "w",
+
+    writeCodeFile(createdConfig, {
+      ogFilename: "theme-provider.tsx",
+      writePath: path.join(componentFolder, "theme-provider.tsx"),
+      content: themeProviderContent,
     })
 
     if (providers) {
       const providersContent = fs.readFileSync(providers, "utf8")
-      fs.writeFileSync(path.join(componentFolder, "providers.tsx"), providersContent, { flag: "w" })
+
+      writeCodeFile(createdConfig, {
+        ogFilename: "providers.tsx",
+        writePath: path.join(componentFolder, "providers.tsx"),
+        content: providersContent,
+      })
     }
   }
 
-  try {
-    await configManager.createConfig(config)
-  } catch (error) {
-    // @ts-ignore
-    error("Error writing to justd.json:", error?.message)
-  }
   spinner.succeed("Installing dependencies.")
   spinner.start("Configuring.")
   await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -329,13 +348,19 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
   spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
-  spinner.succeed(`Primitive file saved to ${highlight(`${uiFolder}/primitive.tsx`)}`)
-  spinner.succeed(`Classes file saved to ${highlight(`${utilsFolder}/classes.ts`)}`)
+  spinner.succeed(
+    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "providers.tsx")}`)}`,
+  )
+  spinner.succeed(
+    `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`,
+  )
   if (themeProvider) {
     spinner.succeed(
-      `Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`,
+      `Theme Provider file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "theme-provider.ts")}"`)}`,
     )
-    spinner.succeed(`Providers file saved to ${highlight(`"${componentFolder}/providers.tsx"`)}`)
+    spinner.succeed(
+      `Providers file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "providers.tsx")}"`)}`,
+    )
   }
 
   spinner.start(`Configuration saved to ${highlight(`"justd.json"`)}`)
