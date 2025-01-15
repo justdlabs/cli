@@ -1,7 +1,7 @@
 {
   "name": "justd-cli",
   "type": "module",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "The command line interface for Justd.",
   "main": "dist/index.js",
   "bin": {
