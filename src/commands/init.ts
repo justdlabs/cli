@@ -12,11 +12,11 @@ import { type Config, type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
+  doesProjectExist,
   getCorrectFileExtension,
   hasFolder,
   isLaravel,
   isNextJs,
-  isProjectExists,
   isRemix,
   isTailwind,
   isTailwindInstalled,
@@ -35,9 +35,22 @@ const __dirname = path.dirname(__filename)
 
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
-export async function init(flags: { force?: boolean; yes?: boolean }) {
-  if (!isProjectExists()) {
-    await startNewProject()
+export async function init(flags: {
+  force?: boolean
+  yes?: boolean
+  language?: "typescript" | "javascript"
+}) {
+  let language: Config["language"] = flags.language || "typescript"
+
+  if (!flags.yes) {
+    language = await select({
+      message: "What language do you want to use?",
+      choices: ["typescript", "javascript"],
+    })
+  }
+
+  if (!doesProjectExist()) {
+    await startNewProject(language)
     return
   }
 
@@ -79,7 +92,6 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   let themeProvider: string
   let providers: string
   let utilsFolder: string
-  let language: Config["language"] = "typescript"
   spinner.succeed("Initializing.")
 
   if (flags.yes) {
@@ -109,12 +121,6 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
       default: possibilityCssPath(),
       validate: (value) =>
         value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
-    })
-
-    language = await select({
-      message: "What language do you want to use?",
-      choices: ["typescript", "javascript"],
-      default: "typescript",
     })
   }
 

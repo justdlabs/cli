@@ -38,6 +38,11 @@ program
   .command("init")
   .option("--force", "Force initialization without checking Git")
   .option("-y, --yes", "Skip prompts and use default values")
+  .option(
+    "-l, --language <language>",
+    "Language of the project (typescript or javascript)",
+    "typescript",
+  )
   .action(init)
 
 /**

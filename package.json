@@ -58,7 +58,8 @@
     "open": "^10.1.0",
     "ora": "^8.1.1",
     "oxc-transform": "^0.46.0",
-    "strip-json-comments": "^5.0.1"
+    "strip-json-comments": "^5.0.1",
+    "tailwindcss": "^4.0.0-beta.9"
   },
   "release-it": {
     "git": {

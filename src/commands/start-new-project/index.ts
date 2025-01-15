@@ -10,8 +10,9 @@ import {
   createRemixApp,
   createViteApp,
 } from "@/commands/start-new-project/partials/create-project"
-import { setupPrettier, setupTailwind } from "@/commands/start-new-project/partials/setup"
+import { setupBiome, setupTailwind } from "@/commands/start-new-project/partials/setup"
 import type { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/types"
+import type { Config } from "@/utils/config"
 import { error, grayText, highlight } from "@/utils/logging"
 import { input, select } from "@inquirer/prompts"
 import { executeCommand } from "./partials/execute-command"
@@ -22,13 +23,13 @@ const justdCliVersion = isProduction ? "justd-cli@latest" : "justd-cli"
 const frameworks: Record<FrameworkKey, Framework> = {
   laravel: {
     name: "Laravel",
-    createCommand: (packageManager, projectName, options) =>
-      createLaravelApp(packageManager, projectName, options),
+    createCommand: (packageManager, projectName, language, options) =>
+      createLaravelApp(packageManager, projectName, language, options),
   },
   next: {
     name: "Next.js",
-    createCommand: (packageManager, projectName, options) =>
-      createNextApp(packageManager, projectName, options),
+    createCommand: (packageManager, projectName, language, options) =>
+      createNextApp(packageManager, projectName, language, options),
   },
   remix: {
     name: "Remix",
@@ -40,8 +41,8 @@ const frameworks: Record<FrameworkKey, Framework> = {
   },
 }
 
-export async function startNewProject() {
-  const startNewProject = await input({
+export async function startNewProject(language: Config["language"]) {
+  const shouldStartNewProject = await input({
     message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
     default: "Yes",
     validate: (value) => {
@@ -50,7 +51,7 @@ export async function startNewProject() {
     },
   })
 
-  if (["y", "yes"].includes(startNewProject.trim().toLowerCase())) {
+  if (["y", "yes"].includes(shouldStartNewProject.trim().toLowerCase())) {
     const framework = await select<FrameworkKey>({
       message: "Which framework do you want to use?",
       choices: Object.keys(frameworks).map((key) => ({
@@ -60,7 +61,7 @@ export async function startNewProject() {
     })
 
     const projectName = await input({
-      message: "What is your project named?",
+      message: "What should your project be named?",
       default: "app",
       validate: (value) => value.trim() !== "" || "Project name cannot be empty.",
     })
@@ -98,7 +99,7 @@ export async function startNewProject() {
 
     if (framework === "next") {
       const wantSrcFolder = await input({
-        message: `Do you want to have a src folder? (Y/${grayText("n")})`,
+        message: `Do you want to use the src folder? (Y/${grayText("n")})`,
         default: "Yes",
         validate: (value) => {
           const normalizedValue = value.trim().toLowerCase()
@@ -114,7 +115,7 @@ export async function startNewProject() {
     /**
      * This question will be removed when Tailwind v4 is released as stable.
      */
-    const areYouWantToUseTailwind4 = await input({
+    const shouldUseTailwindV4 = await input({
       message: `Do you want to use Tailwind version 4? (Y/${grayText("n")})`,
       default: "Yes",
       validate: (value) => {
@@ -123,8 +124,8 @@ export async function startNewProject() {
       },
     })
 
-    const usePrettier = await input({
-      message: `Do you want to use Prettier for this project? (Y/${grayText("n")})`,
+    const useBiome = await input({
+      message: `Do you want to use Biome for this project? (Y/${grayText("n")})`,
       default: "Yes",
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
@@ -157,6 +158,7 @@ export async function startNewProject() {
     const startCreatingApp = await frameworks[framework].createCommand(
       packageManager,
       projectName,
+      language,
       options,
     )
 
@@ -171,12 +173,12 @@ export async function startNewProject() {
     /**
      * This condition will be removed when Tailwind v4 is released as stable.
      */
-    if (areYouWantToUseTailwind4) {
+    if (shouldUseTailwindV4) {
       const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
       await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4.")
     }
-    if (["y", "yes"].includes(usePrettier.trim().toLowerCase())) {
-      await setupPrettier(packageManager)
+    if (["y", "yes"].includes(useBiome.trim().toLowerCase())) {
+      await setupBiome(packageManager)
     }
 
     const initJustdCommand = ["npx", justdCliVersion, "init", "--force", "--yes"]
