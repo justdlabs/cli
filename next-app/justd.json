@@ -4,6 +4,6 @@
   "gray": "zinc",
   "css": "src/app/globals.css",
   "alias": "@",
-  "language": "typescript",
+  "language": "javascript",
   "$schema": "https://getjustd.com/schema.json"
 }

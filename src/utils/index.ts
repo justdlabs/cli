@@ -1,10 +1,18 @@
 import fs from "node:fs"
 import path from "node:path"
-import { possibilityComponentsPath, possibilityCssPath } from "@/utils/helpers"
+import {
+  hasFolder,
+  isLaravel,
+  isNextJs,
+  possibilityComponentsPath,
+  possibilityCssPath,
+} from "@/utils/helpers"
 import { error } from "@/utils/logging"
 import { confirm, input } from "@inquirer/prompts"
 import stripJsonComments from "strip-json-comments"
-import { configManager } from "./config"
+import { type Config, configManager } from "./config"
+
+import oxc from "oxc-transform"
 
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
@@ -72,4 +80,42 @@ export async function addUiPathToTsConfig() {
   } catch (er) {
     error(`Error updating ${path.basename(tsConfigPath)}:`, er!)
   }
+}
+
+export const writeCodeFile = (
+  config: Config,
+  options: { writePath: string; ogFilename: string; content: string },
+) => {
+  const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
+  let parsedContent = options.content.replace(aliasRegex, (match) => {
+    return match.replace("@/", `${config.alias}/`)
+  })
+
+  if (!isNextJs()) {
+    parsedContent = parsedContent.replace(/['"]use client['"]\s*\n?/g, "")
+  }
+
+  let utils: string
+  if (isLaravel()) {
+    utils = config.utils.replace(/^resources\/js\//, "")
+  } else if (hasFolder("src")) {
+    utils = config.utils.replace(/^src\//, "")
+  } else {
+    utils = config.utils
+  }
+
+  parsedContent = parsedContent.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
+
+  if (config.language === "javascript") {
+    const { code: transformedCode } = oxc.transform(options.ogFilename, parsedContent, {
+      sourcemap: false,
+      jsx: "preserve",
+    })
+
+    fs.writeFileSync(options.writePath, transformedCode)
+
+    return
+  }
+
+  fs.writeFileSync(options.writePath, parsedContent)
 }

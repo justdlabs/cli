@@ -176,20 +176,6 @@ export function getUIPathFromConfig() {
   return config.ui || `${possibilityComponentsPath()}/ui`
 }
 
-/**
- *  This function is used to get the alias from the justd.json file
- *  @returns string
- */
-export function getAliasFromConfig() {
-  const configFilePath = path.join(process.cwd(), "justd.json")
-  if (!fs.existsSync(configFilePath)) {
-    throw new Error("justd.json not found. Please initialize the project.")
-  }
-
-  const config = JSON.parse(fs.readFileSync(configFilePath, "utf-8"))
-  return config.alias
-}
-
 export const justdConfigFile = path.resolve(process.cwd(), "justd.json")
 
 export const isProjectExists = (): boolean => {

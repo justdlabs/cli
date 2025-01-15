@@ -4,18 +4,14 @@ import { components, namespaces } from "@/resources/components"
 import { additionalDeps } from "@/utils/additional-deps"
 import { type Config, configManager, getWriteComponentPath } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
-import {
-  getAliasFromConfig,
-  getUIPathFromConfig,
-  hasFolder,
-  isLaravel,
-  isNextJs,
-} from "@/utils/helpers"
+import { getUIPathFromConfig, isNextJs } from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import { checkbox } from "@inquirer/prompts"
 import chalk from "chalk"
 import ora from "ora"
+
+import { writeCodeFile } from "@/utils"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -24,13 +20,22 @@ const exceptions = ["field", "dropdown", "dialog"]
  *  @param componentName string
  *  @param processed Set<string>
  */
-async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
+async function updateIndexFile(
+  config: Config,
+  componentName: string,
+  processed: Set<string> = new Set(),
+) {
   if (processed.has(componentName)) {
     return
   }
 
   const uiPath = getUIPathFromConfig()
-  const indexPath = path.join(process.cwd(), uiPath, "index.ts")
+  const indexPath = path.join(
+    process.cwd(),
+    uiPath,
+    `index.${config.language === "javascript" ? "js" : "ts"}`,
+  )
+
   const primitiveExport = `export * from './primitive';`
   const componentExport = `export * from './${componentName}';`
 
@@ -67,7 +72,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
    */
   existingExports = [primitiveExport, ...existingExports.sort()]
 
-  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`)
+  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`, { flag: "w" })
 
   processed.add(componentName)
 
@@ -77,7 +82,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   const component = components.find((c) => c.name === componentName)
   if (component?.children) {
     for (const child of component.children) {
-      await updateIndexFile(child.name, processed)
+      await updateIndexFile(config, child.name, processed)
     }
   }
 }
@@ -225,7 +230,7 @@ export async function add(options: any) {
           })
         }
 
-        await updateIndexFile(componentName)
+        await updateIndexFile(config, componentName)
       } catch (error) {
         console.error(warningText(`Error processing '${componentName}'.`))
       }
@@ -337,6 +342,7 @@ async function processComponent(
 async function createComponent(config: Config, componentName: string) {
   const writePath = getWriteComponentPath(config, componentName)
   const dir = path.dirname(writePath)
+
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
@@ -344,35 +350,17 @@ async function createComponent(config: Config, componentName: string) {
   const url = getRepoUrlForComponent(componentName)
   try {
     const response = await fetch(url)
+
     if (!response.ok) {
       error(`Failed to fetch component: ${response.statusText}`)
       process.exit(1)
     }
-    let content = await response.text()
 
-    if (!isNextJs()) {
-      content = content.replace(/['"]use client['"]\s*\n?/g, "")
-    }
+    const content = await response.text()
 
-    let utils: string
-    if (isLaravel()) {
-      utils = config.utils.replace(/^resources\/js\//, "")
-    } else if (hasFolder("src")) {
-      utils = config.utils.replace(/^src\//, "")
-    } else {
-      utils = config.utils
-    }
-
-    content = content.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
-
-    const alias = getAliasFromConfig()
-    const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
-    content = content.replace(aliasRegex, (match) => {
-      return match.replace("@/", `${alias}/`)
-    })
-
-    fs.writeFileSync(writePath, content)
-  } catch {
+    writeCodeFile(config, { writePath, ogFilename: `${componentName}.tsx`, content })
+  } catch (err) {
+    console.log(err)
     error(`Error writing component: ${componentName}`)
     process.exit(1)
   }
