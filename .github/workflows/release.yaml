@@ -15,10 +15,6 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
-        with:
-          registry-url: https://registry.npmjs.org/
-          scope: "@irsyadadl"
-
       - name: Install dependencies
         run: bun install
 
@@ -27,5 +23,10 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --access=public
+
+        with:
+          registry-url: https://registry.npmjs.org/
+          scope: "@irsyadadl"
+
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
