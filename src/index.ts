@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 import { program } from "commander"
 import open from "open"
@@ -38,7 +38,21 @@ program
   .command("init")
   .option("--force", "Force initialization without checking Git")
   .option("-y, --yes", "Skip prompts and use default values")
-  .action(init)
+  .option(
+    "-l, --language <language>",
+    "Language of the project (typescript or javascript)",
+    "typescript",
+  )
+  .option("--ts", "Use TypeScript for the project")
+  .option("--js", "Use JavaScript for the project")
+  .action((options) => {
+    let language = options.language
+
+    if (options.ts) language = "typescript"
+    if (options.js) language = "javascript"
+
+    init({ ...options, language })
+  })
 
 /**
  *  This command is used to add new components to your project

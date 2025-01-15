@@ -1,5 +1,5 @@
 import fs, { writeFileSync } from "node:fs"
-import { input } from "@inquirer/prompts"
+import { input, select } from "@inquirer/prompts"
 import figlet from "figlet"
 
 import { spawn } from "node:child_process"
@@ -7,23 +7,25 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
-import { addUiPathToTsConfig } from "@/utils"
+import { addUiPathToLangConfig, writeCodeFile } from "@/utils"
+import { type Config, type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
 import {
+  doesProjectExist,
+  getCorrectFileExtension,
   hasFolder,
   isLaravel,
   isNextJs,
-  isProjectExists,
   isRemix,
   isTailwind,
   isTailwindInstalled,
+  isTypescriptProject,
   possibilityComponentsPath,
   possibilityCssPath,
-  possibilityRootPath,
   possibilityUtilsPath,
 } from "@/utils/helpers"
-import { error, highlight, info } from "@/utils/logging"
+import { error, grayText, highlight, info } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import ora from "ora"
 import stripJsonComments from "strip-json-comments"
@@ -33,11 +35,45 @@ const __dirname = path.dirname(__filename)
 
 const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
-export async function init(flags: { force?: boolean; yes?: boolean }) {
-  if (!isProjectExists()) {
-    await startNewProject()
-    return
+export async function init(flags: {
+  force?: boolean
+  yes?: boolean
+  language?: "typescript" | "javascript"
+}) {
+  let language: Config["language"] = flags.language || "typescript"
+
+  if (!doesProjectExist()) {
+    const shouldStartNewProject = await input({
+      message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
+      default: "Yes",
+      validate: (value) => {
+        const normalizedValue = value.trim().toLowerCase()
+        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
+      },
+    })
+
+    const normalizedValue = shouldStartNewProject.trim().toLowerCase()
+    if (
+      normalizedValue === "y" ||
+      normalizedValue === "yes" ||
+      normalizedValue === "n" ||
+      normalizedValue === "no"
+    ) {
+      language = await select({
+        message: "What language do you want to use?",
+        choices: [
+          { name: "Typescript", value: "typescript" },
+          { name: "Javascript", value: "javascript" },
+        ],
+        default: "typescript",
+      })
+
+      await startNewProject(normalizedValue as "y" | "n" | "yes" | "no", language)
+      return
+    }
   }
+
+  language = isTypescriptProject() ? "typescript" : "javascript"
 
   if (!flags.force) {
     const checkingGit = ora("Checking.").start()
@@ -51,7 +87,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
       )
       process.exit(1)
     }
-    checkingGit.stop() // stop spinner
+    checkingGit.stop()
   }
 
   const spinner = ora("Initializing.").start()
@@ -152,70 +188,60 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
 
-  async function getUserAlias(): Promise<string | null> {
-    const tsConfigPaths = [
-      path.join(process.cwd(), "tsconfig.app.json"),
-      path.join(process.cwd(), "tsconfig.json"),
-    ]
+  async function getUserAlias(language: "typescript" | "javascript"): Promise<string | null> {
+    const configFilePaths =
+      language === "typescript"
+        ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+        : [path.join(process.cwd(), "jsconfig.json")]
 
-    let tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
-    let tsConfig: any
+    const configFilePath = configFilePaths.find((configPath) => fs.existsSync(configPath))
+    let config: any
 
-    if (!tsConfigPath) {
-      error("Neither tsconfig.app.json nor tsconfig.json was found.")
+    if (!configFilePath) {
+      console.error(
+        language === "typescript"
+          ? "Neither tsconfig.app.json nor tsconfig.json was found."
+          : "jsconfig.json was not found.",
+      )
       process.exit(1)
     }
 
     try {
-      const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
-      const stripped = stripJsonComments(tsConfigRaw)
-      tsConfig = JSON.parse(stripped)
+      const configRaw = fs.readFileSync(configFilePath, "utf8")
+      const stripped = stripJsonComments(configRaw)
+      config = JSON.parse(stripped)
     } catch {
-      error(`Error reading ${tsConfigPath} file. Please check if it exists and is valid JSON.`)
+      console.error(
+        `Error reading ${configFilePath} file. Please check if it exists and is valid JSON.`,
+      )
       process.exit(1)
     }
 
-    if (!tsConfig.compilerOptions) {
-      if (tsConfigPath.endsWith("tsconfig.app.json")) {
-        tsConfigPath = path.join(process.cwd(), "tsconfig.json")
-        if (!fs.existsSync(tsConfigPath)) {
-          tsConfig = { compilerOptions: {} }
-        } else {
-          const tsConfigRaw = fs.readFileSync(tsConfigPath, "utf8")
-          const stripped = stripJsonComments(tsConfigRaw)
-          tsConfig = JSON.parse(stripped)
-          if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-        }
-      } else {
-        tsConfig.compilerOptions = {}
-      }
+    if (!config.compilerOptions) {
+      config.compilerOptions = {}
     }
 
-    if (!("paths" in tsConfig.compilerOptions)) {
-      const rootPath = flags.yes
-        ? `./${possibilityRootPath()}`
-        : await input({
-            message: `No paths key found in ${path.basename(tsConfigPath)}. Please enter the root directory path for the '@/':`,
-            default: `./${possibilityRootPath()}`,
-          })
+    if (!("paths" in config.compilerOptions)) {
+      const rootPath = "./src"
 
-      tsConfig.compilerOptions.paths = {
-        "@/*": [`${rootPath || "./src"}/*`],
+      config.compilerOptions.paths = {
+        "@/*": [`${rootPath}/*`],
       }
 
-      const spinner = ora(`Updating ${path.basename(tsConfigPath)} with paths...`).start()
+      const spinner = ora(`Updating ${path.basename(configFilePath)} with paths...`).start()
       try {
-        const updatedTsConfig = JSON.stringify(tsConfig, null, 2)
-        fs.writeFileSync(tsConfigPath, updatedTsConfig)
-        spinner.succeed(`Paths added to ${path.basename(tsConfigPath)}.`)
+        const updatedConfig = JSON.stringify(config, null, 2)
+        fs.writeFileSync(configFilePath, updatedConfig)
+        spinner.succeed(`Paths added to ${path.basename(configFilePath)}.`)
       } catch (e) {
-        spinner.fail(`Failed to write to ${path.basename(tsConfigPath)}.`)
+        spinner.fail(`Failed to write to ${path.basename(configFilePath)}.`)
         process.exit(1)
       }
     }
-    await addUiPathToTsConfig()
 
-    const paths = tsConfig.compilerOptions.paths
+    await addUiPathToLangConfig(language)
+
+    const paths = config.compilerOptions.paths
     if (paths) {
       const firstAliasKey = Object.keys(paths)[0]
       return firstAliasKey.replace("/*", "")
@@ -224,7 +250,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     process.exit(1)
   }
 
-  const currentAlias = await getUserAlias()
+  const currentAlias = await getUserAlias(language)
 
   if (isTailwind(3)) {
     const content = fs.readFileSync(path.join(stubs, "1.x/zinc.css"), "utf8")
@@ -233,13 +259,13 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation, flags)
 
-  const config = {
-    $schema: "https://getjustd.com/schema.json",
+  const config: ConfigInput = {
     ui: uiFolder,
     utils: utilsFolder,
     gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
-    alias: currentAlias,
+    alias: currentAlias || undefined,
+    language,
   }
 
   const packageManager = await getPackageManager()
@@ -259,6 +285,12 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   if (isRemix()) {
     devPackages += " remix-themes"
   }
+
+  const createdConfig = await configManager.createConfig(config).catch((error) => {
+    // @ts-ignore
+    error("Error writing to justd.json:", error?.message)
+    process.exit(1)
+  })
 
   const action = packageManager === "npm" ? "i" : "add"
   const installCommand = `${packageManager} ${action} ${mainPackages} && ${packageManager} ${action} -D ${devPackages}  --silent`
@@ -280,37 +312,49 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
 
-  let fileContent = await response.text()
+  const fileContent = await response.text()
 
-  if (isLaravel()) {
-    fileContent = fileContent.replace(/['"]use client['"]\s*\n?/g, "")
-  }
+  await writeCodeFile(createdConfig, {
+    writePath: path.join(uiFolder, "primitive.tsx"),
+    ogFilename: "primitive.tsx",
+    content: fileContent,
+  })
 
-  fs.writeFileSync(path.join(uiFolder, "primitive.tsx"), fileContent, { flag: "w" })
-  fs.writeFileSync(path.join(uiFolder, "index.ts"), `export * from './primitive';`, { flag: "w" })
+  fs.writeFileSync(
+    path.join(uiFolder, getCorrectFileExtension(language, "index.ts")),
+    `export * from './primitive';`,
+    { flag: "w" },
+  )
 
   const responseClasses = await fetch(getUtilsFolder("classes.ts"))
   const fileContentClasses = await responseClasses.text()
-  fs.writeFileSync(path.join(utilsFolder, "classes.ts"), fileContentClasses, { flag: "w" })
+
+  await writeCodeFile(createdConfig, {
+    writePath: path.join(utilsFolder, "classes.ts"),
+    ogFilename: "classes.ts",
+    content: fileContentClasses,
+  })
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
-    fs.writeFileSync(path.join(componentFolder, "theme-provider.tsx"), themeProviderContent, {
-      flag: "w",
+
+    await writeCodeFile(createdConfig, {
+      ogFilename: "theme-provider.tsx",
+      writePath: path.join(componentFolder, "theme-provider.tsx"),
+      content: themeProviderContent,
     })
 
     if (providers) {
       const providersContent = fs.readFileSync(providers, "utf8")
-      fs.writeFileSync(path.join(componentFolder, "providers.tsx"), providersContent, { flag: "w" })
+
+      await writeCodeFile(createdConfig, {
+        ogFilename: "providers.tsx",
+        writePath: path.join(componentFolder, "providers.tsx"),
+        content: providersContent,
+      })
     }
   }
 
-  try {
-    fs.writeFileSync("justd.json", JSON.stringify(config, null, 2))
-  } catch (error) {
-    // @ts-ignore
-    error("Error writing to justd.json:", error?.message)
-  }
   spinner.succeed("Installing dependencies.")
   spinner.start("Configuring.")
   await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -321,13 +365,19 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     fs.mkdirSync(uiFolder, { recursive: true })
   }
   spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
-  spinner.succeed(`Primitive file saved to ${highlight(`${uiFolder}/primitive.tsx`)}`)
-  spinner.succeed(`Classes file saved to ${highlight(`${utilsFolder}/classes.ts`)}`)
+  spinner.succeed(
+    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "providers.tsx")}`)}`,
+  )
+  spinner.succeed(
+    `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`,
+  )
   if (themeProvider) {
     spinner.succeed(
-      `Theme Provider file saved to ${highlight(`"${componentFolder}/theme-provider.tsx"`)}`,
+      `Theme Provider file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "theme-provider.ts")}"`)}`,
     )
-    spinner.succeed(`Providers file saved to ${highlight(`"${componentFolder}/providers.tsx"`)}`)
+    spinner.succeed(
+      `Providers file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "providers.tsx")}"`)}`,
+    )
   }
 
   spinner.start(`Configuration saved to ${highlight(`"justd.json"`)}`)

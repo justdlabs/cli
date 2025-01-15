@@ -1,21 +1,17 @@
 import fs from "node:fs"
 import path from "node:path"
 import { components, namespaces } from "@/resources/components"
-import { getUIFolderPath, getUtilsFolderPath, getWriteComponentPath } from "@/utils"
 import { additionalDeps } from "@/utils/additional-deps"
+import { type Config, configManager, getWriteComponentPath } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
-import {
-  getAliasFromConfig,
-  getUIPathFromConfig,
-  hasFolder,
-  isLaravel,
-  isNextJs,
-} from "@/utils/helpers"
+import { getUIPathFromConfig } from "@/utils/helpers"
 import { error, grayText, highlight, warn, warningText } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
 import { checkbox } from "@inquirer/prompts"
 import chalk from "chalk"
 import ora from "ora"
+
+import { writeCodeFile } from "@/utils"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -24,13 +20,22 @@ const exceptions = ["field", "dropdown", "dialog"]
  *  @param componentName string
  *  @param processed Set<string>
  */
-async function updateIndexFile(componentName: string, processed: Set<string> = new Set()) {
+async function updateIndexFile(
+  config: Config,
+  componentName: string,
+  processed: Set<string> = new Set(),
+) {
   if (processed.has(componentName)) {
     return
   }
 
   const uiPath = getUIPathFromConfig()
-  const indexPath = path.join(process.cwd(), uiPath, "index.ts")
+  const indexPath = path.join(
+    process.cwd(),
+    uiPath,
+    `index.${config.language === "javascript" ? "js" : "ts"}`,
+  )
+
   const primitiveExport = `export * from './primitive';`
   const componentExport = `export * from './${componentName}';`
 
@@ -67,7 +72,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
    */
   existingExports = [primitiveExport, ...existingExports.sort()]
 
-  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`)
+  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`, { flag: "w" })
 
   processed.add(componentName)
 
@@ -77,7 +82,7 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
   const component = components.find((c) => c.name === componentName)
   if (component?.children) {
     for (const child of component.children) {
-      await updateIndexFile(child.name, processed)
+      await updateIndexFile(config, child.name, processed)
     }
   }
 }
@@ -89,15 +94,20 @@ async function updateIndexFile(componentName: string, processed: Set<string> = n
 export async function add(options: any) {
   const spinner = ora("Checking.").start()
   const { component, overwrite, successMessage } = options
-  const configFilePath = path.join(process.cwd(), "justd.json")
-  if (!fs.existsSync(configFilePath)) {
+
+  const doesConfigExist = await configManager.doesConfigExist()
+
+  if (!doesConfigExist) {
     spinner.fail(
       `${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
     )
     return
   }
 
+  const config = await configManager.loadConfig()
+
   spinner.stop()
+
   const exclude = ["primitive"]
   let selectedComponents = component ? component.split(" ") : []
   if (selectedComponents.length === 0) {
@@ -105,6 +115,7 @@ export async function add(options: any) {
       .filter((comp) => !exclude.includes(comp.name))
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((comp) => ({ name: comp.name, value: comp.name }))
+
     selectedComponents = await checkbox({
       required: true,
       message: "Select components to add:",
@@ -142,16 +153,23 @@ export async function add(options: any) {
   spinner.start("Installing dependencies.")
 
   try {
-    const utilsFolder = getUtilsFolderPath()
-    const classesFile = path.join(utilsFolder, "classes.ts")
+    const classesFile = path.join(
+      config.utils,
+      `classes.${config.language === "javascript" ? "js" : "ts"}`,
+    )
 
     if (!fs.existsSync(classesFile)) {
-      if (!fs.existsSync(utilsFolder)) {
-        fs.mkdirSync(utilsFolder, { recursive: true })
+      if (!fs.existsSync(config.utils)) {
+        fs.mkdirSync(config.utils, { recursive: true })
       }
       const responseClasses = await fetch(getUtilsFolder("classes.ts"))
       const fileContentClasses = await responseClasses.text()
-      fs.writeFileSync(classesFile, fileContentClasses, { flag: "w" })
+
+      await writeCodeFile(config, {
+        ogFilename: "classes.ts",
+        writePath: classesFile,
+        content: fileContentClasses,
+      })
       createdFiles.push(classesFile)
     }
 
@@ -164,16 +182,21 @@ export async function add(options: any) {
         ),
       )
     ) {
-      const mediaQueryFile = path.join(utilsFolder, "use-media-query.ts")
+      const mediaQueryFile = path.join(
+        config.utils,
+        `use-media-query.${config.language === "javascript" ? "js" : "ts"}`,
+      )
 
       if (!fs.existsSync(mediaQueryFile)) {
         const responseMediaQuery = await fetch(getUtilsFolder("use-media-query.ts"))
         const fileContentMediaQuery = await responseMediaQuery.text()
-        let content = fileContentMediaQuery
-        if (!isNextJs()) {
-          content = fileContentMediaQuery.replace(/['"]use client['"];/g, "")
-        }
-        fs.writeFileSync(mediaQueryFile, content, { flag: "w" })
+
+        await writeCodeFile(config, {
+          ogFilename: "use-media-query.ts",
+          writePath: mediaQueryFile,
+          content: fileContentMediaQuery,
+        })
+
         createdFiles.push(mediaQueryFile)
       }
     }
@@ -186,41 +209,41 @@ export async function add(options: any) {
           continue
         }
 
-        const componentPath = getWriteComponentPath(componentName)
+        const componentPath = getWriteComponentPath(config, componentName)
         if (fs.existsSync(componentPath) && !overwrite) {
-          existingFiles.add(`${getUIFolderPath()}/${componentName}.tsx`)
+          existingFiles.add(componentPath)
           continue
         }
 
         if (namespaces.includes(componentName) && targetComponent.children) {
           for (const child of targetComponent.children) {
-            await processComponent(
-              child.name,
+            await processComponent(config, {
+              componentName: child.name,
               packageManager,
               action,
               processed,
-              components,
+              allComponents: components,
               overwrite,
-              true,
+              isChild: true,
               createdFiles,
               existingFiles,
-            )
+            })
           }
         } else {
-          await processComponent(
+          await processComponent(config, {
             componentName,
             packageManager,
             action,
             processed,
-            components,
+            allComponents: components,
             overwrite,
-            false,
+            isChild: false,
             createdFiles,
             existingFiles,
-          )
+          })
         }
 
-        await updateIndexFile(componentName)
+        await updateIndexFile(config, componentName)
       } catch (error) {
         console.error(warningText(`Error processing '${componentName}'.`))
       }
@@ -278,19 +301,22 @@ export async function add(options: any) {
  *  @param existingFiles Set<string>
  */
 async function processComponent(
-  componentName: string,
-  packageManager: string,
-  action: string,
-  processed: Set<string>,
-  allComponents: any[],
-  overwrite: boolean,
-  isChild: boolean,
-  createdFiles: string[],
-  existingFiles: Set<string>,
+  config: Config,
+  options: {
+    componentName: string
+    packageManager: string
+    action: string
+    processed: Set<string>
+    allComponents: any[]
+    overwrite: boolean
+    isChild: boolean
+    createdFiles: string[]
+    existingFiles: Set<string>
+  },
 ) {
-  if (processed.has(componentName)) return
+  if (options.processed.has(options.componentName)) return
 
-  const componentPath = getWriteComponentPath(componentName)
+  const componentPath = getWriteComponentPath(config, options.componentName)
 
   /**
    * If the component already exists, and the overwrite flag is not set, we will skip the component
@@ -299,46 +325,37 @@ async function processComponent(
    * We will also add the new component to the createdFiles array.
    */
   if (fs.existsSync(componentPath)) {
-    if (overwrite && !isChild) {
+    if (options.overwrite && !options.isChild) {
       fs.rmSync(componentPath, { recursive: true, force: true })
-      await createComponent(componentName)
-      createdFiles.push(`${getUIFolderPath()}/${componentName}.tsx`)
+      await createComponent(config, options.componentName)
+      options.createdFiles.push(getWriteComponentPath(config, options.componentName))
     } else {
-      existingFiles.add(`${getUIFolderPath()}/${componentName}.tsx`)
+      options.existingFiles.add(getWriteComponentPath(config, options.componentName))
       return
     }
   } else {
-    await createComponent(componentName)
-    createdFiles.push(`${getUIFolderPath()}/${componentName}.tsx`)
+    await createComponent(config, options.componentName)
+    options.createdFiles.push(getWriteComponentPath(config, options.componentName))
   }
 
-  const component = allComponents.find((c) => c.name === componentName)
+  const component = options.allComponents.find((c) => c.name === options.componentName)
   if (component?.children) {
     for (const child of component.children) {
-      await processComponent(
-        child.name,
-        packageManager,
-        action,
-        processed,
-        allComponents,
-        false,
-        true,
-        createdFiles,
-        existingFiles,
-      )
+      await processComponent(config, { ...options, componentName: child.name })
     }
   }
 
-  processed.add(componentName)
+  options.processed.add(options.componentName)
 }
 
 /**
  *  This function is used to create a new component
  *  @param componentName string
  */
-async function createComponent(componentName: string) {
-  const writePath = getWriteComponentPath(componentName)
+async function createComponent(config: Config, componentName: string) {
+  const writePath = getWriteComponentPath(config, componentName)
   const dir = path.dirname(writePath)
+
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true })
   }
@@ -346,35 +363,17 @@ async function createComponent(componentName: string) {
   const url = getRepoUrlForComponent(componentName)
   try {
     const response = await fetch(url)
+
     if (!response.ok) {
       error(`Failed to fetch component: ${response.statusText}`)
       process.exit(1)
     }
-    let content = await response.text()
 
-    if (!isNextJs()) {
-      content = content.replace(/['"]use client['"]\s*\n?/g, "")
-    }
+    const content = await response.text()
 
-    let utils: string
-    if (isLaravel()) {
-      utils = getUtilsFolderPath().replace(/^resources\/js\//, "")
-    } else if (hasFolder("src")) {
-      utils = getUtilsFolderPath().replace(/^src\//, "")
-    } else {
-      utils = getUtilsFolderPath()
-    }
-
-    content = content.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
-
-    const alias = getAliasFromConfig()
-    const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
-    content = content.replace(aliasRegex, (match) => {
-      return match.replace("@/", `${alias}/`)
-    })
-
-    fs.writeFileSync(writePath, content)
-  } catch {
+    await writeCodeFile(config, { writePath, ogFilename: `${componentName}.tsx`, content })
+  } catch (err) {
+    console.log(err)
     error(`Error writing component: ${componentName}`)
     process.exit(1)
   }

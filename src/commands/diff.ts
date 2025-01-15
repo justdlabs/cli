@@ -1,6 +1,8 @@
 import fs from "node:fs"
 import path from "node:path"
 import { add } from "@/commands/add"
+import { type Config, configManager } from "@/utils/config"
+import { grayText, highlight, warningText } from "@/utils/logging"
 import { getRepoUrlForComponent } from "@/utils/repo"
 import { checkbox } from "@inquirer/prompts"
 import chalk from "chalk"
@@ -10,11 +12,10 @@ import ora from "ora"
 /**
  * This function is used to sanitize the content of a component.
  * It removes unnecessary characters and formats the content for better readability.
- * @param configPath
+ * @param config
  * @param componentName
  */
-const getLocalComponentPath = (configPath: string, componentName: string) => {
-  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+const getLocalComponentPath = (config: Config, componentName: string) => {
   return path.join(config.ui, `${componentName}.tsx`)
 }
 
@@ -122,8 +123,17 @@ export const diff = async (...args: string[]) => {
   try {
     const spinner = ora("Checking.").start()
 
-    const configPath = path.resolve(process.cwd(), "justd.json")
-    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"))
+    const doesConfigExist = await configManager.doesConfigExist()
+
+    if (!doesConfigExist) {
+      spinner.fail(
+        `${warningText("justd.json not found")}. ${grayText(`Please run ${highlight("npx justd-cli@latest init")} to initialize the project.`)}`,
+      )
+      return
+    }
+
+    const config = await configManager.loadConfig()
+
     const componentsDir = config.ui
 
     const excludeComponents = ["index"]
@@ -142,7 +152,7 @@ export const diff = async (...args: string[]) => {
     const upToDateComponents: string[] = []
 
     for (const componentName of componentNames) {
-      const localComponentPath = getLocalComponentPath(configPath, componentName)
+      const localComponentPath = getLocalComponentPath(config, componentName)
       const localContent = fs.readFileSync(localComponentPath, "utf-8")
 
       try {

@@ -1,88 +1,49 @@
 import fs from "node:fs"
 import path from "node:path"
 import {
-  justdConfigFile,
+  hasFolder,
+  isLaravel,
+  isNextJs,
   possibilityComponentsPath,
   possibilityCssPath,
-  possibilityUtilsPath,
 } from "@/utils/helpers"
 import { error } from "@/utils/logging"
 import { confirm, input } from "@inquirer/prompts"
 import stripJsonComments from "strip-json-comments"
-
-/**
- *  This function is used to get the write path for a component
- *  @param componentName string
- *  @returns string
- */
-export function getWriteComponentPath(componentName: string) {
-  const uiFolder = getUIFolderPath()
-  return path.join(uiFolder, `${componentName}.tsx`)
-}
-
-/**
- *  This function is used to get the path to the UI folder from the justd.json file
- *  @returns string
- */
-export function getUIFolderPath() {
-  const configFile = "justd.json"
-  if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-    return config.ui
-  }
-  error("Configuration file justd.json not found. Please run the init command first.")
-}
-
-/**
- *  This function is used to get the path to the utils folder from the justd.json file
- *  @returns string
- */
-export function getUtilsFolderPath() {
-  const configFile = "justd.json"
-  if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-
-    return config.utils || possibilityUtilsPath()
-  }
-
-  error("Configuration file justd.json not found. Please run the init command first.")
-}
+import { type Config, configManager } from "./config"
 
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
-  const configFile = justdConfigFile
+  const doesConfigExist = configManager.doesConfigExist()
 
-  if (!fs.existsSync(configFile)) {
+  if (!doesConfigExist) {
     error("Configuration file justd.json not found. Please run the init command first.")
   }
 
-  const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-  let cssPath = config.css || possibilityCssPath()
+  const config = await configManager.loadConfig()
 
-  if (cssPath && fs.existsSync(cssPath)) {
+  if (fs.existsSync(config.css)) {
     const useExistingPath = await confirm({
-      message: `The specified CSS path '${cssPath}' exists. Do you want to use this path?`,
+      message: `The specified CSS path '${config.css}' exists. Do you want to use this path?`,
     })
 
     if (useExistingPath) {
-      return cssPath
+      return config.css
     }
   } else {
-    if (cssPath) {
-      console.warn(`The specified CSS path '${cssPath}' does not exist.`)
-    }
+    console.warn(`The specified CSS path '${config.css}' does not exist.`)
   }
 
-  cssPath = await input({
+  const newCssPath = await input({
     message: "Please provide a CSS path:",
     default: possibilityCssPath(),
   })
 
-  config.css = cssPath
+  await configManager.updateConfig({
+    css: newCssPath,
+  })
 
-  fs.writeFileSync(configFile, JSON.stringify(config, null, 2))
-
-  return cssPath
+  return newCssPath
 }
 
 /**
@@ -90,31 +51,78 @@ export async function getCSSPath() {
  *  if it doesn't exist
  *  @returns void
  */
-export async function addUiPathToTsConfig() {
-  const tsConfigPaths = [
-    path.join(process.cwd(), "tsconfig.app.json"),
-    path.join(process.cwd(), "tsconfig.json"),
-  ]
+export async function addUiPathToLangConfig(language: "typescript" | "javascript") {
+  const configPaths =
+    language === "typescript"
+      ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
+      : [path.join(process.cwd(), "jsconfig.json")]
 
-  const tsConfigPath = tsConfigPaths.find((configPath) => fs.existsSync(configPath))
-  if (!tsConfigPath) {
-    error("Neither tsconfig.app.json nor tsconfig.json was found.")
+  const configPath = configPaths.find((configPath) => fs.existsSync(configPath))
+  if (!configPath) {
+    console.error(
+      language === "typescript"
+        ? "Neither tsconfig.app.json nor tsconfig.json was found."
+        : "jsconfig.json was not found.",
+    )
     process.exit(1)
   }
 
   try {
-    const tsConfigContent = fs.readFileSync(tsConfigPath, "utf8")
-    const strippedContent = stripJsonComments(tsConfigContent)
+    const configContent = fs.readFileSync(configPath, "utf8")
+    const strippedContent = stripJsonComments(configContent)
 
-    const tsConfig = JSON.parse(strippedContent)
+    const config = JSON.parse(strippedContent)
 
-    if (!tsConfig.compilerOptions) tsConfig.compilerOptions = {}
-    if (!tsConfig.compilerOptions.paths) tsConfig.compilerOptions.paths = {}
+    if (!config.compilerOptions) config.compilerOptions = {}
+    if (!config.compilerOptions.paths) config.compilerOptions.paths = {}
 
-    tsConfig.compilerOptions.paths.ui = [`./${possibilityComponentsPath()}/ui/index.ts`]
+    const ext = language === "typescript" ? "ts" : "js"
+    config.compilerOptions.paths.ui = [`./${possibilityComponentsPath()}/ui/index.${ext}`]
 
-    fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2))
-  } catch (er) {
-    error(`Error updating ${path.basename(tsConfigPath)}:`, er!)
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
+
+    console.log(`Updated ${path.basename(configPath)} with ui path.`)
+  } catch (error) {
+    console.error(`Error updating ${path.basename(configPath)}:`, error)
   }
+}
+
+export const writeCodeFile = async (
+  config: Config,
+  options: { writePath: string; ogFilename: string; content: string },
+) => {
+  const aliasRegex = /import\s*{.*}\s*from\s*['"]@\/(.*)['"]/g
+  let parsedContent = options.content.replace(aliasRegex, (match) => {
+    return match.replace("@/", `${config.alias}/`)
+  })
+
+  if (!isNextJs()) {
+    parsedContent = parsedContent.replace(/['"]use client['"]\s*\n?/g, "")
+  }
+
+  let utils: string
+  if (isLaravel()) {
+    utils = config.utils.replace(/^resources\/js\//, "")
+  } else if (hasFolder("src")) {
+    utils = config.utils.replace(/^src\//, "")
+  } else {
+    utils = config.utils
+  }
+
+  parsedContent = parsedContent.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
+
+  if (config.language === "javascript") {
+    const oxc = await import("oxc-transform")
+
+    const { code: transformedCode } = oxc.transform(options.ogFilename, parsedContent, {
+      sourcemap: false,
+      jsx: "preserve",
+    })
+
+    fs.writeFileSync(options.writePath.replace(".ts", ".js"), transformedCode, { flag: "w" })
+
+    return
+  }
+
+  fs.writeFileSync(options.writePath, parsedContent)
 }

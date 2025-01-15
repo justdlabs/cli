@@ -2,6 +2,7 @@ import fs from "node:fs"
 import { existsSync } from "node:fs"
 import path from "node:path"
 import { error, highlight, warningText } from "@/utils/logging"
+import type { Config } from "./config"
 
 export function hasFolder(folderName: string): boolean {
   const folderPath = path.join(process.cwd(), folderName)
@@ -97,6 +98,42 @@ export function isNextJs(): boolean {
   )
 }
 
+export function isTypescriptProject(dir: string = process.cwd()): boolean {
+  const ignoredDirs = [
+    "node_modules",
+    "vendor",
+    ".git",
+    ".svn",
+    ".hg",
+    "dist",
+    "build",
+    "out",
+    "target",
+    ".next",
+    ".vercel",
+    ".idea",
+    ".vscode",
+    ".cache",
+    ".npm",
+    ".yarn",
+    "tmp",
+    "logs",
+    "coverage",
+    ".nyc_output",
+  ]
+
+  if (fs.existsSync(path.join(dir, "tsconfig.json"))) {
+    return true
+  }
+
+  const subdirs = fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !ignoredDirs.includes(entry.name))
+    .map((entry) => path.join(dir, entry.name))
+
+  return subdirs.some((subdir) => fs.existsSync(path.join(subdir, "tsconfig.json")))
+}
+
 export function isRemix(): boolean {
   const packageJsonPath = path.join(process.cwd(), "package.json")
 
@@ -176,23 +213,17 @@ export function getUIPathFromConfig() {
   return config.ui || `${possibilityComponentsPath()}/ui`
 }
 
-/**
- *  This function is used to get the alias from the justd.json file
- *  @returns string
- */
-export function getAliasFromConfig() {
-  const configFilePath = path.join(process.cwd(), "justd.json")
-  if (!fs.existsSync(configFilePath)) {
-    throw new Error("justd.json not found. Please initialize the project.")
-  }
-
-  const config = JSON.parse(fs.readFileSync(configFilePath, "utf-8"))
-  return config.alias
-}
-
 export const justdConfigFile = path.resolve(process.cwd(), "justd.json")
 
-export const isProjectExists = (): boolean => {
+export const doesProjectExist = (): boolean => {
   const hasPackageJson = fs.existsSync("package.json")
   return hasPackageJson || isNextJs() || isLaravel() || isRemix() || isTailwindInstalled()
+}
+
+export const getCorrectFileExtension = (language: Config["language"], fileName: string) => {
+  if (language === "javascript") {
+    return fileName.replace(".ts", ".js")
+  }
+
+  return fileName
 }

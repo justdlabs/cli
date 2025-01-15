@@ -1,8 +1,10 @@
 import type { FrameworkOptions } from "@/types"
+import type { Config } from "@/utils/config"
 
 export const createLaravelApp = async (
   packageManager: string,
   projectName: string,
+  language: Config["language"],
   options?: FrameworkOptions,
 ): Promise<string[]> => {
   const commands = [
@@ -40,7 +42,7 @@ export const createLaravelApp = async (
     "breeze:install",
     "react",
     "--ssr",
-    "--typescript",
+    language === "typescript" ? "--typescript" : "",
     "--eslint",
     "--no-interaction",
   )
@@ -56,11 +58,13 @@ export const createLaravelApp = async (
  * This function is used to create a Next.js project
  * @param packageManager
  * @param projectName
+ * @param language
  * @param options
  */
 export const createNextApp = async (
   packageManager: string,
   projectName: string,
+  language: Config["language"],
   options?: FrameworkOptions,
 ): Promise<string[]> => {
   const packageManagerFlag =
@@ -75,10 +79,10 @@ export const createNextApp = async (
   const commands = [
     "npx create-next-app@latest",
     projectName,
-    "--ts",
     "--tailwind",
     "--turbopack",
     "--eslint",
+    language === "typescript" ? "--ts" : "--js",
     "--app",
     "--import-alias='@/*'",
     packageManagerFlag,

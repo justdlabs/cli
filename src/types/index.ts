@@ -1,3 +1,5 @@
+import type { Config } from "@/utils/config"
+
 export type PackageManager = "bun" | "yarn" | "pnpm" | "npm"
 export type FrameworkKey = "laravel" | "next" | "remix" | "vite"
 export interface Framework {
@@ -5,6 +7,7 @@ export interface Framework {
   createCommand: (
     packageManager: string,
     projectName: string,
+    language: Config["language"],
     options?: FrameworkOptions,
   ) => Promise<string[]>
 }

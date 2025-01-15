@@ -12,34 +12,20 @@ export function setupTailwind(packageManager: PackageManager) {
 }
 
 /**
- * This function is used to set up Prettier
+ * This function is used to set up BiomeJS
  * @param packageManager
  */
-export async function setupPrettier(packageManager: string) {
-  const prettierInstallCommand =
+export async function setupBiome(packageManager: string) {
+  const biomeInstallCommand =
     packageManager === "bun"
-      ? ["bun", "add", "-d", "prettier", "prettier-plugin-tailwindcss"]
+      ? ["bun", "add", "-d", "@biomejs/biome"]
       : packageManager === "yarn"
-        ? ["yarn", "add", "-D", "prettier", "prettier-plugin-tailwindcss"]
+        ? ["yarn", "add", "-D", "@biomejs/biome"]
         : packageManager === "pnpm"
-          ? ["pnpm", "add", "-D", "prettier", "prettier-plugin-tailwindcss"]
-          : ["npm", "install", "-D", "prettier", "prettier-plugin-tailwindcss"]
+          ? ["pnpm", "add", "-D", "@biomejs/biome"]
+          : ["npm", "install", "-D", "@biomejs/biome"]
 
-  await executeCommand(prettierInstallCommand, "Setting up Prettier.")
+  await executeCommand(biomeInstallCommand, "Setting up Biome.")
 
-  const prettierConfig = `
-{
-  "tailwindFunctions": ["twJoin", "tv", "cn", "twMerge"],
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "printWidth": 100,
-  "singleQuote": false,
-  "trailingComma": "none",
-  "tabWidth": 2,
-  "useTabs": false,
-  "bracketSpacing": true
-}
-`
-
-  const fs = await import("node:fs/promises")
-  await fs.writeFile(".prettierrc", prettierConfig.trim(), "utf8")
+  await executeCommand(["npx", "biome", "init"], "Initializing Biome.")
 }
