@@ -1,5 +1,7 @@
 # Changelog
 
+* fix (20a3434)
+
 ## <small>2.3.6 (2025-01-15)</small>
 
 * fix: fix package.json ([a6ec198](https://github.com/justdlabs/cli/commit/a6ec198))
