@@ -20,7 +20,7 @@
     "format": "biome lint --fix && biome check --write",
     "test": "bun run build && bun link",
     "preview": "bun run clean && bun run build && bun link",
-    "pr": "bun unlink -g && bun run build && git commit -a",
+    "pr": "bun run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
     "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it",
     "typecheck": "tsc --noEmit"
