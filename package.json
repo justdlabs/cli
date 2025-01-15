@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "bun build ./src/index.ts --outdir ./dist --target=node --minify --watch",
     "start": "bun ./src/index.ts",
-    "prepare": "bunx husky",
+    "prepare": "npx husky",
     "build": "bun build ./src/index.ts --outdir ./dist --target=node --minify",
     "format": "biome lint --fix && biome check --write",
     "test": "bun run build && bun link",
