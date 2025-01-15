@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.21 (2025-01-15)</small>
+
+* include resources ([ad47b4f](https://github.com/justdlabs/cli/commit/ad47b4f))
+
 ## <small>2.3.20 (2025-01-15)</small>
 
 * fix actions ([82f6fe9](https://github.com/justdlabs/cli/commit/82f6fe9))
