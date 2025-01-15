@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.25 (2025-01-15)</small>
+
+* fix: fix action and .gitignore ([7bd6f8b](https://github.com/justdlabs/cli/commit/7bd6f8b))
+* fix .gitignore ([b3b1d4e](https://github.com/justdlabs/cli/commit/b3b1d4e))
+
 ## <small>2.3.24 (2025-01-15)</small>
 
 * fix .gitignore ([b3b1d4e](https://github.com/justdlabs/cli/commit/b3b1d4e))
