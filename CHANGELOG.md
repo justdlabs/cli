@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.3.0 (2025-01-15)
+
+* feat: add converter to js ([4a88351](https://github.com/justdlabs/cli/commit/4a88351))
+* add c12 ([4fc1b52](https://github.com/justdlabs/cli/commit/4fc1b52))
+* add language to init command ([b3c4bf2](https://github.com/justdlabs/cli/commit/b3c4bf2))
+* add parsing ([ec4234f](https://github.com/justdlabs/cli/commit/ec4234f))
+* fix ([7715fde](https://github.com/justdlabs/cli/commit/7715fde))
+* fix ([f3962e3](https://github.com/justdlabs/cli/commit/f3962e3))
+* fix cli ([27950f3](https://github.com/justdlabs/cli/commit/27950f3))
+* fix errors ([45ffbfd](https://github.com/justdlabs/cli/commit/45ffbfd))
+* fix workflow ([bd75d0b](https://github.com/justdlabs/cli/commit/bd75d0b))
+* identify jsconfig ([d5790fb](https://github.com/justdlabs/cli/commit/d5790fb))
+* init c12 ([c820fce](https://github.com/justdlabs/cli/commit/c820fce))
+* more stuff ([e433e2b](https://github.com/justdlabs/cli/commit/e433e2b))
+* rework ([cb7670d](https://github.com/justdlabs/cli/commit/cb7670d))
+* rework config stuff ([8dcfd3a](https://github.com/justdlabs/cli/commit/8dcfd3a))
+* stuff ([9237712](https://github.com/justdlabs/cli/commit/9237712))
+* update ([24c518f](https://github.com/justdlabs/cli/commit/24c518f))
+* use more bun stuff ([f3c7980](https://github.com/justdlabs/cli/commit/f3c7980))
+* working ([7502acb](https://github.com/justdlabs/cli/commit/7502acb))
+* fix: use biome ([7872afe](https://github.com/justdlabs/cli/commit/7872afe))
+
 ## <small>2.2.21 (2025-01-10)</small>
 
 * fix: make diff better ([0b550cf](https://github.com/justdlabs/cli/commit/0b550cf))
