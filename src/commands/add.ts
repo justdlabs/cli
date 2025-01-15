@@ -165,7 +165,7 @@ export async function add(options: any) {
       const responseClasses = await fetch(getUtilsFolder("classes.ts"))
       const fileContentClasses = await responseClasses.text()
 
-      writeCodeFile(config, {
+      await writeCodeFile(config, {
         ogFilename: "classes.ts",
         writePath: classesFile,
         content: fileContentClasses,
@@ -191,7 +191,7 @@ export async function add(options: any) {
         const responseMediaQuery = await fetch(getUtilsFolder("use-media-query.ts"))
         const fileContentMediaQuery = await responseMediaQuery.text()
 
-        writeCodeFile(config, {
+        await writeCodeFile(config, {
           ogFilename: "use-media-query.ts",
           writePath: mediaQueryFile,
           content: fileContentMediaQuery,
@@ -371,7 +371,7 @@ async function createComponent(config: Config, componentName: string) {
 
     const content = await response.text()
 
-    writeCodeFile(config, { writePath, ogFilename: `${componentName}.tsx`, content })
+    await writeCodeFile(config, { writePath, ogFilename: `${componentName}.tsx`, content })
   } catch (err) {
     console.log(err)
     error(`Error writing component: ${componentName}`)

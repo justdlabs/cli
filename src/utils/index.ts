@@ -12,8 +12,6 @@ import { confirm, input } from "@inquirer/prompts"
 import stripJsonComments from "strip-json-comments"
 import { type Config, configManager } from "./config"
 
-import oxc from "oxc-transform"
-
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
   const doesConfigExist = configManager.doesConfigExist()
@@ -82,7 +80,7 @@ export async function addUiPathToTsConfig() {
   }
 }
 
-export const writeCodeFile = (
+export const writeCodeFile = async (
   config: Config,
   options: { writePath: string; ogFilename: string; content: string },
 ) => {
@@ -107,6 +105,8 @@ export const writeCodeFile = (
   parsedContent = parsedContent.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
 
   if (config.language === "javascript") {
+    const oxc = await import("oxc-transform")
+
     const { code: transformedCode } = oxc.transform(options.ogFilename, parsedContent, {
       sourcemap: false,
       jsx: "preserve",

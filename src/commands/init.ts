@@ -297,7 +297,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
 
   const fileContent = await response.text()
 
-  writeCodeFile(createdConfig, {
+  await writeCodeFile(createdConfig, {
     writePath: path.join(uiFolder, "primitive.tsx"),
     ogFilename: "primitive.tsx",
     content: fileContent,
@@ -312,7 +312,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   const responseClasses = await fetch(getUtilsFolder("classes.ts"))
   const fileContentClasses = await responseClasses.text()
 
-  writeCodeFile(createdConfig, {
+  await writeCodeFile(createdConfig, {
     writePath: path.join(utilsFolder, "classes.ts"),
     ogFilename: "classes.ts",
     content: fileContentClasses,
@@ -321,7 +321,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
 
-    writeCodeFile(createdConfig, {
+    await writeCodeFile(createdConfig, {
       ogFilename: "theme-provider.tsx",
       writePath: path.join(componentFolder, "theme-provider.tsx"),
       content: themeProviderContent,
@@ -330,7 +330,7 @@ export async function init(flags: { force?: boolean; yes?: boolean }) {
     if (providers) {
       const providersContent = fs.readFileSync(providers, "utf8")
 
-      writeCodeFile(createdConfig, {
+      await writeCodeFile(createdConfig, {
         ogFilename: "providers.tsx",
         writePath: path.join(componentFolder, "providers.tsx"),
         content: providersContent,
