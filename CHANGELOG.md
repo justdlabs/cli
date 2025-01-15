@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.8 (2025-01-15)</small>
+
+* fix: npmr ([4b8c65e](https://github.com/justdlabs/cli/commit/4b8c65e))
+* wip ([0709391](https://github.com/justdlabs/cli/commit/0709391))
+
 ## <small>2.3.7 (2025-01-15)</small>
 
 * chore: release 2.3.6 ([dad5119](https://github.com/justdlabs/cli/commit/dad5119))
