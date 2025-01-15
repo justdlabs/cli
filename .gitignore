@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+.idea
+.env
+tailwind.config.js
+tailwind.config.ts
+app
+.github_token
+
+src/app
+src/index.css
