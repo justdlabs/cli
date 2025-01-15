@@ -1,88 +1,43 @@
 import fs from "node:fs"
 import path from "node:path"
-import {
-  justdConfigFile,
-  possibilityComponentsPath,
-  possibilityCssPath,
-  possibilityUtilsPath,
-} from "@/utils/helpers"
+import { possibilityComponentsPath, possibilityCssPath } from "@/utils/helpers"
 import { error } from "@/utils/logging"
 import { confirm, input } from "@inquirer/prompts"
 import stripJsonComments from "strip-json-comments"
-
-/**
- *  This function is used to get the write path for a component
- *  @param componentName string
- *  @returns string
- */
-export function getWriteComponentPath(componentName: string) {
-  const uiFolder = getUIFolderPath()
-  return path.join(uiFolder, `${componentName}.tsx`)
-}
-
-/**
- *  This function is used to get the path to the UI folder from the justd.json file
- *  @returns string
- */
-export function getUIFolderPath() {
-  const configFile = "justd.json"
-  if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-    return config.ui
-  }
-  error("Configuration file justd.json not found. Please run the init command first.")
-}
-
-/**
- *  This function is used to get the path to the utils folder from the justd.json file
- *  @returns string
- */
-export function getUtilsFolderPath() {
-  const configFile = "justd.json"
-  if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-
-    return config.utils || possibilityUtilsPath()
-  }
-
-  error("Configuration file justd.json not found. Please run the init command first.")
-}
+import { configManager } from "./config"
 
 // Get the path to the CSS file from the justd.json file
 export async function getCSSPath() {
-  const configFile = justdConfigFile
+  const doesConfigExist = configManager.doesConfigExist()
 
-  if (!fs.existsSync(configFile)) {
+  if (!doesConfigExist) {
     error("Configuration file justd.json not found. Please run the init command first.")
   }
 
-  const config = JSON.parse(fs.readFileSync(configFile, "utf8"))
-  let cssPath = config.css || possibilityCssPath()
+  const config = await configManager.loadConfig()
 
-  if (cssPath && fs.existsSync(cssPath)) {
+  if (fs.existsSync(config.css)) {
     const useExistingPath = await confirm({
-      message: `The specified CSS path '${cssPath}' exists. Do you want to use this path?`,
+      message: `The specified CSS path '${config.css}' exists. Do you want to use this path?`,
     })
 
     if (useExistingPath) {
-      return cssPath
+      return config.css
     }
   } else {
-    if (cssPath) {
-      console.warn(`The specified CSS path '${cssPath}' does not exist.`)
-    }
+    console.warn(`The specified CSS path '${config.css}' does not exist.`)
   }
 
-  cssPath = await input({
+  const newCssPath = await input({
     message: "Please provide a CSS path:",
     default: possibilityCssPath(),
   })
 
-  config.css = cssPath
+  await configManager.updateConfig({
+    css: newCssPath,
+  })
 
-  fs.writeFileSync(configFile, JSON.stringify(config, null, 2))
-
-  return cssPath
+  return newCssPath
 }
 
 /**

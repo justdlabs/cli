@@ -84,3 +84,10 @@ export class ConfigManager {
 export const configManager = new ConfigManager({
   filePath: "justd.json",
 })
+
+export function getWriteComponentPath(config: Config, componentName: string) {
+  return path.join(
+    config.ui,
+    `${componentName}.${config.language === "typescript" ? "tsx" : "jsx"}`,
+  )
+}

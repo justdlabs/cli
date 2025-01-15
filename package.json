@@ -22,7 +22,8 @@
     "preview": "bun run clean && bun run build && bun link",
     "pr": "bun unlink -g && bun run build && git commit -a",
     "pre": "chmod a+x dist/index.js",
-    "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it"
+    "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": ["cli", "justd cli", "Justd", "design-system", "justd"],
   "author": "Irsyad A. Panjaitan",
