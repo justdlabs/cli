@@ -37,7 +37,7 @@ export class ConfigManager {
 
   async loadConfig(): Promise<Config> {
     const data = await fs.readFile(this.filePath, "utf-8")
-    const out = configType(data)
+    const out = configType(JSON.parse(data))
 
     if (out instanceof type.errors) {
       throw new Error(`Failed to parse config: ${out.message}`)
