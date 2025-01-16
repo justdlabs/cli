@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.31 (2025-01-16)</small>
+
+* refactor: remove cmdk ([93451eb](https://github.com/justdlabs/cli/commit/93451eb))
+
 ## <small>2.3.30 (2025-01-15)</small>
 
 * fix: remove figlet ([5b64638](https://github.com/justdlabs/cli/commit/5b64638))
