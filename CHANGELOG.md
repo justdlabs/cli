@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.32 (2025-01-16)</small>
+
+* refactor: compound components ([7aed2b9](https://github.com/justdlabs/cli/commit/7aed2b9))
+
 ## <small>2.3.31 (2025-01-16)</small>
 
 * refactor: remove cmdk ([93451eb](https://github.com/justdlabs/cli/commit/93451eb))
