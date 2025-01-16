@@ -23,8 +23,8 @@ export const additionalDeps = async (
     chart: "recharts",
     "input-otp": "input-otp",
     carousel: "embla-carousel-react",
-    "command-menu": "cmdk",
     "multiple-select": "react-aria",
+    "visually-hidden": "react-aria",
   }
 
   const dependency = dependencies[componentName]

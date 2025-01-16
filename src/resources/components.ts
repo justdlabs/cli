@@ -336,7 +336,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "command-menu",
-    children: [{ name: "keyboard" }, { name: "separator" }, { name: "loader" }],
+    children: [{ name: "keyboard" }, { name: "loader" }, { name: "menu" }],
   },
   { name: "context-menu", children: [{ name: "menu" }] },
   { name: "slider", children: [{ name: "field" }] },
