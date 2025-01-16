@@ -21,13 +21,13 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   { name: "heading" },
   { name: "primitive" },
-  { name: "dropdown" },
+  { name: "dropdown", children: [{ name: "keyboard" }, { name: "separator" }]  },
   { name: "dialog", children: [{ name: "button" }] },
   { name: "field" },
   { name: "keyboard" },
 
   // ------------------------------------------------------------------------------------- //
-  //  ✓ Utitlities
+  //  ✓ Utilities
   // ------------------------------------------------------------------------------------- //
   { name: "visually-hidden" },
 
@@ -160,7 +160,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "menu",
-    children: [{ name: "dropdown" }, { name: "keyboard" }, { name: "popover" }],
+    children: [{ name: "dropdown" }, { name: "popover" }],
   },
   { name: "list-box", children: [{ name: "dropdown" }, { name: "field" }] },
   { name: "tabs" },
@@ -336,7 +336,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "command-menu",
-    children: [{ name: "keyboard" }, { name: "loader" }, { name: "menu" }],
+    children: [{ name: "loader" }, { name: "menu" }],
   },
   { name: "context-menu", children: [{ name: "menu" }] },
   { name: "slider", children: [{ name: "field" }] },
