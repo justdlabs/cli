@@ -21,7 +21,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   { name: "heading" },
   { name: "primitive" },
-  { name: "dropdown", children: [{ name: "keyboard" }, { name: "separator" }]  },
+  { name: "dropdown", children: [{ name: "keyboard" }]  },
   { name: "dialog", children: [{ name: "button" }] },
   { name: "field" },
   { name: "keyboard" },
