@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.35 (2025-01-17)</small>
+
+* fix: fix env ([c53031f](https://github.com/justdlabs/cli/commit/c53031f))
+
 ## <small>2.3.34 (2025-01-17)</small>
 
 * fix: fix js ([b2bf22f](https://github.com/justdlabs/cli/commit/b2bf22f))
