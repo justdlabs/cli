@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.33 (2025-01-17)</small>
+
+* fix: remove separator from dropdown ([95ae3ba](https://github.com/justdlabs/cli/commit/95ae3ba))
+
 ## <small>2.3.32 (2025-01-16)</small>
 
 * refactor: compound components ([7aed2b9](https://github.com/justdlabs/cli/commit/7aed2b9))
