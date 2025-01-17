@@ -1,14 +1,11 @@
 import fs from "node:fs"
 import process from "node:process"
-import {
-  checkIfCommandExists,
-  checkIfDirectoryExists,
-} from "@/commands/start-new-project/partials/checker"
+import { checkIfCommandExists, checkIfDirectoryExists } from "@/commands/start-new-project/partials/checker"
 import {
   createLaravelApp,
   createNextApp,
   createRemixApp,
-  createViteApp,
+  createViteApp
 } from "@/commands/start-new-project/partials/create-project"
 import { setupBiome, setupTailwind } from "@/commands/start-new-project/partials/setup"
 import type { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/types"
@@ -23,26 +20,26 @@ const frameworks: Record<FrameworkKey, Framework> = {
   laravel: {
     name: "Laravel",
     createCommand: (packageManager, projectName, language, options) =>
-      createLaravelApp(packageManager, projectName, language, options),
+      createLaravelApp(packageManager, projectName, language, options)
   },
   next: {
     name: "Next.js",
     createCommand: (packageManager, projectName, language, options) =>
-      createNextApp(packageManager, projectName, language, options),
+      createNextApp(packageManager, projectName, language, options)
   },
   remix: {
     name: "Remix",
-    createCommand: (packageManager, projectName) => createRemixApp(packageManager, projectName),
+    createCommand: (packageManager, projectName) => createRemixApp(packageManager, projectName)
   },
   vite: {
     name: "Vite",
-    createCommand: (packageManager, projectName) => createViteApp(packageManager, projectName),
-  },
+    createCommand: (packageManager, projectName) => createViteApp(packageManager, projectName)
+  }
 }
 
 export async function startNewProject(
   shouldStartNewProject: "y" | "n" | "yes" | "no",
-  language: Config["language"],
+  language: Config["language"]
 ) {
   if (["y", "yes"].includes(shouldStartNewProject.trim().toLowerCase())) {
     const filteredFrameworks =
@@ -54,20 +51,20 @@ export async function startNewProject(
       message: "Which framework do you want to use?",
       choices: filteredFrameworks.map((key) => ({
         name: frameworks[key as FrameworkKey].name,
-        value: key as FrameworkKey,
-      })),
+        value: key as FrameworkKey
+      }))
     })
 
     const projectName = await input({
       message: "What should your project be named?",
       default: "app",
-      validate: (value) => value.trim() !== "" || "Project name cannot be empty.",
+      validate: (value) => value.trim() !== "" || "Project name cannot be empty."
     })
 
     if (checkIfDirectoryExists(projectName)) {
       console.info("")
       error(
-        `The directory '${projectName}' already exists. Please choose a different name or remove the existing directory.`,
+        `The directory '${projectName}' already exists. Please choose a different name or remove the existing directory.`
       )
       process.exit(1)
     }
@@ -79,8 +76,8 @@ export async function startNewProject(
         message: "Which testing framework do you want to use?",
         choices: [
           { name: "Pest", value: "pest" },
-          { name: "PHPUnit", value: "phpunit" },
-        ],
+          { name: "PHPUnit", value: "phpunit" }
+        ]
       })
 
       options.usePest = testFramework === "pest"
@@ -89,7 +86,7 @@ export async function startNewProject(
       if (!composerExists) {
         console.info("")
         error(
-          "Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup.",
+          "Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup."
         )
         process.exit(1)
       }
@@ -105,7 +102,7 @@ export async function startNewProject(
             ["y", "n", "yes", "no", "Yes", "No"].includes(normalizedValue) ||
             "Please answer yes or no."
           )
-        },
+        }
       })
       options.useSrc = ["y", "yes"].includes(wantSrcFolder.trim().toLowerCase())
     }
@@ -119,7 +116,7 @@ export async function startNewProject(
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
         return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
-      },
+      }
     })
 
     const useBiome = await input({
@@ -128,7 +125,7 @@ export async function startNewProject(
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
         return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
-      },
+      }
     })
 
     const packageManager = await select<PackageManager>({
@@ -137,9 +134,9 @@ export async function startNewProject(
         { name: "Bun", value: "bun" },
         { name: "Yarn", value: "yarn" },
         { name: "npm", value: "npm" },
-        { name: "pnpm", value: "pnpm" },
+        { name: "pnpm", value: "pnpm" }
       ],
-      default: "bun",
+      default: "bun"
     })
 
     if (packageManager !== "npm") {
@@ -147,7 +144,7 @@ export async function startNewProject(
 
       if (!packageManagerExists) {
         error(
-          `${packageManager} is not installed on your system. Please install ${packageManager} to proceed.`,
+          `${packageManager} is not installed on your system. Please install ${packageManager} to proceed.`
         )
         process.exit(1)
       }
@@ -157,7 +154,7 @@ export async function startNewProject(
       packageManager,
       projectName,
       language,
-      options,
+      options
     )
 
     await executeCommand(startCreatingApp, `Creating ${frameworks[framework].name} project.`)
@@ -179,20 +176,21 @@ export async function startNewProject(
       await setupBiome(packageManager)
     }
 
-    // const cliCommand = isProduction ? "justd-cli@latest" : "justd-cli"
+    const isDev = process.env.NODE_ENV !== "development"
+    const cliCommand = isDev ? "justd-cli" : "justd-cli@latest"
 
     const tsOrJs = language === "typescript" ? "--ts" : "--js"
-    const initJustdCommand = ["npx", "justd-cli@latest", "init", tsOrJs, "--force", "--yes"]
+    const initJustdCommand = [isDev ? "bunx" : "npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")
     if (framework === "laravel") {
       console.info(
-        `Start your development server by running: ${highlight(`cd ${projectName} && composer run dev`)}\n`,
+        `Start your development server by running: ${highlight(`cd ${projectName} && composer run dev`)}\n`
       )
     } else {
       console.info(
-        `Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`,
+        `Start your development server by running: ${highlight(`cd ${projectName} && npm run dev`)}\n`
       )
     }
 

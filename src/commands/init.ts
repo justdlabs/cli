@@ -40,7 +40,6 @@ export async function init(flags: {
   language?: "typescript" | "javascript"
 }) {
   let language = flags.language
-
   if (!doesProjectExist()) {
     const shouldStartNewProject = await input({
       message: `No setup project detected. Do you want to start a new project? (Y/${grayText("n")})`,
@@ -75,7 +74,6 @@ export async function init(flags: {
   if (!language) {
     language = isTypescriptProject() ? "typescript" : "javascript"
   }
-
   if (!flags.force) {
     const checkingGit = ora("Checking.").start()
     if (isRepoDirty()) {
@@ -255,7 +253,6 @@ export async function init(flags: {
     const content = fs.readFileSync(path.join(stubs, "1.x/zinc.css"), "utf8")
     writeFileSync(cssLocation, content, { flag: "w" })
   }
-
   const selectedGray = isTailwind(3) ? "zinc.css" : await changeGray(cssLocation, flags)
 
   const config: ConfigInput = {
