@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.34 (2025-01-17)</small>
+
+* fix: fix js ([b2bf22f](https://github.com/justdlabs/cli/commit/b2bf22f))
+* wip ([dee5711](https://github.com/justdlabs/cli/commit/dee5711))
+
 ## <small>2.3.33 (2025-01-17)</small>
 
 * fix: remove separator from dropdown ([95ae3ba](https://github.com/justdlabs/cli/commit/95ae3ba))
