@@ -9,10 +9,11 @@ import { customAlphabet } from "nanoid"
 
 import { listen } from "async-listen"
 import chalk from "chalk"
-import { updateUser } from "rc9"
+import { readUser, updateUser } from "rc9"
 
 const FILENAME = ".justd"
-const DOMAIN = "https://blocks.getjustd.com"
+// const DOMAIN = "https://blocks.getjustd.com"
+const DOMAIN = "http://localhost:3000"
 
 class UserCancellationError extends Error {
   constructor(message: string) {
@@ -23,7 +24,17 @@ class UserCancellationError extends Error {
 
 const nanoid = customAlphabet("123456789QAZWSXEDCRFVTGBYHNUJMIKOLP", 8)
 
-export const addBlock = async () => {}
+export const addBlock = async () => {
+  const config = readUser(FILENAME)
+
+  const res = await fetch(`${DOMAIN}/api/blocks/wow`, {
+    headers: {
+      "x-api-key": config.key,
+    },
+  })
+
+  console.log(await res.text())
+}
 
 export const loginBlock = async () => {
   const server = http.createServer()
