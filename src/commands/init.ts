@@ -144,26 +144,27 @@ export async function init(flags: {
     })
   }
 
+  const lang = language === "typescript" ? "ts" : "js"
   if (isNextJs() && hasFolder("src")) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.src.next.stub")
-    themeProvider = path.join(stubs, "next/theme-provider.stub")
-    providers = path.join(stubs, "next/providers.stub")
+    themeProvider = path.join(stubs, `next/${lang}/theme-provider.stub`)
+    providers = path.join(stubs, `next/${lang}/providers.stub`)
   } else if (isNextJs() && !hasFolder("src")) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.next.stub")
-    themeProvider = path.join(stubs, "next/theme-provider.stub")
-    providers = path.join(stubs, "next/providers.stub")
+    themeProvider = path.join(stubs, `next/${lang}theme-provider.stub`)
+    providers = path.join(stubs, `next/${lang}providers.stub`)
   } else if (isLaravel()) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.laravel.stub")
-    themeProvider = path.join(stubs, "laravel/theme-provider.stub")
-    providers = path.join(stubs, "laravel/providers.stub")
+    themeProvider = path.join(stubs, `laravel/${lang}theme-provider.stub`)
+    providers = path.join(stubs, `laravel/${lang}providers.stub`)
   } else if (isRemix()) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
-    themeProvider = path.join(stubs, "remix/theme-provider.stub")
-    providers = path.join(stubs, "remix/providers.stub")
+    themeProvider = path.join(stubs, `remix/${lang}theme-provider.stub`)
+    providers = path.join(stubs, `remix/${lang}providers.stub`)
   } else {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
-    themeProvider = path.join(stubs, "next/theme-provider.stub")
-    providers = path.join(stubs, "next/providers.stub")
+    themeProvider = path.join(stubs, `laravel/${lang}/theme-provider.stub`)
+    providers = path.join(stubs, `laravel/${lang}/providers.stub`)
   }
 
   if (isTailwind(3)) {
@@ -362,7 +363,7 @@ export async function init(flags: {
   }
   spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
   spinner.succeed(
-    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "providers.tsx")}`)}`,
+    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "primitive.tsx")}`)}`,
   )
   spinner.succeed(
     `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`,

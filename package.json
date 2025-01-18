@@ -1,13 +1,19 @@
 {
   "name": "justd-cli",
   "type": "module",
-  "version": "2.3.36",
+  "version": "2.3.42",
   "description": "The command line interface for Justd.",
   "main": "dist/index.js",
   "bin": {
     "justd": "dist/index.js"
   },
-  "files": ["dist", "src/resources", "LICENSE", "README.md", "package.json"],
+  "files": [
+    "dist",
+    "src/resources",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/justdlabs/cli.git"
@@ -26,7 +32,13 @@
     "release": "export GITHUB_TOKEN=$(cat .github_token) && release-it",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["cli", "justd cli", "Justd", "design-system", "justd"],
+  "keywords": [
+    "cli",
+    "justd cli",
+    "Justd",
+    "design-system",
+    "justd"
+  ],
   "author": "Irsyad A. Panjaitan",
   "license": "MIT",
   "devDependencies": {
@@ -59,6 +71,7 @@
     "ora": "^8.1.1",
     "rc9": "^2.1.2",
     "strip-json-comments": "^5.0.1",
+    "sucrase": "^3.35.0",
     "ts-morph": "^25.0.0"
   },
   "release-it": {
