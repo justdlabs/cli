@@ -1,5 +1,6 @@
 /node_modules
-/src
+/src/*
+!/src/resources/
 /tests
 /.vscode
 /.env
