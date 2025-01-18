@@ -4,6 +4,7 @@ import { program } from "commander"
 import open from "open"
 import packageJson from "../package.json"
 import { add } from "./commands/add"
+import { loginBlock } from "./commands/blocks"
 import { setGray } from "./commands/change-gray"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
@@ -64,6 +65,10 @@ program
   .action(async (components, options) => {
     await add({ component: components.join(" "), ...options })
   })
+
+program.command("login").action(async () => {
+  await loginBlock()
+})
 
 /**
  *  This command is used to change the current gray
