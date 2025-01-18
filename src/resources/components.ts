@@ -348,7 +348,7 @@ const components: any[] = [
   // ------------------------------------------------------------------------------------- //
   {
     name: "sidebar",
-    children: [{ name: "sheet" }, { name: "tooltip" }, { name: "badge" }, { name: "separator" }],
+    children: [{ name: "sheet" }, { name: "tooltip" }, { name: "badge" }],
   },
   { name: "navbar", children: [{ name: "sheet" }] },
   { name: "container" },
