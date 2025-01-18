@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.42 (2025-01-18)</small>
+
+* fix ts ([7649cb9](https://github.com/justdlabs/cli/commit/7649cb9))
+
 ## <small>2.3.41 (2025-01-18)</small>
 
 * fix: fix stubs ([4918fb6](https://github.com/justdlabs/cli/commit/4918fb6))
