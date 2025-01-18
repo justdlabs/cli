@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.40 (2025-01-18)</small>
+
+* fix: providers and theme provider ([96fe206](https://github.com/justdlabs/cli/commit/96fe206))
+
 ## <small>2.3.39 (2025-01-18)</small>
 
 * bump ([f2150c0](https://github.com/justdlabs/cli/commit/f2150c0))
