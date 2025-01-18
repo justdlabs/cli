@@ -48,9 +48,6 @@
   },
   "dependencies": {
     "@antfu/ni": "^23.2.0",
-    "@babel/core": "^7.26.0",
-    "@babel/parser": "^7.26.5",
-    "@babel/plugin-transform-typescript": "^7.26.5",
     "@inquirer/prompts": "^7.2.3",
     "arktype": "^2.0.0",
     "async-listen": "^3.0.1",
