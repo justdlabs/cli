@@ -1,0 +1,11 @@
+import { useHref, useNavigate } from "@remix-run/react";
+import { RouterProvider } from "react-aria-components";
+
+export function Providers({ children }) {
+  const navigate = useNavigate();
+  return (
+    <RouterProvider navigate={navigate} useHref={useHref}>
+      {children}
+    </RouterProvider>
+  );
+}
