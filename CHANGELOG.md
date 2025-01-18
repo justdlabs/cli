@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.36 (2025-01-18)</small>
+
+* fix: remove separator from sidebar ([267ae1b](https://github.com/justdlabs/cli/commit/267ae1b))
+
 ## <small>2.3.35 (2025-01-17)</small>
 
 * fix: fix env ([c53031f](https://github.com/justdlabs/cli/commit/c53031f))
