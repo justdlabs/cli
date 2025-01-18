@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.41 (2025-01-18)</small>
+
+* fix: fix stubs ([4918fb6](https://github.com/justdlabs/cli/commit/4918fb6))
+* wip ([7b87f6f](https://github.com/justdlabs/cli/commit/7b87f6f))
+
 ## <small>2.3.40 (2025-01-18)</small>
 
 * fix: providers and theme provider ([96fe206](https://github.com/justdlabs/cli/commit/96fe206))
