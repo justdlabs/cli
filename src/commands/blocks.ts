@@ -12,6 +12,7 @@ import chalk from "chalk"
 import { updateUser } from "rc9"
 
 const FILENAME = ".justd"
+const DOMAIN = "https://blocks.getjustd.com"
 
 class UserCancellationError extends Error {
   constructor(message: string) {
@@ -62,7 +63,7 @@ export const loginBlock = async () => {
   const redirect = `http://127.0.0.1:${port}`
 
   const code = nanoid()
-  const confirmationUrl = new URL(`${process.env.CLIENT_URL}/auth/devices`)
+  const confirmationUrl = new URL(`${DOMAIN}/auth/devices`)
   confirmationUrl.searchParams.append("code", code)
   confirmationUrl.searchParams.append("redirect", redirect)
   console.log(`Confirmation code: ${chalk.bold(code)}\n`)
