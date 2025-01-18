@@ -10,7 +10,7 @@ import {
 import { error } from "@/utils/logging"
 import { confirm, input } from "@inquirer/prompts"
 import stripJsonComments from "strip-json-comments"
-import { Project } from "ts-morph"
+import { transform } from "sucrase"
 import { type Config, configManager } from "./config"
 
 // Get the path to the CSS file from the justd.json file
@@ -113,38 +113,13 @@ export const writeCodeFile = async (
   parsedContent = parsedContent.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
 
   if (config.language === "javascript") {
-    const project = new Project({})
-
-    // Add source file from string
-    const sourceFile = project.createSourceFile(options.ogFilename, parsedContent, {
-      overwrite: true,
+    const results = transform(parsedContent, {
+      transforms: ["typescript", "jsx"],
+      jsxRuntime: "preserve",
+      disableESTransforms: true,
     })
 
-    // Remove type-only imports
-    sourceFile.getImportDeclarations().forEach((importDecl) => {
-      if (importDecl.isTypeOnly()) {
-        importDecl.remove()
-      }
-    })
-
-    // Remove type exports
-    sourceFile.getExportDeclarations().forEach((exportDecl) => {
-      if (exportDecl.isTypeOnly()) {
-        exportDecl.remove()
-      }
-    })
-
-    // Remove other type annotations
-    sourceFile.getTypeAliases().forEach((type) => type.remove())
-    sourceFile.getInterfaces().forEach((val) => val.remove())
-    sourceFile.getFunctions().forEach((func) => {
-      func.getTypeParameters().forEach((param) => param.remove())
-      func.getParameters().forEach((param) => param.removeType())
-    })
-
-    const jsCode = sourceFile.getFullText()
-
-    fs.writeFileSync(options.writePath.replace(".ts", ".js"), jsCode, { flag: "w" })
+    fs.writeFileSync(options.writePath.replace(".ts", ".js"), results.code, { flag: "w" })
 
     return
   }
