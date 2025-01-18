@@ -1,7 +1,14 @@
 "use client"
-import { Button as ButtonPrimitive, composeRenderProps } from "react-aria-components"
+
+import {
+  Button as ButtonPrimitive,
+  type ButtonProps as ButtonPrimitiveProps,
+  composeRenderProps,
+} from "react-aria-components"
 import { tv } from "tailwind-variants"
+
 import { focusButtonStyles } from "./primitive"
+
 const buttonStyles = tv({
   extend: focusButtonStyles,
   base: [
@@ -64,7 +71,9 @@ const buttonStyles = tv({
       false: "cursor-pointer forced-colors:data-disabled:text-[GrayText]",
       true: "inset-shadow-none cursor-default border-0 opacity-50 ring-0 dark:inset-ring-0 forced-colors:data-disabled:text-[GrayText]",
     },
-    isPending: { true: "cursor-default opacity-50" },
+    isPending: {
+      true: "cursor-default opacity-50",
+    },
   },
   defaultVariants: {
     intent: "primary",
@@ -73,7 +82,7 @@ const buttonStyles = tv({
     shape: "square",
   },
 })
-const Button = ({ className, intent, appearance, size, shape, ref, ...props }) => {
+const Button = ({ className, intent, appearance, size, shape, ref, ...props }: ButtonProps) => {
   return (
     <ButtonPrimitive
       ref={ref}
