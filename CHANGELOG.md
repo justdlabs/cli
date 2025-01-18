@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.39 (2025-01-18)</small>
+
+* bump ([f2150c0](https://github.com/justdlabs/cli/commit/f2150c0))
+* fix: javascript ([71da248](https://github.com/justdlabs/cli/commit/71da248))
+
 ## <small>2.3.36 (2025-01-18)</small>
 
 * fix: remove separator from sidebar ([267ae1b](https://github.com/justdlabs/cli/commit/267ae1b))
