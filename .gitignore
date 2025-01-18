@@ -1,6 +1,7 @@
 node_modules/
 .DS_Store
 .idea
+.vscode
 .env
 tailwind.config.js
 tailwind.config.ts
