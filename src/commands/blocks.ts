@@ -3,10 +3,24 @@ import ora from "ora"
 
 import http from "node:http"
 import type { ParsedUrlQuery } from "node:querystring"
+import url from "node:url"
 
-import { nanoid } from "nanoid"
+import { customAlphabet } from "nanoid"
 
 import { listen } from "async-listen"
+import chalk from "chalk"
+import { updateUser } from "rc9"
+
+const FILENAME = ".justd"
+
+class UserCancellationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "UserCancellationError"
+  }
+}
+
+const nanoid = customAlphabet("123456789QAZWSXEDCRFVTGBYHNUJMIKOLP", 8)
 
 export const addBlock = async () => {}
 
@@ -51,9 +65,9 @@ export const loginBlock = async () => {
   const confirmationUrl = new URL(`${process.env.CLIENT_URL}/auth/devices`)
   confirmationUrl.searchParams.append("code", code)
   confirmationUrl.searchParams.append("redirect", redirect)
-  console.log(`Confirmation code: ${pc.bold(code)}\n`)
+  console.log(`Confirmation code: ${chalk.bold(code)}\n`)
   console.log(
-    `If something goes wrong, copy and paste this URL into your browser: ${pc.bold(
+    `If something goes wrong, copy and paste this URL into your browser: ${chalk.bold(
       confirmationUrl.toString(),
     )}\n`,
   )
@@ -64,7 +78,7 @@ export const loginBlock = async () => {
     spinner.start()
     const authData = await authPromise
     spinner.stop()
-    writeToConfigFile(authData)
+    updateUser(authData, FILENAME)
     console.log(
       `Authentication successful: wrote key to config file. To view it, type 'cat ~/${FILENAME}'.\n`,
     )
