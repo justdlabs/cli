@@ -24,7 +24,7 @@ class UserCancellationError extends Error {
 
 const nanoid = customAlphabet("123456789QAZWSXEDCRFVTGBYHNUJMIKOLP", 8)
 
-export const addBlock = async () => {
+export const addBlock = async ({ components }: { components: string[] }) => {
   const config = readUser(FILENAME)
 
   const res = await fetch(`${DOMAIN}/api/blocks/wow`, {

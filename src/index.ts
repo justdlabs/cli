@@ -74,8 +74,8 @@ program
   .command("block [components...]")
   .option("--skip <type>", "Skip")
   .option("-o, --overwrite", "Override existing components")
-  .action(async () => {
-    await addBlock()
+  .action(async (components, options) => {
+    await addBlock({ components })
   })
 
 /**
