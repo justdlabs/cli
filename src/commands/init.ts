@@ -151,8 +151,8 @@ export async function init(flags: {
     providers = path.join(stubs, `next/${lang}/providers.stub`)
   } else if (isNextJs() && !hasFolder("src")) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.next.stub")
-    themeProvider = path.join(stubs, `next/${lang}theme-provider.stub`)
-    providers = path.join(stubs, `next/${lang}providers.stub`)
+    themeProvider = path.join(stubs, `next/${lang}/theme-provider.stub`)
+    providers = path.join(stubs, `next/${lang}/providers.stub`)
   } else if (isLaravel()) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.laravel.stub")
     themeProvider = path.join(stubs, `laravel/${lang}theme-provider.stub`)
