@@ -63,7 +63,7 @@ program
   .option("--skip <type>", "Skip")
   .option("-o, --overwrite", "Override existing components")
   .action(async (components, options) => {
-    await add({ component: components.join(" "), ...options })
+    await add({ components, ...options })
   })
 
 program.command("login").action(async () => {

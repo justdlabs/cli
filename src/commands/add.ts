@@ -91,9 +91,13 @@ async function updateIndexFile(
  *  This function is used to add new components to the project
  *  @param options any
  */
-export async function add(options: any) {
+export async function add(options: {
+  components: string[]
+  overwrite: boolean
+  successMessage: string
+}) {
   const spinner = ora("Checking.").start()
-  const { component, overwrite, successMessage } = options
+  const { overwrite, successMessage, components: comps } = options
 
   const doesConfigExist = await configManager.doesConfigExist()
 
@@ -109,7 +113,8 @@ export async function add(options: any) {
   spinner.stop()
 
   const exclude = ["primitive"]
-  let selectedComponents = component ? component.split(" ") : []
+  let selectedComponents = comps
+
   if (selectedComponents.length === 0) {
     const choices = components
       .filter((comp) => !exclude.includes(comp.name))
