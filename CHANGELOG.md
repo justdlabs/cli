@@ -1,5 +1,28 @@
 # Changelog
 
+## <small>2.3.43 (2025-01-20)</small>
+
+* fix: add block ([3ab5b83](https://github.com/justdlabs/cli/commit/3ab5b83))
+* fix: correct theme provider path construction in Next.js setup ([7173fd4](https://github.com/justdlabs/cli/commit/7173fd4))
+* add content type ([2242dc2](https://github.com/justdlabs/cli/commit/2242dc2))
+* add stuff ([654abff](https://github.com/justdlabs/cli/commit/654abff))
+* add stuff ([bd5d7af](https://github.com/justdlabs/cli/commit/bd5d7af))
+* add stuff ([51369e7](https://github.com/justdlabs/cli/commit/51369e7))
+* add stuff ([a624efe](https://github.com/justdlabs/cli/commit/a624efe))
+* fix ([58c48c0](https://github.com/justdlabs/cli/commit/58c48c0))
+* fix ([fd20963](https://github.com/justdlabs/cli/commit/fd20963))
+* fix add comp ([88953ad](https://github.com/justdlabs/cli/commit/88953ad))
+* install required components ([760d24b](https://github.com/justdlabs/cli/commit/760d24b))
+* load blocks ([deed70e](https://github.com/justdlabs/cli/commit/deed70e))
+* more stuff ([a7f6ccc](https://github.com/justdlabs/cli/commit/a7f6ccc))
+* refactor ([a62d6df](https://github.com/justdlabs/cli/commit/a62d6df))
+* remove unsued deps ([0b8ebcb](https://github.com/justdlabs/cli/commit/0b8ebcb))
+* stuff ([723a401](https://github.com/justdlabs/cli/commit/723a401))
+* stuff ([1d949f6](https://github.com/justdlabs/cli/commit/1d949f6))
+* update cli ([82a2314](https://github.com/justdlabs/cli/commit/82a2314))
+* update diff ([0eb42f6](https://github.com/justdlabs/cli/commit/0eb42f6))
+* wip ([a6e60bc](https://github.com/justdlabs/cli/commit/a6e60bc))
+
 ## <small>2.3.42 (2025-01-18)</small>
 
 * fix ts ([7649cb9](https://github.com/justdlabs/cli/commit/7649cb9))
