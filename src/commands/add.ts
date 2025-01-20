@@ -399,6 +399,7 @@ async function processComponent(
  *  This function is used to create a new component
  *  @param config
  *  @param componentName string
+ * @param type
  */
 async function createComponent(config: Config, componentName: string, type: "justd" | "block") {
   const writePath = getWriteComponentPath(config, componentName)
@@ -424,8 +425,11 @@ async function createComponent(config: Config, componentName: string, type: "jus
     }
 
     const content = await response.text()
-
-    await writeCodeFile(config, { writePath, ogFilename: `${componentName}.tsx`, content })
+    await writeCodeFile(config, {
+      writePath,
+      ogFilename: `${componentName}.tsx`,
+      content: type === "justd" ? content : JSON.parse(content),
+    })
   } catch (err) {
     console.log(err)
     error(`Error writing component: ${componentName}`)

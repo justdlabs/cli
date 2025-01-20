@@ -32,6 +32,7 @@ export const getThemesRepoUrl = (gray: string): string => {
 /**
  *  This function is used to get the URL for a component
  *  @param componentName string
+ *  @param type
  *  @returns string
  */
 export const getRepoUrlForComponent = (componentName: string, type: "justd" | "block") => {
