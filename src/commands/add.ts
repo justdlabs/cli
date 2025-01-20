@@ -12,6 +12,8 @@ import chalk from "chalk"
 import ora from "ora"
 
 import { writeCodeFile } from "@/utils"
+import { readUser } from "rc9"
+import { FILENAME } from "./blocks"
 
 const exceptions = ["field", "dropdown", "dialog"]
 
@@ -136,6 +138,7 @@ export async function add(options: {
   const createdFiles: string[] = []
   const existingFiles = new Set<string>()
   const processed = new Set<string>()
+  let type: "justd" | "block" = "justd"
 
   try {
     spinner.start("Checking.")
@@ -146,12 +149,29 @@ export async function add(options: {
           !namespaces.includes(componentName) && !exceptions.includes(componentName),
       )
       .map(async (componentName: string) => {
-        const repoUrl = getRepoUrlForComponent(componentName)
+        const repoUrl = getRepoUrlForComponent(componentName, "justd")
         const response = await fetch(repoUrl)
+
         if (!response.ok) {
-          error(`Component '${componentName}' not found at ${repoUrl}`)
-          process.exit(1)
+          const userConfig = readUser(FILENAME)
+          const blockUrl = getRepoUrlForComponent(componentName, "block")
+
+          const response = await fetch(blockUrl, {
+            headers: {
+              "x-api-key": userConfig?.key,
+            },
+          })
+
+          if (!response.ok) {
+            error(`Component '${componentName}' not found at ${repoUrl}`)
+            process.exit(1)
+          }
+
+          type = "block"
+
+          return response
         }
+
         return response
       })
 
@@ -218,7 +238,7 @@ export async function add(options: {
           try {
             // spinner.text = `Creating component: ${componentName}`
             const targetComponent = components.find((comp) => comp.name === componentName)
-            if (!targetComponent) {
+            if (!targetComponent && type === "justd") {
               warn(`Component '${highlight(componentName)}' not found in local resources.`)
               return
             }
@@ -229,7 +249,7 @@ export async function add(options: {
               return
             }
 
-            if (namespaces.includes(componentName) && targetComponent.children) {
+            if (namespaces.includes(componentName) && targetComponent && targetComponent.children) {
               await Promise.all(
                 targetComponent.children.map((child: any) =>
                   processComponent(config, {
@@ -242,6 +262,7 @@ export async function add(options: {
                     isChild: true,
                     createdFiles,
                     existingFiles,
+                    type,
                   }),
                 ),
               )
@@ -256,6 +277,7 @@ export async function add(options: {
                 isChild: false,
                 createdFiles,
                 existingFiles,
+                type,
               })
             }
 
@@ -335,6 +357,7 @@ async function processComponent(
     isChild: boolean
     createdFiles: string[]
     existingFiles: Set<string>
+    type: "justd" | "block"
   },
 ) {
   if (options.processed.has(options.componentName)) return
@@ -350,14 +373,14 @@ async function processComponent(
   if (fs.existsSync(componentPath)) {
     if (options.overwrite && !options.isChild) {
       fs.rmSync(componentPath, { recursive: true, force: true })
-      await createComponent(config, options.componentName)
+      await createComponent(config, options.componentName, options.type)
       options.createdFiles.push(getWriteComponentPath(config, options.componentName))
     } else {
       options.existingFiles.add(getWriteComponentPath(config, options.componentName))
       return
     }
   } else {
-    await createComponent(config, options.componentName)
+    await createComponent(config, options.componentName, options.type)
     options.createdFiles.push(getWriteComponentPath(config, options.componentName))
   }
 
@@ -376,7 +399,7 @@ async function processComponent(
  *  @param config
  *  @param componentName string
  */
-async function createComponent(config: Config, componentName: string) {
+async function createComponent(config: Config, componentName: string, type: "justd" | "block") {
   const writePath = getWriteComponentPath(config, componentName)
   const dir = path.dirname(writePath)
 
@@ -384,9 +407,14 @@ async function createComponent(config: Config, componentName: string) {
     fs.mkdirSync(dir, { recursive: true })
   }
 
-  const url = getRepoUrlForComponent(componentName)
+  const url = getRepoUrlForComponent(componentName, type)
   try {
-    const response = await fetch(url)
+    const userConfig = readUser(FILENAME)
+    const response = await fetch(url, {
+      headers: {
+        "x-api-key": userConfig?.key,
+      },
+    })
 
     if (!response.ok) {
       error(`Failed to fetch component: ${response.statusText}`)

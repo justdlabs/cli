@@ -21,7 +21,7 @@ import chalk from "chalk"
 import { readUser, updateUser } from "rc9"
 import { add } from "./add"
 
-const FILENAME = ".justd"
+export const FILENAME = ".justd"
 const DOMAIN = "https://blocks.getjustd.com"
 
 class UserCancellationError extends Error {

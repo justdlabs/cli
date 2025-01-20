@@ -34,11 +34,13 @@ export const getThemesRepoUrl = (gray: string): string => {
  *  @param componentName string
  *  @returns string
  */
-export const getRepoUrlForComponent = (componentName: string) => {
-  const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
-  if (!repoUrl) {
-    throw new Error("REPO_URL environment variable is not set")
+export const getRepoUrlForComponent = (componentName: string, type: "justd" | "block") => {
+  if (type === "block") {
+    return `https://blocks.getjustd.com/api/registry/ui/${componentName}.tsx`
   }
+
+  const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
+
   return repoUrl
 }
 
