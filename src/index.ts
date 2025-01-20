@@ -71,11 +71,11 @@ program.command("login").action(async () => {
 })
 
 program
-  .command("block [slug...]")
+  .command("block [args...]")
   .option("--skip <type>", "Skip")
   .option("-o, --overwrite", "Override existing components")
-  .action(async (components, options) => {
-    await addBlock({ components })
+  .action(async (slugs, options) => {
+    await addBlock({ slugs })
   })
 
 /**

@@ -8,7 +8,7 @@ import url from "node:url"
 import { customAlphabet } from "nanoid"
 
 import { getPackageManager } from "@/utils/get-package-manager"
-import { error, highlight, warningText } from "@/utils/logging"
+import { error, errorText, highlight, warningText } from "@/utils/logging"
 import { type } from "arktype"
 import { listen } from "async-listen"
 import chalk from "chalk"
@@ -28,6 +28,18 @@ class UserCancellationError extends Error {
 
 const nanoid = customAlphabet("123456789QAZWSXEDCRFVTGBYHNUJMIKOLP", 8)
 
+const FileType = type({
+  name: "string",
+  content: "string",
+})
+
+const BlockCode = type({
+  name: "string",
+  files: FileType.array(),
+  type: "string",
+  componentPath: "string",
+})
+
 const blockType = type({
   title: "string",
   slug: "string",
@@ -38,9 +50,16 @@ const blockType = type({
       "[string]": "string",
     },
   },
+  blockCode: BlockCode.array(),
 })
 
-export const addBlock = async ({ components }: { components: string[] }) => {
+export const addBlock = async ({ slugs }: { slugs: string[] }) => {
+  if (slugs.length !== 3) {
+    console.log(errorText("Please provide three slugs."))
+
+    process.exit(1)
+  }
+
   const config = readUser(FILENAME)
 
   if (!config.key) {
@@ -48,7 +67,7 @@ export const addBlock = async ({ components }: { components: string[] }) => {
     process.exit(1)
   }
 
-  const res = await fetch(`${DOMAIN}/api/blocks/applications/sidebar/01`, {
+  const res = await fetch(`${DOMAIN}/api/blocks/${slugs.join("/")}`, {
     headers: {
       "x-api-key": config.key,
     },
