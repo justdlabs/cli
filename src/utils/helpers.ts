@@ -79,7 +79,7 @@ export function possibilityRootPath(): string {
     return "src"
   }
   if (hasFolder("app") && isNextJs() && !fs.existsSync("artisan")) {
-    return "utils"
+    return "app"
   }
   if (hasFolder("app") && !fs.existsSync("artisan") && isRemix()) {
     return "app"
@@ -87,7 +87,26 @@ export function possibilityRootPath(): string {
   if (hasFolder("src") && !fs.existsSync("artisan") && !isRemix() && !isNextJs()) {
     return "src"
   }
-  return "utils"
+  return "app"
+}
+
+export function possibilityRoutePath(): string {
+  if (isLaravel()) {
+    return "resources/js/Pages"
+  }
+  if (hasFolder("src") && !fs.existsSync("artisan") && isNextJs()) {
+    return "src/app"
+  }
+  if (hasFolder("app") && isNextJs() && !fs.existsSync("artisan")) {
+    return "app"
+  }
+  if (hasFolder("app") && !fs.existsSync("artisan") && isRemix()) {
+    return "app"
+  }
+  if (hasFolder("src") && !fs.existsSync("artisan") && !isRemix() && !isNextJs()) {
+    return "src/app"
+  }
+  return "src"
 }
 
 export function isNextJs(): boolean {

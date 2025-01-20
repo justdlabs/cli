@@ -159,8 +159,8 @@ export async function init(flags: {
     providers = path.join(stubs, `laravel/${lang}providers.stub`)
   } else if (isRemix()) {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
-    themeProvider = path.join(stubs, `remix/${lang}theme-provider.stub`)
-    providers = path.join(stubs, `remix/${lang}providers.stub`)
+    themeProvider = path.join(stubs, `remix/${lang}/theme-provider.stub`)
+    providers = path.join(stubs, `remix/${lang}/providers.stub`)
   } else {
     twConfigStub = path.join(stubs, "1.x/tailwind.config.vite.stub")
     themeProvider = path.join(stubs, `laravel/${lang}/theme-provider.stub`)

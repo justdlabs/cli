@@ -13,6 +13,7 @@ import path from "node:path"
 import { writeCodeFile } from "@/utils"
 import { configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
+import { possibilityRoutePath } from "@/utils/helpers"
 import { error, errorText, highlight, warningText } from "@/utils/logging"
 import { type } from "arktype"
 import { listen } from "async-listen"
@@ -135,7 +136,11 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
 
   for (const block of json.blockCode) {
     for (const file of block.files) {
-      const filePath = path.join(process.cwd(), `${slugs[0]}-${slugs[1]}-${slugs[2]}`, file.name)
+      const filePath = path.join(
+        process.cwd(),
+        `${possibilityRoutePath()}/${slugs[0]}-${slugs[1]}-${slugs[2]}`,
+        file.name,
+      )
 
       if (fs.existsSync(filePath)) {
         console.log(errorText(`File already exists: ${filePath}`))

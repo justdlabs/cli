@@ -186,11 +186,9 @@ export async function add(options: {
     }
 
     if (
-      await Promise.resolve(
-        selectedComponents.some((component: string) =>
-          ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(
-            component,
-          ),
+      selectedComponents.some((component: string) =>
+        ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(
+          component,
         ),
       )
     ) {
@@ -213,16 +211,12 @@ export async function add(options: {
       }
     }
 
-    spinner.succeed("Installed dependencies.")
-
-    spinner.start("Creating components.")
-
     try {
       // Process components in parallel
       await Promise.all(
         selectedComponents.map(async (componentName: string) => {
           try {
-            spinner.text = `Creating component: ${componentName}`
+            // spinner.text = `Creating component: ${componentName}`
             const targetComponent = components.find((comp) => comp.name === componentName)
             if (!targetComponent) {
               warn(`Component '${highlight(componentName)}' not found in local resources.`)
@@ -278,7 +272,6 @@ export async function add(options: {
 
       const isAllSelected = selectedComponents.length === allComponentNames.length
 
-      // Process additional dependencies in parallel
       if (isAllSelected) {
         await Promise.all(
           Object.keys(additionalDeps).map((componentName) =>
@@ -293,27 +286,30 @@ export async function add(options: {
         )
       }
 
-      spinner.succeed()
+      spinner.succeed("Creating components.")
     } catch (error) {
       spinner.fail("Failed to create components.")
-      throw error
+      process.exit(1)
     }
 
     spinner.succeed()
   } catch (error) {
     spinner.fail("Failed to create components.")
-    return
+    process.exit(1)
   }
 
   const fileWord = createdFiles.length === 1 ? "file" : "files"
   if (createdFiles.length > 0) {
+    const uniqueCreatedFiles = Array.from(new Set(createdFiles))
     const what = overwrite ? "Overwrite" : "Created"
+
     if (successMessage) {
-      spinner.succeed(`Updated ${createdFiles.length} ${fileWord}:`)
+      spinner.succeed(`Updated ${uniqueCreatedFiles.length} ${fileWord}:`)
     } else {
-      spinner.succeed(`${what} ${createdFiles.length} ${fileWord}:`)
+      spinner.succeed(`${what} ${uniqueCreatedFiles.length} ${fileWord}:`)
     }
-    createdFiles.forEach((file) => console.info(`  - ${file}`))
+
+    uniqueCreatedFiles.forEach((file) => console.info(`  - ${file}`))
   }
 
   if (existingFiles.size > 0 && !overwrite) {
@@ -324,15 +320,8 @@ export async function add(options: {
 
 /**
  *  This function is used to process a component
- *  @param componentName string
- *  @param packageManager string
- *  @param action string
- *  @param processed Set<string>
- *  @param allComponents any[]
- *  @param overwrite boolean
- *  @param isChild boolean
- *  @param createdFiles string[]
- *  @param existingFiles Set<string>
+ * @param config
+ * @param options
  */
 async function processComponent(
   config: Config,
@@ -384,6 +373,7 @@ async function processComponent(
 
 /**
  *  This function is used to create a new component
+ *  @param config
  *  @param componentName string
  */
 async function createComponent(config: Config, componentName: string) {
