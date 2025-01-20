@@ -159,6 +159,7 @@ export async function add(options: {
           const response = await fetch(blockUrl, {
             headers: {
               "x-api-key": userConfig?.key,
+              "content-type": "application/text",
             },
           })
 
@@ -413,6 +414,7 @@ async function createComponent(config: Config, componentName: string, type: "jus
     const response = await fetch(url, {
       headers: {
         "x-api-key": userConfig?.key,
+        "content-type": "application/text",
       },
     })
 
