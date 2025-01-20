@@ -110,8 +110,10 @@ export const writeCodeFile = async (
     utils = config.utils
   }
 
+  const dirPath = path.dirname(options.writePath)
   parsedContent = parsedContent.replace(/@\/utils\/classes/g, `@/${utils}/classes`)
 
+  fs.mkdirSync(dirPath, { recursive: true })
   if (config.language === "javascript") {
     const results = transform(parsedContent, {
       transforms: ["typescript", "jsx"],

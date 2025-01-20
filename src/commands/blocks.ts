@@ -1,12 +1,17 @@
 import { spawn } from "node:child_process"
 import ora from "ora"
 
+import fs from "node:fs"
 import http from "node:http"
+
 import type { ParsedUrlQuery } from "node:querystring"
 import url from "node:url"
 
 import { customAlphabet } from "nanoid"
 
+import path from "node:path"
+import { writeCodeFile } from "@/utils"
+import { configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { error, errorText, highlight, warningText } from "@/utils/logging"
 import { type } from "arktype"
@@ -60,16 +65,23 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
     process.exit(1)
   }
 
-  const config = readUser(FILENAME)
+  const userConfig = readUser(FILENAME)
 
-  if (!config.key) {
+  if (!(await configManager.doesConfigExist())) {
+    console.log(errorText("Config file not found. Please run the init command first."))
+    process.exit(1)
+  }
+
+  const config = await configManager.loadConfig()
+
+  if (!userConfig.key) {
     console.log(warningText("No API key found. Please login first."))
     process.exit(1)
   }
 
   const res = await fetch(`${DOMAIN}/api/blocks/${slugs.join("/")}`, {
     headers: {
-      "x-api-key": config.key,
+      "x-api-key": userConfig.key,
     },
   })
 
@@ -122,7 +134,24 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
     })
   }
 
-  // TODO: Receive Block Data => On success, write block comps to file.
+  for (const block of json.blockCode) {
+    for (const file of block.files) {
+      const filePath = path.join(process.cwd(), `${slugs[0]}-${slugs[1]}-${slugs[2]}`, file.name)
+
+      if (fs.existsSync(filePath)) {
+        console.log(errorText(`File already exists: ${filePath}`))
+        process.exit(1)
+      }
+
+      await writeCodeFile(config, {
+        writePath: filePath,
+        ogFilename: file.name,
+        content: file.content,
+      })
+
+      console.log(`File created: ${filePath}`)
+    }
+  }
 }
 
 export const loginBlock = async () => {
@@ -181,7 +210,7 @@ export const loginBlock = async () => {
     spinner.stop()
     updateUser(authData, FILENAME)
     console.log(
-      `Authentication successful: wrote key to config file. To view it, type 'cat ~/${FILENAME}'.\n`,
+      `Authentication successful: wrote key to userConfig file. To view it, type 'cat ~/${FILENAME}'.\n`,
     )
     server.close()
     process.exit(0)
