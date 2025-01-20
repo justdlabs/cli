@@ -21,8 +21,7 @@ import { readUser, updateUser } from "rc9"
 import { add } from "./add"
 
 const FILENAME = ".justd"
-// const DOMAIN = "https://blocks.getjustd.com"
-const DOMAIN = "http://localhost:3000"
+const DOMAIN = "https://blocks.getjustd.com"
 
 class UserCancellationError extends Error {
   constructor(message: string) {
