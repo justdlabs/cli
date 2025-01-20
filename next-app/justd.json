@@ -5,5 +5,5 @@
   "gray": "zinc",
   "css": "src/app/globals.css",
   "alias": "@",
-  "language": "javascript"
+  "language": "typescript"
 }

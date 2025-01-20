@@ -196,7 +196,7 @@ export const diff = async (...args: string[]) => {
       })
 
       await add({
-        component: selectedComponents.join(" "),
+        components: selectedComponents,
         overwrite: true,
         successMessage: "Updating components...",
       })

@@ -91,9 +91,13 @@ async function updateIndexFile(
  *  This function is used to add new components to the project
  *  @param options any
  */
-export async function add(options: any) {
+export async function add(options: {
+  components: string[]
+  overwrite: boolean
+  successMessage: string
+}) {
   const spinner = ora("Checking.").start()
-  const { component, overwrite, successMessage } = options
+  const { overwrite, successMessage, components: comps } = options
 
   const doesConfigExist = await configManager.doesConfigExist()
 
@@ -109,7 +113,8 @@ export async function add(options: any) {
   spinner.stop()
 
   const exclude = ["primitive"]
-  let selectedComponents = component ? component.split(" ") : []
+  let selectedComponents = comps
+
   if (selectedComponents.length === 0) {
     const choices = components
       .filter((comp) => !exclude.includes(comp.name))
@@ -134,16 +139,23 @@ export async function add(options: any) {
 
   try {
     spinner.start("Checking.")
-    for (const componentName of selectedComponents) {
-      if (namespaces.includes(componentName) || exceptions.includes(componentName)) continue
 
-      const repoUrl = getRepoUrlForComponent(componentName)
-      const response = await fetch(repoUrl)
-      if (!response.ok) {
-        error(`Component '${componentName}' not found at ${repoUrl}`)
-        process.exit(1)
-      }
-    }
+    const fetchPromises = selectedComponents
+      .filter(
+        (componentName: string) =>
+          !namespaces.includes(componentName) && !exceptions.includes(componentName),
+      )
+      .map(async (componentName: string) => {
+        const repoUrl = getRepoUrlForComponent(componentName)
+        const response = await fetch(repoUrl)
+        if (!response.ok) {
+          error(`Component '${componentName}' not found at ${repoUrl}`)
+          process.exit(1)
+        }
+        return response
+      })
+
+    await Promise.all(fetchPromises)
     spinner.succeed("Checking.")
   } catch (error) {
     spinner.fail("Error looking up the component.")
@@ -201,73 +213,95 @@ export async function add(options: any) {
       }
     }
 
-    for (const componentName of selectedComponents) {
-      try {
-        const targetComponent = components.find((comp) => comp.name === componentName)
-        if (!targetComponent) {
-          warn(`Component '${highlight(componentName)}' not found in local resources.`)
-          continue
-        }
+    spinner.succeed("Installed dependencies.")
 
-        const componentPath = getWriteComponentPath(config, componentName)
-        if (fs.existsSync(componentPath) && !overwrite) {
-          existingFiles.add(componentPath)
-          continue
-        }
+    spinner.start("Creating components.")
 
-        if (namespaces.includes(componentName) && targetComponent.children) {
-          for (const child of targetComponent.children) {
-            await processComponent(config, {
-              componentName: child.name,
-              packageManager,
-              action,
-              processed,
-              allComponents: components,
-              overwrite,
-              isChild: true,
-              createdFiles,
-              existingFiles,
-            })
+    try {
+      // Process components in parallel
+      await Promise.all(
+        selectedComponents.map(async (componentName: string) => {
+          try {
+            spinner.text = `Creating component: ${componentName}`
+            const targetComponent = components.find((comp) => comp.name === componentName)
+            if (!targetComponent) {
+              warn(`Component '${highlight(componentName)}' not found in local resources.`)
+              return
+            }
+
+            const componentPath = getWriteComponentPath(config, componentName)
+            if (fs.existsSync(componentPath) && !overwrite) {
+              existingFiles.add(componentPath)
+              return
+            }
+
+            if (namespaces.includes(componentName) && targetComponent.children) {
+              await Promise.all(
+                targetComponent.children.map((child: any) =>
+                  processComponent(config, {
+                    componentName: child.name,
+                    packageManager,
+                    action,
+                    processed,
+                    allComponents: components,
+                    overwrite,
+                    isChild: true,
+                    createdFiles,
+                    existingFiles,
+                  }),
+                ),
+              )
+            } else {
+              await processComponent(config, {
+                componentName,
+                packageManager,
+                action,
+                processed,
+                allComponents: components,
+                overwrite,
+                isChild: false,
+                createdFiles,
+                existingFiles,
+              })
+            }
+
+            await updateIndexFile(config, componentName)
+          } catch (error) {
+            console.error(warningText(`Error processing '${componentName}'.`))
           }
-        } else {
-          await processComponent(config, {
-            componentName,
-            packageManager,
-            action,
-            processed,
-            allComponents: components,
-            overwrite,
-            isChild: false,
-            createdFiles,
-            existingFiles,
-          })
-        }
+        }),
+      )
 
-        await updateIndexFile(config, componentName)
-      } catch (error) {
-        console.error(warningText(`Error processing '${componentName}'.`))
+      const allComponentNames = components
+        .filter((comp) => !exclude.includes(comp.name) && !namespaces.includes(comp.name))
+        .map((comp) => comp.name)
+
+      const isAllSelected = selectedComponents.length === allComponentNames.length
+
+      // Process additional dependencies in parallel
+      if (isAllSelected) {
+        await Promise.all(
+          Object.keys(additionalDeps).map((componentName) =>
+            additionalDeps(componentName, packageManager, action),
+          ),
+        )
+      } else {
+        await Promise.all(
+          selectedComponents.map((componentName: string) =>
+            additionalDeps(componentName, packageManager, action),
+          ),
+        )
       }
-    }
 
-    const allComponentNames = components
-      .filter((comp) => !exclude.includes(comp.name) && !namespaces.includes(comp.name))
-      .map((comp) => comp.name)
-
-    const isAllSelected = selectedComponents.length === allComponentNames.length
-
-    if (isAllSelected) {
-      for (const componentName of Object.keys(additionalDeps)) {
-        await additionalDeps(componentName, packageManager, action)
-      }
-    } else {
-      for (const componentName of selectedComponents) {
-        await additionalDeps(componentName, packageManager, action)
-      }
+      spinner.succeed()
+    } catch (error) {
+      spinner.fail("Failed to create components.")
+      throw error
     }
 
     spinner.succeed()
   } catch (error) {
-    spinner.fail("Failed to install dependencies. Please check the logs for more information.")
+    spinner.fail("Failed to create components.")
     return
   }
 

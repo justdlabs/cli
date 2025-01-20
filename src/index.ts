@@ -4,6 +4,7 @@ import { program } from "commander"
 import open from "open"
 import packageJson from "../package.json"
 import { add } from "./commands/add"
+import { addBlock, loginBlock } from "./commands/blocks"
 import { setGray } from "./commands/change-gray"
 import { diff } from "./commands/diff"
 import { help } from "./commands/help"
@@ -62,7 +63,19 @@ program
   .option("--skip <type>", "Skip")
   .option("-o, --overwrite", "Override existing components")
   .action(async (components, options) => {
-    await add({ component: components.join(" "), ...options })
+    await add({ components, ...options })
+  })
+
+program.command("login").action(async () => {
+  await loginBlock()
+})
+
+program
+  .command("block [args...]")
+  .option("--skip <type>", "Skip")
+  .option("-o, --overwrite", "Override existing components")
+  .action(async (slugs, options) => {
+    await addBlock({ slugs })
   })
 
 /**
