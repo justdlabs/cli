@@ -7,9 +7,12 @@ import url from "node:url"
 
 import { customAlphabet } from "nanoid"
 
+import { warningText } from "@/utils/logging"
+import { type } from "arktype"
 import { listen } from "async-listen"
 import chalk from "chalk"
 import { readUser, updateUser } from "rc9"
+import { add } from "./add"
 
 const FILENAME = ".justd"
 // const DOMAIN = "https://blocks.getjustd.com"
@@ -24,16 +27,50 @@ class UserCancellationError extends Error {
 
 const nanoid = customAlphabet("123456789QAZWSXEDCRFVTGBYHNUJMIKOLP", 8)
 
+const blockType = type({
+  title: "string",
+  slug: "string",
+  preview: "string",
+  meta: {
+    ui: {
+      "[string]": "string",
+    },
+  },
+})
+
 export const addBlock = async ({ components }: { components: string[] }) => {
   const config = readUser(FILENAME)
 
-  const res = await fetch(`${DOMAIN}/api/blocks/wow`, {
+  if (!config.key) {
+    console.log(warningText("No API key found. Please login first."))
+    process.exit(1)
+  }
+
+  const res = await fetch(`${DOMAIN}/api/blocks/applications/sidebar/01`, {
     headers: {
       "x-api-key": config.key,
     },
   })
 
-  console.log(await res.text())
+  if (!res.ok) {
+    console.log(warningText(await res.text()))
+    process.exit(1)
+  }
+
+  const json = blockType(await res.json())
+
+  if (json instanceof type.errors) {
+    console.log(warningText(json.summary))
+    process.exit(1)
+  }
+
+  await add({
+    components: Object.keys(json.meta.ui).map((key) => key.replace(".tsx", "")),
+    successMessage: "Required components added.",
+    overwrite: false,
+  })
+
+  // TODO: Receive Block Data => On success, write block comps to file.
 }
 
 export const loginBlock = async () => {
