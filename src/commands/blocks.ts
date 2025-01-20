@@ -7,7 +7,8 @@ import url from "node:url"
 
 import { customAlphabet } from "nanoid"
 
-import { warningText } from "@/utils/logging"
+import { getPackageManager } from "@/utils/get-package-manager"
+import { error, highlight, warningText } from "@/utils/logging"
 import { type } from "arktype"
 import { listen } from "async-listen"
 import chalk from "chalk"
@@ -32,6 +33,7 @@ const blockType = type({
   slug: "string",
   preview: "string",
   meta: {
+    "packages?": "string[]",
     ui: {
       "[string]": "string",
     },
@@ -69,6 +71,37 @@ export const addBlock = async ({ components }: { components: string[] }) => {
     successMessage: "Required components added.",
     overwrite: false,
   })
+
+  const packageManager = await getPackageManager()
+  const action = packageManager === "npm" ? "i " : "add "
+
+  if (json.meta.packages && json.meta.packages?.length === 0) {
+    const installCommand = `${packageManager} ${action} ${json.meta.packages.join(" ")} --silent`
+    const child = spawn(installCommand, {
+      stdio: "ignore",
+      shell: true,
+    })
+
+    await new Promise<void>((resolve, reject) => {
+      child.on("close", (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          error(`Failed to install ${highlight(json.meta.packages!.join(" "))}. Exit code: ${code}`)
+          reject(
+            new Error(
+              `Installation failed for ${highlight(json.meta.packages!.join(" "))} with code ${code}`,
+            ),
+          )
+        }
+      })
+
+      child.on("error", (err) => {
+        error(`Error while executing: ${highlight(installCommand)}`)
+        reject(err)
+      })
+    })
+  }
 
   // TODO: Receive Block Data => On success, write block comps to file.
 }

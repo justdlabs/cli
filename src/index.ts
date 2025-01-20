@@ -71,7 +71,7 @@ program.command("login").action(async () => {
 })
 
 program
-  .command("block [components...]")
+  .command("block [slug...]")
   .option("--skip <type>", "Skip")
   .option("-o, --overwrite", "Override existing components")
   .action(async (components, options) => {
