@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.44 (2025-01-21)</small>
+
+* wip ([ed57884](https://github.com/justdlabs/cli/commit/ed57884))
+
 ## <small>2.3.43 (2025-01-20)</small>
 
 * fix: add block ([3ab5b83](https://github.com/justdlabs/cli/commit/3ab5b83))
