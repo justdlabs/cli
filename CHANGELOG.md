@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.45 (2025-01-21)</small>
+
+* fix: fix import ([7039688](https://github.com/justdlabs/cli/commit/7039688))
+
 ## <small>2.3.44 (2025-01-21)</small>
 
 * wip ([ed57884](https://github.com/justdlabs/cli/commit/ed57884))
