@@ -40,9 +40,7 @@ export const getRepoUrlForComponent = (componentName: string, type: "justd" | "b
     return `https://blocks.getjustd.com/api/registry/ui/${componentName}.tsx`
   }
 
-  const repoUrl = `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
-
-  return repoUrl
+  return `${REPO}/${BRANCH}/components/ui/${componentName}.tsx`
 }
 
 /**

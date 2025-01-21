@@ -304,7 +304,7 @@ export async function init(flags: {
     })
   })
 
-  const fileUrl = getRepoUrlForComponent("primitive")
+  const fileUrl = getRepoUrlForComponent("primitive", "justd")
   const response = await fetch(fileUrl)
 
   if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)

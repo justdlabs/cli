@@ -19,6 +19,7 @@ const exceptions = ["field", "dropdown", "dialog"]
 
 /**
  *  This function is used to update the index.ts file
+ *  @param config
  *  @param componentName string
  *  @param processed Set<string>
  */

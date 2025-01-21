@@ -7,14 +7,14 @@ import { getThemesRepoUrl } from "@/utils/repo"
 import { confirm, select } from "@inquirer/prompts"
 import ora from "ora"
 
-export const availablesGrays = ["zinc", "gray", "slate", "neutral", "stone"]
+export const availableGrays = ["zinc", "gray", "slate", "neutral", "stone"]
 
 export async function changeGray(
   cssLocation: string,
   flags: { yes?: boolean },
 ): Promise<string | undefined> {
   const spinner = ora("Looking up possibilities...").start()
-  const grays = availablesGrays
+  const grays = availableGrays
   spinner.stop()
 
   const selectedGray = flags.yes

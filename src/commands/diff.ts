@@ -6,7 +6,7 @@ import { grayText, highlight, warningText } from "@/utils/logging"
 import { getRepoUrlForComponent } from "@/utils/repo"
 import { checkbox } from "@inquirer/prompts"
 import chalk from "chalk"
-import { type Change, diffLines } from "diff"
+import { diffLines } from "diff"
 import ora from "ora"
 
 /**
@@ -24,7 +24,7 @@ const getLocalComponentPath = (config: Config, componentName: string) => {
  * @param componentName
  */
 const fetchRemoteComponent = async (componentName: string): Promise<string> => {
-  const url = getRepoUrlForComponent(componentName)
+  const url = getRepoUrlForComponent(componentName, "justd")
   const response = await fetch(url)
   if (!response.ok) throw new Error(`Failed to fetch component: ${response.statusText}`)
   return response.text()
@@ -75,30 +75,6 @@ const sanitizeContent = (content: string): string => {
     .replace(/(<[^>]+)\s+([a-zA-Z-]+)=/g, "$1 $2=")
     .trim()
 }
-
-/**
- * This function is used to format the output of a diff.
- * @param diff
- */
-const formatDiffOutput = (diff: Change[]): string => {
-  return diff
-    .map((part) => {
-      const symbol = part.added ? "+" : part.removed ? "-" : " "
-      const colorFn = part.added ? chalk.green : part.removed ? chalk.red : chalk.reset
-
-      if (!part.value) return ""
-
-      return part.value
-        .split("\n")
-        .map((line: string) => {
-          const formattedLine = `${symbol} ${line.trim()}`
-          return colorFn(formattedLine)
-        })
-        .join("\n")
-    })
-    .join("\n")
-}
-
 /**
  * This function is used to compare the content of two components.
  * It removes unnecessary characters and formats the content for better readability.
