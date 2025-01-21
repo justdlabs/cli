@@ -1,4 +1,4 @@
-import { availablesGrays } from "@/commands/change-gray"
+import { availableGrays } from "@/commands/change-gray"
 import { isTailwind } from "@/utils/helpers"
 import { error } from "@/utils/logging"
 
@@ -14,7 +14,7 @@ const THEMES_URL = `${REPO}/refs/heads/${BRANCH}/resources/styles/themes`
  *  @returns string
  */
 export const getThemesRepoUrl = (gray: string): string => {
-  if (!availablesGrays.includes(gray)) {
+  if (!availableGrays.includes(gray)) {
     error(`Invalid gray provided: ${gray}`)
     process.exit(1)
   }
