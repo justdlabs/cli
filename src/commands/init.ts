@@ -269,7 +269,7 @@ export async function init(flags: {
 
   const mainPackages = ["react-aria-components", "justd-icons"].join(" ")
 
-  let devPackages = ["tailwind-variants", "tailwind-merge", "tailwindcss-animate"].join(" ")
+  let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
 
   if (isTailwind(3)) {
     devPackages += " tailwindcss-react-aria-components"
