@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.46 (2025-01-24)</small>
+
+* fix: add clsx to init ([67af729](https://github.com/justdlabs/cli/commit/67af729))
+
 ## <small>2.3.45 (2025-01-21)</small>
 
 * fix: fix import ([7039688](https://github.com/justdlabs/cli/commit/7039688))
