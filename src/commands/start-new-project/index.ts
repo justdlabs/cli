@@ -16,6 +16,7 @@ import type { Config } from "@/utils/config"
 import { error, grayText, highlight } from "@/utils/logging"
 import { input, select } from "@inquirer/prompts"
 import { executeCommand } from "./partials/execute-command"
+import { isTailwind } from "@/utils/helpers"
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -110,17 +111,6 @@ export async function startNewProject(
       options.useSrc = ["y", "yes"].includes(wantSrcFolder.trim().toLowerCase())
     }
 
-    /**
-     * This question will be removed when Tailwind v4 is released as stable.
-     */
-    const shouldUseTailwindV4 = await input({
-      message: `Do you want to use Tailwind version 4? (Y/${grayText("n")})`,
-      default: "Yes",
-      validate: (value) => {
-        const normalizedValue = value.trim().toLowerCase()
-        return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
-      },
-    })
 
     const useBiome = await input({
       message: `Do you want to use Biome for this project? (Y/${grayText("n")})`,
@@ -171,10 +161,13 @@ export async function startNewProject(
     /**
      * This condition will be removed when Tailwind v4 is released as stable.
      */
+    const shouldUseTailwindV4 = isTailwind(3)
+
     if (shouldUseTailwindV4) {
       const upgradeTailwindCommand = ["npx", "@tailwindcss/upgrade@next", "--force"]
       await executeCommand(upgradeTailwindCommand, "Upgrading to Tailwind CSS v4.")
     }
+
     if (["y", "yes"].includes(useBiome.trim().toLowerCase())) {
       await setupBiome(packageManager)
     }
