@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.47 (2025-01-24)</small>
+
+* fix: remove qa about upgrading tailwind v4 in start new project command ([5e4d175](https://github.com/justdlabs/cli/commit/5e4d175))
+
 ## <small>2.3.46 (2025-01-24)</small>
 
 * fix: add clsx to init ([67af729](https://github.com/justdlabs/cli/commit/67af729))
