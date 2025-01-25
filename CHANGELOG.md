@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.48 (2025-01-25)</small>
+
+* fix: fix path laravel ([2916815](https://github.com/justdlabs/cli/commit/2916815))
+
 ## <small>2.3.47 (2025-01-24)</small>
 
 * fix: remove qa about upgrading tailwind v4 in start new project command ([5e4d175](https://github.com/justdlabs/cli/commit/5e4d175))
