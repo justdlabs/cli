@@ -13,10 +13,10 @@ import {
 import { setupBiome, setupTailwind } from "@/commands/start-new-project/partials/setup"
 import type { Framework, FrameworkKey, FrameworkOptions, PackageManager } from "@/types"
 import type { Config } from "@/utils/config"
+import { isTailwind } from "@/utils/helpers"
 import { error, grayText, highlight } from "@/utils/logging"
 import { input, select } from "@inquirer/prompts"
 import { executeCommand } from "./partials/execute-command"
-import { isTailwind } from "@/utils/helpers"
 
 const isProduction = process.env.NODE_ENV === "production"
 
@@ -110,7 +110,6 @@ export async function startNewProject(
       })
       options.useSrc = ["y", "yes"].includes(wantSrcFolder.trim().toLowerCase())
     }
-
 
     const useBiome = await input({
       message: `Do you want to use Biome for this project? (Y/${grayText("n")})`,
