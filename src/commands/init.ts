@@ -32,7 +32,7 @@ import stripJsonComments from "strip-json-comments"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const stubs = path.resolve(__dirname, "../src/resources/stubs")
+export const stubs = path.resolve(__dirname, "../src/resources/stubs")
 
 export async function init(flags: {
   force?: boolean

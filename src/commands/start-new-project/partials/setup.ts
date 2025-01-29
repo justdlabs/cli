@@ -1,7 +1,8 @@
-import { promises as fs } from "node:fs"
 import path from "node:path"
 import type { PackageManager } from "@/types"
 import { executeCommand } from "./execute-command"
+import { stubs } from "@/commands/init"
+import  {readFileSync, writeFileSync } from "node:fs"
 
 export function setupTailwind(packageManager: PackageManager) {
   return packageManager === "bun"
@@ -31,8 +32,9 @@ export async function setupBiome(packageManager: string) {
 
   await executeCommand(["npx", "biome", "init"], "Initializing Biome.")
 
-  const sourceConfigPath = path.resolve(__dirname, "../../../resources/stubs/biome.json")
-  const destinationConfigPath = path.resolve("biome.json")
+  const sourceConfigPath = path.join(stubs, "biome.json")
+  const targetPath = path.resolve("biome.json")
 
-  await fs.copyFile(sourceConfigPath, destinationConfigPath)
+  const fromPath = readFileSync(sourceConfigPath, "utf8")
+  writeFileSync(targetPath, fromPath, { flag: "w" })
 }
