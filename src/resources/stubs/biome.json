@@ -3,7 +3,13 @@
   "organizeImports": {
     "enabled": true
   },
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
   "files": {
+    "ignoreUnknown": false,
     "ignore": []
   },
   "linter": {
