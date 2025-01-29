@@ -1,3 +1,5 @@
+import { promises as fs } from "node:fs"
+import path from "node:path"
 import type { PackageManager } from "@/types"
 import { executeCommand } from "./execute-command"
 
@@ -28,4 +30,9 @@ export async function setupBiome(packageManager: string) {
   await executeCommand(biomeInstallCommand, "Setting up Biome.")
 
   await executeCommand(["npx", "biome", "init"], "Initializing Biome.")
+
+  const sourceConfigPath = path.resolve(__dirname, "../../../resources/stubs/biome.json")
+  const destinationConfigPath = path.resolve("biome.json")
+
+  await fs.copyFile(sourceConfigPath, destinationConfigPath)
 }
