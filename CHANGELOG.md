@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.51 (2025-01-29)</small>
+
+* fix: runner should be latest ([4a65417](https://github.com/justdlabs/cli/commit/4a65417))
+
 ## <small>2.3.50 (2025-01-29)</small>
 
 * fix: bring the biome setup ([de97e58](https://github.com/justdlabs/cli/commit/de97e58))
