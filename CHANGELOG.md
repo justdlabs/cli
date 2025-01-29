@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.52 (2025-01-29)</small>
+
+* fix: fix source path biome ([fcc4d95](https://github.com/justdlabs/cli/commit/fcc4d95))
+
 ## <small>2.3.51 (2025-01-29)</small>
 
 * fix: runner should be latest ([4a65417](https://github.com/justdlabs/cli/commit/4a65417))
