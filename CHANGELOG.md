@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.50 (2025-01-29)</small>
+
+* fix: bring the biome setup ([de97e58](https://github.com/justdlabs/cli/commit/de97e58))
+
 ## <small>2.3.49 (2025-01-29)</small>
 
 * fix: don't overwrite ([a05d961](https://github.com/justdlabs/cli/commit/a05d961))
