@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.53 (2025-01-29)</small>
+
+* fix: fix biome config ([68fcc67](https://github.com/justdlabs/cli/commit/68fcc67))
+* wip ([598c3dc](https://github.com/justdlabs/cli/commit/598c3dc))
+
 ## <small>2.3.52 (2025-01-29)</small>
 
 * fix: fix source path biome ([fcc4d95](https://github.com/justdlabs/cli/commit/fcc4d95))
