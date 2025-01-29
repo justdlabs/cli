@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.49 (2025-01-29)</small>
+
+* fix: don't overwrite ([a05d961](https://github.com/justdlabs/cli/commit/a05d961))
+
 ## <small>2.3.48 (2025-01-25)</small>
 
 * fix: fix path laravel ([2916815](https://github.com/justdlabs/cli/commit/2916815))
