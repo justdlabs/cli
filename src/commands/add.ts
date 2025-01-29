@@ -387,7 +387,7 @@ async function processComponent(
   }
 
   const component = options.allComponents.find((c) => c.name === options.componentName)
-  if (component?.children) {
+  if (!options.overwrite && component?.children) {
     for (const child of component.children) {
       await processComponent(config, { ...options, componentName: child.name })
     }
