@@ -62,7 +62,7 @@ export async function setGray(overwriteConfirmation: boolean, selectedTheme?: st
 
   if (!overwriteConfirmation) {
     confirmOverride = await confirm({
-      message: `You will overwrite the current theme "${highlight(userConfig.gray)}" with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
+      message: `You will overwrite the current theme ${highlight(userConfig.gray)} with ${selectedTheme ? highlight(selectedTheme) : "others"}?`,
     })
 
     if (!confirmOverride) {
