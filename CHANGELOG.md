@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.54 (2025-02-01)</small>
+
+* fix: fix info ([ea3952b](https://github.com/justdlabs/cli/commit/ea3952b))
+
 ## <small>2.3.53 (2025-01-29)</small>
 
 * fix: fix biome config ([68fcc67](https://github.com/justdlabs/cli/commit/68fcc67))
