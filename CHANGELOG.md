@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.3.55 (2025-02-06)</small>
+
+* fix: remove `--eslint` from create project ([4d38997](https://github.com/justdlabs/cli/commit/4d38997))
+
 ## <small>2.3.54 (2025-02-01)</small>
 
 * fix: fix info ([ea3952b](https://github.com/justdlabs/cli/commit/ea3952b))
