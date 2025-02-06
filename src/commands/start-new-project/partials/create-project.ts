@@ -43,7 +43,6 @@ export const createLaravelApp = async (
     "react",
     "--ssr",
     language === "typescript" ? "--typescript" : "",
-    "--eslint",
     "--no-interaction",
   )
 
