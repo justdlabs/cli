@@ -60,7 +60,7 @@ const blockType = type({
 
 export const addBlock = async ({ slugs }: { slugs: string[] }) => {
   if (slugs.length !== 3) {
-    console.log(errorText("Please provide three slugs."))
+    console.info(errorText("Please provide three slugs."))
 
     process.exit(1)
   }
@@ -68,14 +68,14 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
   const userConfig = readUser(FILENAME)
 
   if (!(await configManager.doesConfigExist())) {
-    console.log(errorText("Config file not found. Please run the init command first."))
+    console.info(errorText("Config file not found. Please run the init command first."))
     process.exit(1)
   }
 
   const config = await configManager.loadConfig()
 
   if (!userConfig.key) {
-    console.log(warningText("No API key found. Please login first."))
+    console.info(warningText("No API key found. Please login first."))
     process.exit(1)
   }
 
@@ -86,14 +86,14 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
   })
 
   if (!res.ok) {
-    console.log(warningText(await res.text()))
+    console.info(warningText(await res.text()))
     process.exit(1)
   }
 
   const json = blockType(await res.json())
 
   if (json instanceof type.errors) {
-    console.log(warningText(json.summary))
+    console.info(warningText(json.summary))
     process.exit(1)
   }
 
@@ -143,7 +143,7 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
       )
 
       if (fs.existsSync(filePath)) {
-        console.log(errorText(`File already exists: ${filePath}`))
+        console.info(errorText(`File already exists: ${filePath}`))
         process.exit(1)
       }
 
@@ -153,7 +153,7 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
         content: file.content,
       })
 
-      console.log(`File created: ${filePath}`)
+      console.info(`File created: ${filePath}`)
     }
   }
 }
@@ -199,8 +199,8 @@ export const loginBlock = async () => {
   const confirmationUrl = new URL(`${DOMAIN}/auth/devices`)
   confirmationUrl.searchParams.append("code", code)
   confirmationUrl.searchParams.append("redirect", redirect)
-  console.log(`Confirmation code: ${chalk.bold(code)}\n`)
-  console.log(
+  console.info(`Confirmation code: ${chalk.bold(code)}\n`)
+  console.info(
     `If something goes wrong, copy and paste this URL into your browser: ${chalk.bold(
       confirmationUrl.toString(),
     )}\n`,
@@ -213,19 +213,19 @@ export const loginBlock = async () => {
     const authData = await authPromise
     spinner.stop()
     updateUser(authData, FILENAME)
-    console.log(
+    console.info(
       `Authentication successful: wrote key to userConfig file. To view it, type 'cat ~/${FILENAME}'.\n`,
     )
     server.close()
     process.exit(0)
   } catch (error) {
     if (error instanceof UserCancellationError) {
-      console.log("Authentication cancelled.\n")
+      console.info("Authentication cancelled.\n")
       server.close()
       process.exit(0)
     } else {
       console.error("Authentication failed:", error)
-      console.log("\n")
+      console.info("\n")
       server.close()
       process.exit(1)
     }
