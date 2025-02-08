@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.3.56 (2025-02-08)</small>
+
+* ignore update index if it is overwrite ([0e689b4](https://github.com/justdlabs/cli/commit/0e689b4))
+* wip ([485a423](https://github.com/justdlabs/cli/commit/485a423))
+
 ## <small>2.3.55 (2025-02-06)</small>
 
 * fix: remove `--eslint` from create project ([4d38997](https://github.com/justdlabs/cli/commit/4d38997))
