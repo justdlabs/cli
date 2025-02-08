@@ -1,8 +1,8 @@
+import { readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
+import { stubs } from "@/commands/init"
 import type { PackageManager } from "@/types"
 import { executeCommand } from "./execute-command"
-import { stubs } from "@/commands/init"
-import  {readFileSync, writeFileSync } from "node:fs"
 
 export function setupTailwind(packageManager: PackageManager) {
   return packageManager === "bun"

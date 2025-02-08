@@ -283,7 +283,9 @@ export async function add(options: {
               })
             }
 
-            await updateIndexFile(config, componentName)
+            if (!overwrite) {
+              await updateIndexFile(config, componentName)
+            }
           } catch (error) {
             console.error(warningText(`Error processing '${componentName}'.`))
           }
