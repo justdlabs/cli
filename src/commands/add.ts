@@ -98,9 +98,10 @@ export async function add(options: {
   components: string[]
   overwrite: boolean
   successMessage: string
+  prioritize: "block" | "justd"
 }) {
   const spinner = ora("Checking.").start()
-  const { overwrite, successMessage, components: comps } = options
+  const { overwrite, successMessage, components: comps, prioritize = "justd" } = options
 
   const doesConfigExist = await configManager.doesConfigExist()
 
@@ -139,7 +140,7 @@ export async function add(options: {
   const createdFiles: string[] = []
   const existingFiles = new Set<string>()
   const processed = new Set<string>()
-  let type: "justd" | "block" = "justd"
+  let type: "justd" | "block" = prioritize
 
   try {
     spinner.start("Checking.")
@@ -150,12 +151,20 @@ export async function add(options: {
           !namespaces.includes(componentName) && !exceptions.includes(componentName),
       )
       .map(async (componentName: string) => {
-        const repoUrl = getRepoUrlForComponent(componentName, "justd")
-        const response = await fetch(repoUrl)
+        const userConfig = readUser(FILENAME)
+        const repoUrl = getRepoUrlForComponent(componentName, type)
+        const response = await fetch(repoUrl, {
+          headers: {
+            "x-api-key": userConfig?.key,
+            "content-type": "application/text",
+          },
+        })
 
         if (!response.ok) {
-          const userConfig = readUser(FILENAME)
-          const blockUrl = getRepoUrlForComponent(componentName, "block")
+          const blockUrl = getRepoUrlForComponent(
+            componentName,
+            type === "block" ? "justd" : "block",
+          )
 
           const response = await fetch(blockUrl, {
             headers: {
@@ -169,7 +178,7 @@ export async function add(options: {
             process.exit(1)
           }
 
-          type = "block"
+          type = type === "block" ? "justd" : "block"
 
           return response
         }

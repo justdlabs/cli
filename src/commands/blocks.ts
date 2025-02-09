@@ -100,7 +100,8 @@ export const addBlock = async ({ slugs }: { slugs: string[] }) => {
   await add({
     components: Object.keys(json.meta.ui).map((key) => key.replace(".tsx", "")),
     successMessage: "Required components added.",
-    overwrite: false,
+    overwrite: true,
+    prioritize: "block",
   })
 
   const packageManager = await getPackageManager()

@@ -175,6 +175,7 @@ export const diff = async (...args: string[]) => {
         components: selectedComponents,
         overwrite: true,
         successMessage: "Updating components...",
+        prioritize: "justd",
       })
     } else {
       console.log(chalk.green("✔ All components are up to date."))
