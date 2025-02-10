@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.4.1 (2025-02-10)</small>
+
+* fix: reapply the existing component on `index.ts` ([7312d0f](https://github.com/justdlabs/cli/commit/7312d0f))
+
 ## 2.4.0 (2025-02-10)
 
 * wip ([6770868](https://github.com/justdlabs/cli/commit/6770868))
