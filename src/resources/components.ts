@@ -269,7 +269,13 @@ const components: any[] = [
   },
   {
     name: "select",
-    children: [{ name: "field" }, { name: "list-box" }, { name: "popover" }],
+    children: [
+      { name: "field" },
+      { name: "list-box" },
+      { name: "popover" },
+      { name: "dialog" },
+      { name: "keyboard" },
+    ],
   },
   {
     name: "multiple-select",

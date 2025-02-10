@@ -73,7 +73,7 @@ async function updateIndexFile(
    * Sort the existing exports and add the primitive export at the beginning.
    * This ensures that the primitive export is always included first in the index file.
    */
-  existingExports = [primitiveExport, ...existingExports.sort()]
+  existingExports = [primitiveExport, ...[...new Set(existingExports)].sort()]
 
   fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`, { flag: "w" })
 
@@ -292,9 +292,7 @@ export async function add(options: {
               })
             }
 
-            if (!overwrite) {
-              await updateIndexFile(config, componentName)
-            }
+            await updateIndexFile(config, componentName)
           } catch (error) {
             console.error(warningText(`Error processing '${componentName}'.`))
           }
