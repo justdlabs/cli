@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0 (2025-02-10)
+
+* wip ([6770868](https://github.com/justdlabs/cli/commit/6770868))
+* feat: prioritize blocks and make it overwrite ([647a358](https://github.com/justdlabs/cli/commit/647a358))
+* chore(deps): bump undici and release-it ([d0ec1a1](https://github.com/justdlabs/cli/commit/d0ec1a1))
+
 ## <small>2.3.56 (2025-02-08)</small>
 
 * ignore update index if it is overwrite ([0e689b4](https://github.com/justdlabs/cli/commit/0e689b4))
