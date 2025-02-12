@@ -58,9 +58,12 @@ async function updateIndexFile(
   existingExports = existingExports.filter((line) => {
     const match = line.match(/export \* from '\.\/(.+)';/)
     const matchedComponent = match?.[1]
-    return matchedComponent !== "primitive" && !namespaces.includes(matchedComponent ?? "")
+    return (
+      matchedComponent !== "primitive" &&
+      !namespaces.includes(matchedComponent ?? "") &&
+      matchedComponent !== componentName
+    )
   })
-
   /**
    * If the component is not already exported, add it to the existing exports.
    * This ensures that the component is properly exported and included in the index file.
@@ -243,11 +246,9 @@ export async function add(options: {
     }
 
     try {
-      // Process components in parallel
       await Promise.all(
         selectedComponents.map(async (componentName: string) => {
           try {
-            // spinner.text = `Creating component: ${componentName}`
             const targetComponent = components.find((comp) => comp.name === componentName)
             if (!targetComponent && type === "justd") {
               warn(`Component '${highlight(componentName)}' not found in local resources.`)
@@ -276,6 +277,10 @@ export async function add(options: {
                     type,
                   }),
                 ),
+              )
+
+              targetComponent.children.map((child: any) =>
+                createdFiles.push(getWriteComponentPath(config, child.name)),
               )
             } else {
               await processComponent(config, {

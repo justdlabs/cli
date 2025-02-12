@@ -312,6 +312,8 @@ const components: any[] = [
       { name: "color-slider" },
       { name: "color-swatch" },
       { name: "field" },
+      { name: "popover" },
+      { name: "button" },
     ],
   },
   {
