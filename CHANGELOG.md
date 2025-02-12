@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.4.2 (2025-02-12)</small>
+
+* fix: fix duplicate import ([e4a7f10](https://github.com/justdlabs/cli/commit/e4a7f10))
+
 ## <small>2.4.1 (2025-02-10)</small>
 
 * fix: reapply the existing component on `index.ts` ([7312d0f](https://github.com/justdlabs/cli/commit/7312d0f))
