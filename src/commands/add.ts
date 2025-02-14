@@ -35,8 +35,8 @@ async function updateIndexFile(config: Config, componentName: string, processed:
     `index.${config.language === "javascript" ? "js" : "ts"}`,
   )
 
-  const primitiveExport = `export * from './primitive';`
-  const componentExport = `export * from './${componentName}';`
+  const primitiveExport = `export * from './primitive'`
+  const componentExport = `export * from './${componentName}'`
 
   // Use a Set to deduplicate export lines
   const exportSet = new Set<string>()
@@ -46,12 +46,14 @@ async function updateIndexFile(config: Config, componentName: string, processed:
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line !== "")
-      .forEach((line) => exportSet.add(line))
+      .forEach((line) => exportSet.add(line.replace(";", "")))
   }
+
+  console.log(exportSet)
 
   // Filter out exports related to "primitive" or names in namespaces
   Array.from(exportSet).forEach((line) => {
-    const match = line.match(/export \* from '\.\/(.+)';/)
+    const match = line.match(/export \* from '\.\/(.+)'/)
     const matchedComponent = match?.[1]
     if (matchedComponent === "primitive" || namespaces.includes(matchedComponent ?? "")) {
       exportSet.delete(line)
