@@ -23,11 +23,7 @@ const exceptions = ["field", "dropdown", "dialog"]
  *  @param componentName string
  *  @param processed Set<string>
  */
-async function updateIndexFile(
-  config: Config,
-  componentName: string,
-  processed: Set<string> = new Set(),
-) {
+async function updateIndexFile(config: Config, componentName: string, processed: Set<string>) {
   if (processed.has(componentName)) {
     return
   }
@@ -42,55 +38,48 @@ async function updateIndexFile(
   const primitiveExport = `export * from './primitive';`
   const componentExport = `export * from './${componentName}';`
 
-  let existingExports: string[] = []
+  // Use a Set to deduplicate export lines
+  const exportSet = new Set<string>()
+
   if (fs.existsSync(indexPath)) {
-    existingExports = fs
-      .readFileSync(indexPath, "utf-8")
+    fs.readFileSync(indexPath, "utf-8")
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line !== "")
+      .forEach((line) => exportSet.add(line))
   }
 
-  /**
-   * Filter out the existing exports that are not related to the component being added.
-   * This ensures that only the necessary exports are included in the index file.
-   */
-  existingExports = existingExports.filter((line) => {
+  // Filter out exports related to "primitive" or names in namespaces
+  Array.from(exportSet).forEach((line) => {
     const match = line.match(/export \* from '\.\/(.+)';/)
     const matchedComponent = match?.[1]
-    return (
-      matchedComponent !== "primitive" &&
-      !namespaces.includes(matchedComponent ?? "") &&
-      matchedComponent !== componentName
-    )
+    if (matchedComponent === "primitive" || namespaces.includes(matchedComponent ?? "")) {
+      exportSet.delete(line)
+    }
   })
-  /**
-   * If the component is not already exported, add it to the existing exports.
-   * This ensures that the component is properly exported and included in the index file.
-   */
-  if (!existingExports.includes(componentExport)) {
-    existingExports.push(componentExport)
-  }
 
-  /**
-   * Sort the existing exports and add the primitive export at the beginning.
-   * This ensures that the primitive export is always included first in the index file.
-   */
-  existingExports = [primitiveExport, ...[...new Set(existingExports)].sort()]
+  exportSet.add(componentExport)
 
-  fs.writeFileSync(indexPath, `${existingExports.join("\n")}\n`, { flag: "w" })
+  const sortedExports = Array.from(exportSet).sort()
+  const finalExports = [primitiveExport, ...sortedExports]
+
+  fs.writeFileSync(indexPath, `${finalExports.join("\n")}\n`, { flag: "w" })
 
   processed.add(componentName)
 
-  /**
-   * If the component has child components, recursively update the index file for each child component.
-   */
+  // Recursively update for child components if any
   const component = components.find((c) => c.name === componentName)
   if (component?.children) {
     for (const child of component.children) {
       await updateIndexFile(config, child.name, processed)
     }
   }
+}
+
+// Wrapper to ensure a single processed Set is used for the update run
+export async function updateIndexFileWrapper(config: Config, componentName: string) {
+  const processed = new Set<string>()
+  await updateIndexFile(config, componentName, processed)
 }
 
 /**
@@ -297,7 +286,7 @@ export async function add(options: {
               })
             }
 
-            await updateIndexFile(config, componentName)
+            await updateIndexFileWrapper(config, componentName)
           } catch (error) {
             console.error(warningText(`Error processing '${componentName}'.`))
           }
