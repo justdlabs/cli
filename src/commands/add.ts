@@ -49,8 +49,6 @@ async function updateIndexFile(config: Config, componentName: string, processed:
       .forEach((line) => exportSet.add(line.replace(";", "")))
   }
 
-  console.log(exportSet)
-
   // Filter out exports related to "primitive" or names in namespaces
   Array.from(exportSet).forEach((line) => {
     const match = line.match(/export \* from '\.\/(.+)'/)
