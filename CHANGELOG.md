@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.4.3 (2025-02-14)</small>
+
+* fix duplication ([9190ff6](https://github.com/justdlabs/cli/commit/9190ff6))
+
 ## <small>2.4.2 (2025-02-12)</small>
 
 * fix: fix duplicate import ([e4a7f10](https://github.com/justdlabs/cli/commit/e4a7f10))
