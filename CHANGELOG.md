@@ -1,5 +1,10 @@
 # Changelog
 
+## <small>2.4.6 (2025-02-15)</small>
+
+* fix ([c2456a4](https://github.com/justdlabs/cli/commit/c2456a4))
+* fix `replace` ([08aeb65](https://github.com/justdlabs/cli/commit/08aeb65))
+
 ## <small>2.4.5 (2025-02-14)</small>
 
 * fix: fix duplicate ([a969326](https://github.com/justdlabs/cli/commit/a969326))
