@@ -46,7 +46,7 @@ async function updateIndexFile(config: Config, componentName: string, processed:
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line !== "")
-      .forEach((line) => exportSet.add(line.replace(";", "").replace('"', "'")))
+      .forEach((line) => exportSet.add(line.replace(";", "").replaceAll('"', "'")))
   }
 
   // Filter out exports related to "primitive" or names in namespaces
