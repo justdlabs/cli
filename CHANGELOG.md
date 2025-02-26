@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.4.7 (2025-02-26)</small>
+
+* fix: add select when adding date picker or calendar ([827e987](https://github.com/justdlabs/cli/commit/827e987))
+
 ## <small>2.4.6 (2025-02-15)</small>
 
 * fix ([c2456a4](https://github.com/justdlabs/cli/commit/c2456a4))
