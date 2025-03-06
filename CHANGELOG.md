@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.5.0 (2025-03-06)
+
+* feat: add trac back ([62bc2f7](https://github.com/justdlabs/cli/commit/62bc2f7))
+* wip ([e345792](https://github.com/justdlabs/cli/commit/e345792))
+
 ## <small>2.4.7 (2025-02-26)</small>
 
 * fix: add select when adding date picker or calendar ([827e987](https://github.com/justdlabs/cli/commit/827e987))
