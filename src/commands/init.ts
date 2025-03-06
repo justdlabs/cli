@@ -22,7 +22,7 @@ import {
   isTypescriptProject,
   possibilityComponentsPath,
   possibilityCssPath,
-  possibilityUtilsPath,
+  possibilityUtilsPath
 } from "@/utils/helpers"
 import { error, grayText, highlight, info } from "@/utils/logging"
 import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
@@ -47,7 +47,7 @@ export async function init(flags: {
       validate: (value) => {
         const normalizedValue = value.trim().toLowerCase()
         return ["y", "n", "yes", "no"].includes(normalizedValue) || "Please answer yes or no."
-      },
+      }
     })
 
     const normalizedValue = shouldStartNewProject.trim().toLowerCase()
@@ -61,9 +61,9 @@ export async function init(flags: {
         message: "What language do you want to use?",
         choices: [
           { name: "Typescript", value: "typescript" },
-          { name: "Javascript", value: "javascript" },
+          { name: "Javascript", value: "javascript" }
         ],
-        default: "typescript",
+        default: "typescript"
       })
 
       await startNewProject(normalizedValue as "y" | "n" | "yes" | "no", language)
@@ -79,10 +79,10 @@ export async function init(flags: {
     if (isRepoDirty()) {
       checkingGit.stop()
       error(
-        "Git directory is not clean. Please stash or commit your changes before running the init command.",
+        "Git directory is not clean. Please stash or commit your changes before running the init command."
       )
       info(
-        `You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`,
+        `You may use the ${highlight("--force")} flag to silence this warning and perform the initialization anyway.`
       )
       process.exit(1)
     }
@@ -93,7 +93,7 @@ export async function init(flags: {
   const twExists = isTailwindInstalled()
   if (!twExists) {
     spinner.fail(
-      "The tailwindcss package is not installed. Please install before running the init command.",
+      "The tailwindcss package is not installed. Please install before running the init command."
     )
     spinner.stop()
     return
@@ -124,7 +124,7 @@ export async function init(flags: {
       message: "Components folder:",
       default: possibilityComponentsPath(),
       validate: (value) =>
-        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path."
     })
 
     uiFolder = path.join(componentFolder, "ui")
@@ -133,14 +133,14 @@ export async function init(flags: {
       message: "Utils folder:",
       default: possibilityUtilsPath(),
       validate: (value) =>
-        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path."
     })
 
     cssLocation = await input({
       message: "Where would you like to place the CSS file?",
       default: possibilityCssPath(),
       validate: (value) =>
-        value.trim() !== "" || "Path cannot be empty. Please enter a valid path.",
+        value.trim() !== "" || "Path cannot be empty. Please enter a valid path."
     })
   }
 
@@ -199,7 +199,7 @@ export async function init(flags: {
       console.error(
         isTypescript
           ? "Neither tsconfig.app.json nor tsconfig.json was found."
-          : "jsconfig.json was not found.",
+          : "jsconfig.json was not found."
       )
       process.exit(1)
     }
@@ -211,7 +211,7 @@ export async function init(flags: {
       config = JSON.parse(stripped)
     } catch {
       console.error(
-        `Error reading ${configFilePath} file. Please check if it exists and is valid JSON.`,
+        `Error reading ${configFilePath} file. Please check if it exists and is valid JSON.`
       )
       process.exit(1)
     }
@@ -223,7 +223,7 @@ export async function init(flags: {
     if (!("paths" in config.compilerOptions)) {
       const rootPath = "./src"
       config.compilerOptions.paths = {
-        "@/*": [`${rootPath}/*`],
+        "@/*": [`${rootPath}/*`]
       }
 
       const spinner = ora(`Updating ${path.basename(configFilePath)} with paths...`).start()
@@ -262,18 +262,14 @@ export async function init(flags: {
     gray: selectedGray?.replace(".css", "")!,
     css: cssLocation,
     alias: currentAlias || undefined,
-    language,
+    language
   }
 
   const packageManager = await getPackageManager()
 
-  const mainPackages = ["react-aria-components", "justd-icons"].join(" ")
+  const mainPackages = ["react-aria-components", "tailwindcss-react-aria-components", "justd-icons"].join(" ")
 
   let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
-
-  if (isTailwind(3)) {
-    devPackages += " tailwindcss-react-aria-components"
-  }
 
   if (isNextJs()) {
     devPackages += " next-themes"
@@ -295,7 +291,7 @@ export async function init(flags: {
 
   const child = spawn(installCommand, {
     stdio: ["ignore", "ignore", "ignore"],
-    shell: true,
+    shell: true
   })
 
   await new Promise<void>((resolve) => {
@@ -314,13 +310,13 @@ export async function init(flags: {
   await writeCodeFile(createdConfig, {
     writePath: path.join(uiFolder, "primitive.tsx"),
     ogFilename: "primitive.tsx",
-    content: fileContent,
+    content: fileContent
   })
 
   fs.writeFileSync(
     path.join(uiFolder, getCorrectFileExtension(language, "index.ts")),
     `export * from './primitive';`,
-    { flag: "w" },
+    { flag: "w" }
   )
 
   const responseClasses = await fetch(getUtilsFolder("classes.ts"))
@@ -329,7 +325,7 @@ export async function init(flags: {
   await writeCodeFile(createdConfig, {
     writePath: path.join(utilsFolder, "classes.ts"),
     ogFilename: "classes.ts",
-    content: fileContentClasses,
+    content: fileContentClasses
   })
 
   if (themeProvider) {
@@ -338,7 +334,7 @@ export async function init(flags: {
     await writeCodeFile(createdConfig, {
       ogFilename: "theme-provider.tsx",
       writePath: path.join(componentFolder, "theme-provider.tsx"),
-      content: themeProviderContent,
+      content: themeProviderContent
     })
 
     if (providers) {
@@ -347,7 +343,7 @@ export async function init(flags: {
       await writeCodeFile(createdConfig, {
         ogFilename: "providers.tsx",
         writePath: path.join(componentFolder, "providers.tsx"),
-        content: providersContent,
+        content: providersContent
       })
     }
   }
@@ -363,17 +359,17 @@ export async function init(flags: {
   }
   spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
   spinner.succeed(
-    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "primitive.tsx")}`)}`,
+    `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "primitive.tsx")}`)}`
   )
   spinner.succeed(
-    `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`,
+    `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`
   )
   if (themeProvider) {
     spinner.succeed(
-      `Theme Provider file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "theme-provider.ts")}"`)}`,
+      `Theme Provider file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "theme-provider.ts")}"`)}`
     )
     spinner.succeed(
-      `Providers file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "providers.tsx")}"`)}`,
+      `Providers file saved to ${highlight(`"${componentFolder}/${getCorrectFileExtension(language, "providers.tsx")}"`)}`
     )
   }
 
