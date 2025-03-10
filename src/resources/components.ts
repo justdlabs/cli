@@ -117,7 +117,6 @@ const components: any[] = [
       { name: "card" },
       { name: "chart" },
       { name: "description-list" },
-      { name: "grid" },
       { name: "separator" },
       { name: "show-more" },
     ],
@@ -225,7 +224,6 @@ const components: any[] = [
   { name: "card", children: [{ name: "heading" }] },
   { name: "chart" },
   { name: "description-list" },
-  { name: "grid" },
   { name: "separator" },
   { name: "show-more", children: [{ name: "button" }] },
 
