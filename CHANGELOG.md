@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0 (2025-03-10)
+
+* feat: remove grid component ([f8a0701](https://github.com/justdlabs/cli/commit/f8a0701))
+
 ## 2.5.0 (2025-03-06)
 
 * feat: add trac back ([62bc2f7](https://github.com/justdlabs/cli/commit/62bc2f7))
