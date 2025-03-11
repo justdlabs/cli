@@ -1,5 +1,11 @@
 # Changelog
 
+## <small>2.6.1 (2025-03-11)</small>
+
+* fix: do not create classes.ts ([5cf399b](https://github.com/justdlabs/cli/commit/5cf399b))
+* fix: format ([0244994](https://github.com/justdlabs/cli/commit/0244994))
+* wip ([cace634](https://github.com/justdlabs/cli/commit/cace634))
+
 ## 2.6.0 (2025-03-10)
 
 * feat: remove grid component ([f8a0701](https://github.com/justdlabs/cli/commit/f8a0701))
