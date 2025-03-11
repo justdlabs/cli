@@ -17,7 +17,6 @@ Here’s an example of the output when running the command in a Next.js project:
 ✔ Configuring.
 ✔ UI folder created at `src/components/ui`
 ✔ Primitive file saved to `src/components/ui/primitive.tsx`
-✔ Classes file saved to `src/utils/classes.ts`
 ✔ Theme Provider file saved to `"src/components/theme-provider.tsx"`
 ✔ Providers file saved to `"src/components/providers.tsx"`
 ✔ Configuration saved to `justd.json`

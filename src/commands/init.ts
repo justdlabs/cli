@@ -323,15 +323,6 @@ export async function init(flags: {
     { flag: "w" },
   )
 
-  const responseClasses = await fetch(getUtilsFolder("classes.ts"))
-  const fileContentClasses = await responseClasses.text()
-
-  await writeCodeFile(createdConfig, {
-    writePath: path.join(utilsFolder, "classes.ts"),
-    ogFilename: "classes.ts",
-    content: fileContentClasses,
-  })
-
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
 
@@ -364,9 +355,6 @@ export async function init(flags: {
   spinner.succeed(`UI folder created at ${highlight(`${uiFolder}`)}`)
   spinner.succeed(
     `Primitive file saved to ${highlight(`${uiFolder}/${getCorrectFileExtension(language, "primitive.tsx")}`)}`,
-  )
-  spinner.succeed(
-    `Classes file saved to ${highlight(`${utilsFolder}/${getCorrectFileExtension(language, "classes.ts")}`)}`,
   )
   if (themeProvider) {
     spinner.succeed(

@@ -188,26 +188,6 @@ export async function add(options: {
   spinner.start("Installing dependencies.")
 
   try {
-    const classesFile = path.join(
-      config.utils,
-      `classes.${config.language === "javascript" ? "js" : "ts"}`,
-    )
-
-    if (!fs.existsSync(classesFile)) {
-      if (!fs.existsSync(config.utils)) {
-        fs.mkdirSync(config.utils, { recursive: true })
-      }
-      const responseClasses = await fetch(getUtilsFolder("classes.ts"))
-      const fileContentClasses = await responseClasses.text()
-
-      await writeCodeFile(config, {
-        ogFilename: "classes.ts",
-        writePath: classesFile,
-        content: fileContentClasses,
-      })
-      createdFiles.push(classesFile)
-    }
-
     if (
       selectedComponents.some((component: string) =>
         ["popover", "dialog", "sidebar", "navbar", "command-menu", "number-field"].includes(
