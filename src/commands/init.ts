@@ -25,7 +25,7 @@ import {
   possibilityUtilsPath,
 } from "@/utils/helpers"
 import { error, grayText, highlight, info } from "@/utils/logging"
-import { getRepoUrlForComponent, getUtilsFolder } from "@/utils/repo"
+import { getRepoUrlForComponent } from "@/utils/repo"
 import ora from "ora"
 import stripJsonComments from "strip-json-comments"
 
