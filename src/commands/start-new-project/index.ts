@@ -75,27 +75,6 @@ export async function startNewProject(
 
     const options: FrameworkOptions = {}
 
-    if (framework === "laravel") {
-      const testFramework = await select<string>({
-        message: "Which testing framework do you want to use?",
-        choices: [
-          { name: "Pest", value: "pest" },
-          { name: "PHPUnit", value: "phpunit" },
-        ],
-      })
-
-      options.usePest = testFramework === "pest"
-      const composerExists = await checkIfCommandExists("composer")
-
-      if (!composerExists) {
-        console.info("")
-        error(
-          "Composer is not installed on your system. \nPlease install Composer to proceed with the Laravel setup.",
-        )
-        process.exit(1)
-      }
-    }
-
     if (framework === "next") {
       const wantSrcFolder = await input({
         message: `Do you want to use the src folder? (Y/${grayText("n")})`,
@@ -120,16 +99,19 @@ export async function startNewProject(
       },
     })
 
-    const packageManager = await select<PackageManager>({
-      message: "Which package manager do you want to use?",
-      choices: [
-        { name: "Bun", value: "bun" },
-        { name: "Yarn", value: "yarn" },
-        { name: "npm", value: "npm" },
-        { name: "pnpm", value: "pnpm" },
-      ],
-      default: "bun",
-    })
+    let packageManager: PackageManager = "bun"
+    if (framework !== "laravel") {
+      packageManager = await select<PackageManager>({
+        message: "Which package manager do you want to use?",
+        choices: [
+          { name: "Bun", value: "bun" },
+          { name: "Yarn", value: "yarn" },
+          { name: "npm", value: "npm" },
+          { name: "pnpm", value: "pnpm" },
+        ],
+        default: "bun",
+      })
+    }
 
     if (packageManager !== "npm") {
       const packageManagerExists = await checkIfCommandExists(packageManager)
@@ -174,10 +156,11 @@ export async function startNewProject(
     // const isDev = process.env.NODE_ENV !== "development"
     // const cliCommand = isDev ? "justd-cli" : "justd-cli@latest"
 
-    // const cliCommand = "justd-cli"
-    const cliCommand = "justd-cli@latest"
+    const cliCommand = "justd-cli"
+    // const cliCommand = "justd-cli@latest"
     const tsOrJs = language === "typescript" ? "--ts" : "--js"
-    const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
+    // const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
+    const initJustdCommand = ["bunx", cliCommand, "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")

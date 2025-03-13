@@ -7,50 +7,11 @@ export const createLaravelApp = async (
   language: Config["language"],
   options?: FrameworkOptions,
 ): Promise<string[]> => {
-  const commands = [
-    "composer",
-    "create-project",
-    "laravel/laravel",
+  return [
+    "laravel new",
     projectName,
-    "&&",
-    "cd",
-    projectName,
-    "&&",
+    " --using=justd/laravel"
   ]
-
-  const lockFileName =
-    packageManager === "bun"
-      ? "bun.lockb"
-      : packageManager === "pnpm"
-        ? "pnpm-lock.yaml"
-        : packageManager === "yarn"
-          ? "yarn.lock"
-          : null
-
-  if (lockFileName) {
-    commands.push(`node -e "require('fs').writeFileSync('${lockFileName}', '')"`, "&&")
-  }
-
-  commands.push(
-    "composer",
-    "require",
-    "laravel/breeze",
-    "--dev",
-    "&&",
-    "php",
-    "artisan",
-    "breeze:install",
-    "react",
-    "--ssr",
-    language === "typescript" ? "--typescript" : "",
-    "--no-interaction",
-  )
-
-  if (options?.usePest) {
-    commands.push("--pest")
-  }
-
-  return commands
 }
 
 /**

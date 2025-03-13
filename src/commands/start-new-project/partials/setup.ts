@@ -30,7 +30,7 @@ export async function setupBiome(packageManager: string) {
 
   await executeCommand(biomeInstallCommand, "Setting up Biome.")
 
-  await executeCommand(["npx", "biome", "init"], "Initializing Biome.")
+  // await executeCommand(["npx", "biome", "init"], "Initializing Biome.")
 
   const sourceConfigPath = path.join(stubs, "biome.json")
   const targetPath = path.resolve("biome.json")
