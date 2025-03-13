@@ -156,11 +156,11 @@ export async function startNewProject(
     // const isDev = process.env.NODE_ENV !== "development"
     // const cliCommand = isDev ? "justd-cli" : "justd-cli@latest"
 
-    const cliCommand = "justd-cli"
-    // const cliCommand = "justd-cli@latest"
+    // const cliCommand = "justd-cli"
+    const cliCommand = "justd-cli@latest"
     const tsOrJs = language === "typescript" ? "--ts" : "--js"
-    // const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
-    const initJustdCommand = ["bunx", cliCommand, "init", tsOrJs, "--force", "--yes"]
+    const initJustdCommand = ["npx", cliCommand, "init", tsOrJs, "--force", "--yes"]
+    // const initJustdCommand = ["bunx", cliCommand, "init", tsOrJs, "--force", "--yes"]
     await executeCommand(initJustdCommand, "Finishing.")
 
     console.info("\nProject setup is now complete.")
