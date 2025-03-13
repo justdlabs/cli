@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.7.1 (2025-03-13)</small>
+
+* fix: fix executor ([fb044f9](https://github.com/justdlabs/cli/commit/fb044f9))
+
 ## 2.7.0 (2025-03-13)
 
 * feat: add ([3bb47b4](https://github.com/justdlabs/cli/commit/3bb47b4))
