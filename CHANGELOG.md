@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.7.0 (2025-03-13)
+
+* feat: add ([3bb47b4](https://github.com/justdlabs/cli/commit/3bb47b4))
+* feat: change init for laravel to use justd ([1da1c52](https://github.com/justdlabs/cli/commit/1da1c52))
+
 ## <small>2.6.1 (2025-03-11)</small>
 
 * fix: do not create classes.ts ([5cf399b](https://github.com/justdlabs/cli/commit/5cf399b))
