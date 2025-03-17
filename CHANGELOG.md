@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.7.2 (2025-03-17)</small>
+
+* fix: replace `tailwindcss-animate` with `tw-animate-css` ([d4bed80](https://github.com/justdlabs/cli/commit/d4bed80))
+
 ## <small>2.7.1 (2025-03-13)</small>
 
 * fix: fix executor ([fb044f9](https://github.com/justdlabs/cli/commit/fb044f9))
