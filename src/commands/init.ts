@@ -273,7 +273,7 @@ export async function init(flags: {
     "justd-icons",
   ].join(" ")
 
-  let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tailwindcss-animate"].join(" ")
+  let devPackages = ["tailwind-variants", "tailwind-merge", "clsx", "tw-animate-css"].join(" ")
 
   if (isNextJs()) {
     devPackages += " next-themes"
