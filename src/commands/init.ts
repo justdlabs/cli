@@ -237,7 +237,6 @@ export async function init(flags: {
       }
     }
 
-
     const paths = config.compilerOptions.paths
     if (paths) {
       const firstAliasKey = Object.keys(paths)[0]
@@ -315,7 +314,6 @@ export async function init(flags: {
     ogFilename: "primitive.tsx",
     content: fileContent,
   })
-
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")

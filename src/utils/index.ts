@@ -1,15 +1,8 @@
 import fs from "node:fs"
 import path from "node:path"
-import {
-  hasFolder,
-  isLaravel,
-  isNextJs,
-  possibilityComponentsPath,
-  possibilityCssPath,
-} from "@/utils/helpers"
+import { hasFolder, isLaravel, isNextJs, possibilityCssPath } from "@/utils/helpers"
 import { error } from "@/utils/logging"
 import { confirm, input } from "@inquirer/prompts"
-import stripJsonComments from "strip-json-comments"
 import { transform } from "sucrase"
 import { type Config, configManager } from "./config"
 
