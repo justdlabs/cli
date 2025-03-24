@@ -7,7 +7,7 @@ export const createLaravelApp = async (
   language: Config["language"],
   options?: FrameworkOptions,
 ): Promise<string[]> => {
-  return ["laravel new", projectName, " --using=justd/laravel"]
+  return ["composer create-project justd/laravel", projectName]
 }
 
 /**
