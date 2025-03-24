@@ -1,5 +1,9 @@
 # Changelog
 
+## <small>2.7.3 (2025-03-24)</small>
+
+* fix laravel install ([0ff083e](https://github.com/justdlabs/cli/commit/0ff083e))
+
 ## <small>2.7.2 (2025-03-17)</small>
 
 * fix: replace `tailwindcss-animate` with `tw-animate-css` ([d4bed80](https://github.com/justdlabs/cli/commit/d4bed80))
