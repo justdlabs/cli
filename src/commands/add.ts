@@ -18,71 +18,6 @@ import { FILENAME } from "./blocks"
 const exceptions = ["field", "dropdown", "dialog"]
 
 /**
- *  This function is used to update the index.ts file
- *  @param config
- *  @param componentName string
- *  @param processed Set<string>
- */
-async function updateIndexFile(config: Config, componentName: string, processed: Set<string>) {
-  if (processed.has(componentName)) {
-    return
-  }
-
-  const uiPath = getUIPathFromConfig()
-  const indexPath = path.join(
-    process.cwd(),
-    uiPath,
-    `index.${config.language === "javascript" ? "js" : "ts"}`,
-  )
-
-  const primitiveExport = `export * from './primitive'`
-  const componentExport = `export * from './${componentName}'`
-
-  // Use a Set to deduplicate export lines
-  const exportSet = new Set<string>()
-
-  if (fs.existsSync(indexPath)) {
-    fs.readFileSync(indexPath, "utf-8")
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line !== "")
-      .forEach((line) => exportSet.add(line.replace(";", "").replaceAll('"', "'")))
-  }
-
-  // Filter out exports related to "primitive" or names in namespaces
-  Array.from(exportSet).forEach((line) => {
-    const match = line.match(/export \* from '\.\/(.+)'/)
-    const matchedComponent = match?.[1]
-    if (matchedComponent === "primitive" || namespaces.includes(matchedComponent ?? "")) {
-      exportSet.delete(line)
-    }
-  })
-
-  exportSet.add(componentExport)
-
-  const sortedExports = Array.from(exportSet).sort()
-  const finalExports = [primitiveExport, ...sortedExports]
-
-  fs.writeFileSync(indexPath, `${finalExports.join("\n")}\n`, { flag: "w" })
-
-  processed.add(componentName)
-
-  // Recursively update for child components if any
-  const component = components.find((c) => c.name === componentName)
-  if (component?.children) {
-    for (const child of component.children) {
-      await updateIndexFile(config, child.name, processed)
-    }
-  }
-}
-
-// Wrapper to ensure a single processed Set is used for the update run
-export async function updateIndexFileWrapper(config: Config, componentName: string) {
-  const processed = new Set<string>()
-  await updateIndexFile(config, componentName, processed)
-}
-
-/**
  *  This function is used to add new components to the project
  *  @param options any
  */
@@ -265,8 +200,6 @@ export async function add(options: {
                 type,
               })
             }
-
-            await updateIndexFileWrapper(config, componentName)
           } catch (error) {
             console.error(warningText(`Error processing '${componentName}'.`))
           }

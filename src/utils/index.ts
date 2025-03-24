@@ -47,47 +47,6 @@ export async function getCSSPath() {
   return newCssPath
 }
 
-/**
- *  This function is used to add the UI path to the tsconfig.json file
- *  if it doesn't exist
- *  @returns void
- */
-export async function addUiPathToLangConfig(language: "typescript" | "javascript") {
-  const configPaths =
-    language === "typescript"
-      ? [path.join(process.cwd(), "tsconfig.app.json"), path.join(process.cwd(), "tsconfig.json")]
-      : [path.join(process.cwd(), "jsconfig.json")]
-
-  const configPath = configPaths.find((configPath) => fs.existsSync(configPath))
-  if (!configPath) {
-    console.error(
-      language === "typescript"
-        ? "Neither tsconfig.app.json nor tsconfig.json was found."
-        : "jsconfig.json was not found.",
-    )
-    process.exit(1)
-  }
-
-  try {
-    const configContent = fs.readFileSync(configPath, "utf8")
-    const strippedContent = stripJsonComments(configContent)
-
-    const config = JSON.parse(strippedContent)
-
-    if (!config.compilerOptions) config.compilerOptions = {}
-    if (!config.compilerOptions.paths) config.compilerOptions.paths = {}
-
-    const ext = language === "typescript" ? "ts" : "js"
-    config.compilerOptions.paths.ui = [`./${possibilityComponentsPath()}/ui/index.${ext}`]
-
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
-  } catch (e) {
-    // @ts-ignore
-    error(`Error updating ${path.basename(configPath)}:`, e?.message)
-    process.exit(1)
-  }
-}
-
 export const writeCodeFile = async (
   config: Config,
   options: { writePath: string; ogFilename: string; content: string },

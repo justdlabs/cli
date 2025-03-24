@@ -6,7 +6,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { changeGray } from "@/commands/change-gray"
 import { startNewProject } from "@/commands/start-new-project"
-import { addUiPathToLangConfig, writeCodeFile } from "@/utils"
+import { writeCodeFile } from "@/utils"
 import { type ConfigInput, configManager } from "@/utils/config"
 import { getPackageManager } from "@/utils/get-package-manager"
 import { isRepoDirty } from "@/utils/git"
@@ -237,7 +237,6 @@ export async function init(flags: {
       }
     }
 
-    await addUiPathToLangConfig(isTypescript ? "typescript" : "javascript")
 
     const paths = config.compilerOptions.paths
     if (paths) {
@@ -317,11 +316,6 @@ export async function init(flags: {
     content: fileContent,
   })
 
-  fs.writeFileSync(
-    path.join(uiFolder, getCorrectFileExtension(language, "index.ts")),
-    `export * from './primitive';`,
-    { flag: "w" },
-  )
 
   if (themeProvider) {
     const themeProviderContent = fs.readFileSync(themeProvider, "utf8")
