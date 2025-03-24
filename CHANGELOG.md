@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.0 (2025-03-24)
+
+* feat: remove abality to update index and tsconfig ([56b23ff](https://github.com/justdlabs/cli/commit/56b23ff))
+
 ## <small>2.7.3 (2025-03-24)</small>
 
 * fix laravel install ([0ff083e](https://github.com/justdlabs/cli/commit/0ff083e))
